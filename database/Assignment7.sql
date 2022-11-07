@@ -32,6 +32,7 @@ CREATE TABLE elements_of_competency(
     comp_id char(4) REFERENCES competencies(comp_id)
 );
 
+
 INSERT INTO seasons VALUES('1','Fall');
 INSERT INTO seasons VALUES('2','Winter');
 
