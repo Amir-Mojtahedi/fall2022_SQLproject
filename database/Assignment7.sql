@@ -32,6 +32,12 @@ CREATE TABLE dawson_courses(
     education_type_id Char(1) REFERENCES educations(education_type_id),
     term_id number REFERENCES term_seasons(term_id)
 );
+CREATE TABLE elements_of_competency(
+    element_id varchar2(2) PRIMARY KEY,
+    element_name varchar2(100) NOT NULL,
+    element_description varchar2(1000),
+    comp_id char(4) REFERENCES competencies(comp_id)
+);
 
 INSERT INTO seasons VALUES('1','Fall');
 INSERT INTO seasons VALUES('2','Winter');
