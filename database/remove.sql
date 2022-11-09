@@ -1,11 +1,14 @@
 --Drop package--------------
 DROP PACKAGE UPDATE_DATABASE;
+DROP PACKAGE ADD_TO_DATABASE;
+DROP PACKAGE DELETE_FROM_DATABSE;
 
 --DROP TABLE------------------
 DROP TABLE dawson_courses;
 DROP TABLE term_seasons;
 DROP TABLE seasons;
 DROP TABLE educations;
+DROP TABLE COMPETENCIES;
 
 --DROP TYPE----------------
 DROP TYPE COURSE_TYP;
