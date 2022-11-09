@@ -1,4 +1,34 @@
 @remove.sql
+--CREATING TYPES
+CREATE OR REPLACE TYPE season_type AS OBJECT (
+    season_id   CHAR(1),
+    season_name VARCHAR2(20)
+);
+/
+
+CREATE OR REPLACE TYPE term_type AS OBJECT (
+    term_id NUMBER(2, 0),
+    vseason season_type
+);
+/
+
+CREATE OR REPLACE TYPE education_type AS OBJECT (
+    education_type_id CHAR(1),
+    education_type    VARCHAR2(30)
+);
+/
+
+CREATE OR REPLACE TYPE course_type AS OBJECT (
+    course_number      VARCHAR2(20),
+    course_name        VARCHAR2(50),
+    course_description VARCHAR2(1000),
+    class_hours        NUMBER(2, 0),
+    lab_hours          NUMBER(2, 0),
+    homework_hours     NUMBER(2, 0),
+    veducation         education_type,
+    vterm              term_type
+);
+/
 --CREATING TABLES
 
 CREATE TABLE seasons(
@@ -117,9 +147,9 @@ Proper identification of a logical sequence of operations
 Appropriate verification of algorithm correctness
 Accurate representation of algorithms','00Q6');
 
-INSERT INTO elements_of_competency VALUES('8','Create the graphic interface.','Precise calculation of the average, median, variance and standard deviation
-Clarity and accuracy of the graphic representation of data
-Accurate analysis of results','00Q6');
+INSERT INTO elements_of_competency VALUES('8','Create the graphic interface.','Appropriate choice of graphic elements for display and data input
+Proper layout of graphic elements
+Proper set-up of graphic elements','00Q6');
 
 INSERT INTO elements_of_competency VALUES('9','Program the classes.','Precise calculation of the average, median, variance and standard deviation
 Clarity and accuracy of the graphic representation of data
