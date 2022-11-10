@@ -1,4 +1,5 @@
 @remove.sql
+@types.sql
 --CREATING TABLES
 
 CREATE TABLE seasons(
@@ -42,7 +43,7 @@ CREATE TABLE element_course(
     element_id varchar2(3) REFERENCES elements_of_competency(element_id),
     course_number varchar2(20) REFERENCES dawson_courses(course_number),
     associated_time number(4,2) NOT NULL
-)
+);
 
 
 INSERT INTO seasons VALUES('1','Fall');
@@ -269,24 +270,24 @@ Clear record of the work carried out','00SW');
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO element_course VALUES('1','00Q3');
-INSERT INTO element_course VALUES('2''00Q3');
-INSERT INTO element_course VALUES('3','00Q3');
-INSERT INTO element_course VALUES('4','00Q3');
-INSERT INTO element_course VALUES('5','00Q6');
-INSERT INTO element_course VALUES('6','00Q6');
-INSERT INTO element_course VALUES('7','00Q6');
-INSERT INTO element_course VALUES('8','00Q6');
-INSERT INTO element_course VALUES('9','00Q6');
-INSERT INTO element_course VALUES('10','00Q6');
-INSERT INTO element_course VALUES('11','00SE');
-INSERT INTO element_course VALUES('12','00SE');
-INSERT INTO element_course VALUES('13','00SE');
-INSERT INTO element_course VALUES('14','00SS');
-INSERT INTO element_course VALUES('15','00SS');
-INSERT INTO element_course VALUES('16','00SS');
-INSERT INTO element_course VALUES('17','00SS');
-INSERT INTO element_course VALUES('18','00SS');
+INSERT INTO element_course VALUES('1','00Q3',18.75);
+INSERT INTO element_course VALUES('2''00Q3',18.75);
+INSERT INTO element_course VALUES('3','00Q3',18.75);
+INSERT INTO element_course VALUES('4','00Q3',18.75);
+INSERT INTO element_course VALUES('5','00Q6',14);
+INSERT INTO element_course VALUES('6','00Q6',14);
+INSERT INTO element_course VALUES('7','00Q6',14);
+INSERT INTO element_course VALUES('8','00Q6',14);
+INSERT INTO element_course VALUES('9','00Q6',14);
+INSERT INTO element_course VALUES('10','00Q6',14);
+INSERT INTO element_course VALUES('11','00SE',2);
+INSERT INTO element_course VALUES('12','00SE',2);
+INSERT INTO element_course VALUES('13','00SE',2);
+INSERT INTO element_course VALUES('14','00SS',18);
+INSERT INTO element_course VALUES('15','00SS',18);
+INSERT INTO element_course VALUES('16','00SS',18);
+INSERT INTO element_course VALUES('17','00SS',18);
+INSERT INTO element_course VALUES('18','00SS',18);
 INSERT INTO element_course VALUES('19','00SR');
 INSERT INTO element_course VALUES('20','00SR');
 INSERT INTO element_course VALUES('21','00SR');
