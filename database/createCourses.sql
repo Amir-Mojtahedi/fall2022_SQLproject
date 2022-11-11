@@ -270,41 +270,36 @@ Clear record of the work carried out','00SW');
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO element_course VALUES('1','00Q3',18.75);
-INSERT INTO element_course VALUES('2''00Q3',18.75);
-INSERT INTO element_course VALUES('3','00Q3',18.75);
-INSERT INTO element_course VALUES('4','00Q3',18.75);
-INSERT INTO element_course VALUES('5','00Q6',14);
-INSERT INTO element_course VALUES('6','00Q6',14);
-INSERT INTO element_course VALUES('7','00Q6',14);
-INSERT INTO element_course VALUES('8','00Q6',14);
-INSERT INTO element_course VALUES('9','00Q6',14);
-INSERT INTO element_course VALUES('10','00Q6',14);
-INSERT INTO element_course VALUES('11','00SE',2);
-INSERT INTO element_course VALUES('12','00SE',2);
-INSERT INTO element_course VALUES('13','00SE',2);
-INSERT INTO element_course VALUES('14','00SS',18);
-INSERT INTO element_course VALUES('15','00SS',18);
-INSERT INTO element_course VALUES('16','00SS',18);
-INSERT INTO element_course VALUES('17','00SS',18);
-INSERT INTO element_course VALUES('18','00SS',18);
-INSERT INTO element_course VALUES('19','00SR');
-INSERT INTO element_course VALUES('20','00SR');
-INSERT INTO element_course VALUES('21','00SR');
-INSERT INTO element_course VALUES('22','00SR');
-INSERT INTO element_course VALUES('23','00SR');
-INSERT INTO element_course VALUES('24','00SW');
-INSERT INTO element_course VALUES('25','00SW');
-INSERT INTO element_course VALUES('26','00SW');
-INSERT INTO element_course VALUES('27','00SW');
-INSERT INTO element_course VALUES('28','00SW');
-INSERT INTO element_course VALUES('29','00SW');
-INSERT INTO element_course VALUES('30','00SW');
-
-
-
-
-
+INSERT INTO element_course VALUES('1','201-NYC-05',18.75);
+INSERT INTO element_course VALUES('2','201-NYC-05',18.75);
+INSERT INTO element_course VALUES('3','201-NYC-05',18.75);
+INSERT INTO element_course VALUES('4','201-NYC-05',18.75);
+INSERT INTO element_course VALUES('5','420-310-DW',14);
+INSERT INTO element_course VALUES('6','420-310-DW',14);
+INSERT INTO element_course VALUES('7','420-310-DW',14);
+INSERT INTO element_course VALUES('8','420-310-DW',14);
+INSERT INTO element_course VALUES('9','420-310-DW',14);
+INSERT INTO element_course VALUES('10','420-310-DW',14);
+INSERT INTO element_course VALUES('11','420-310-DW',2);
+INSERT INTO element_course VALUES('12','420-310-DW',2);
+INSERT INTO element_course VALUES('13','420-310-DW',2);
+INSERT INTO element_course VALUES('14','420-331-DW',18);
+INSERT INTO element_course VALUES('15','420-331-DW',18);
+INSERT INTO element_course VALUES('16','420-331-DW',18);
+INSERT INTO element_course VALUES('17','420-331-DW',18);
+INSERT INTO element_course VALUES('18','420-331-DW',18);
+INSERT INTO element_course VALUES('19','420-510-DW',6);
+INSERT INTO element_course VALUES('20','420-510-DW',6);
+INSERT INTO element_course VALUES('21','420-510-DW',6);
+INSERT INTO element_course VALUES('22','420-510-DW',6);
+INSERT INTO element_course VALUES('23','420-510-DW',6);
+INSERT INTO element_course VALUES('24','420-510-DW',8.57);
+INSERT INTO element_course VALUES('25','420-510-DW',8.57);
+INSERT INTO element_course VALUES('26','420-510-DW',8.57);
+INSERT INTO element_course VALUES('27','420-510-DW',8.57);
+INSERT INTO element_course VALUES('28','420-510-DW',8.57);
+INSERT INTO element_course VALUES('29','420-510-DW',8.57);
+INSERT INTO element_course VALUES('30','420-510-DW',8.57);
 
 COMMIT;
 
