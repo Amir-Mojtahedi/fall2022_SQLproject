@@ -1,4 +1,4 @@
-package ca.dawsoncollege.assignment8;
+package ca.dawsoncollege;
 import java.sql.*;
 
 public class DawsonCourse implements SQLData{
@@ -10,7 +10,7 @@ public class DawsonCourse implements SQLData{
     private int homeworkHours;
     private Education education_type;
     private TermSeason termID;
-    public static String TYPE_NAME="COURSE_TYPE";
+    public static String TYPE_NAME="COURSE_TYP";
     public DawsonCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours,
             int homeworkHours, Education education_type, TermSeason termID) {
         this.courseNumber = courseNumber;

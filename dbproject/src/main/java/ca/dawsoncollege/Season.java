@@ -1,10 +1,10 @@
-package ca.dawsoncollege.assignment8;
+package ca.dawsoncollege;
 import java.sql.*;
 
 public class Season implements SQLData {
     private String seasonID;
     private String seasonName;
-    public static String TYPE_NAME="SEASON_TYPE";
+    public static String TYPE_NAME="SEASON_TYP";
 
     public Season(String seasonID, String seasonName) {
         this.seasonID = seasonID;
