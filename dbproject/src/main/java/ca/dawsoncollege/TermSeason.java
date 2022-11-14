@@ -1,9 +1,9 @@
-package ca.dawsoncollege.assignment8;
+package ca.dawsoncollege;
 import java.sql.*;
 public class TermSeason implements SQLData{
     private int termID;
     private Season season;
-    public static String TYPE_NAME="TERM_TYPE";
+    public static String TYPE_NAME="TERM_TYP";
     public TermSeason(int termID, Season season) {
         this.termID = termID;
         this.season = season;
