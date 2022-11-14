@@ -46,7 +46,7 @@ CREATE TABLE element_course(
     associated_time number(4,2) NOT NULL
 );
 @inserts.sql
-@types.sql
+
 
 
 
