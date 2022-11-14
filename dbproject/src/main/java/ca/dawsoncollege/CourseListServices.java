@@ -1,4 +1,4 @@
-package ca.dawsoncollege.assignment8;
+package ca.dawsoncollege;
 import java.sql.*;
 import java.util.Map;
 //import java.util.Scanner;
@@ -13,12 +13,15 @@ public class CourseListServices{
         try {
             Map map=conn.getTypeMap();
             conn.setTypeMap(map);
-            map.put(Season.TYPE_NAME, Class.forName("ca.dawsoncollege.assignment8.Season"));
-            map.put(TermSeason.TYPE_NAME,Class.forName("ca.dawsoncollege.assignment8.TermSeason"));
-            map.put(Education.TYPE_NAME,Class.forName("ca.dawsoncollege.assignment8.Education"));
-            map.put(DawsonCourse.TYPE_NAME,Class.forName("ca.dawsoncollege.assignment8.DawsonCourse"));
-        } catch (ClassNotFoundException e) {
-            
+            map.put(Season.TYPE_NAME, Class.forName("ca.dawsoncollege.Season"));
+            map.put(TermSeason.TYPE_NAME,Class.forName("ca.dawsoncollege.TermSeason"));
+            map.put(Education.TYPE_NAME,Class.forName("ca.dawsoncollege.Education"));
+            map.put(DawsonCourse.TYPE_NAME,Class.forName("ca.dawsoncollege.DawsonCourse"));
+        }
+        catch(SQLException e){
+            System.out.println("Invalid username or password");
+        }
+        catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

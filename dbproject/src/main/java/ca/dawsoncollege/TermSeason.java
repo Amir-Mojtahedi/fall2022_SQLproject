@@ -1,4 +1,4 @@
-package ca.dawsoncollege.assignment8;
+package ca.dawsoncollege;
 import java.sql.*;
 public class TermSeason implements SQLData{
     private int termID;
