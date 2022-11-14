@@ -7,7 +7,7 @@ CREATE OR REPLACE TYPE season_typ AS OBJECT (
 
 CREATE OR REPLACE TYPE TERM_TYP AS OBJECT (
     term_id NUMBER(2, 0),
-    OSeason season_typ
+    season season_typ
 );
 /
 
@@ -24,8 +24,8 @@ CREATE OR REPLACE TYPE course_typ AS OBJECT (
     class_hours        NUMBER(2, 0),
     lab_hours          NUMBER(2, 0),
     homework_hours     NUMBER(2, 0),
-    OEducation         education_typ,
-    OTerm              term_typ
+    education         education_typ,
+    term              term_typ
 );
 /
 CREATE OR REPLACE TYPE COMP_TYP AS OBJECT (
@@ -39,6 +39,6 @@ CREATE OR REPLACE TYPE ELEMENT_TYP AS OBJECT (
     element_id VARCHAR2(3),
     element_name VARCHAR2(100),
     element_description VARCHAR2(1000),
-    OComp COMP_TYP
+    comp COMP_TYP
 );
 /
