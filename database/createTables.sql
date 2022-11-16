@@ -1,7 +1,10 @@
-@remove.sql
-
 
 --CREATING TABLES
+CREATE TABLE user_logs(
+    ussername varchar2(50),
+    date_time timestamp,
+    message varchar2(500)
+);
 
 CREATE TABLE seasons(
     season_id Char(1) PRIMARY KEY,
@@ -45,7 +48,28 @@ CREATE TABLE element_course(
     course_number varchar2(20) REFERENCES dawson_courses(course_number),
     associated_time number(4,2) NOT NULL
 );
-@inserts.sql
+
+
+--select * from dawson_courses;
+--DECLARE
+--    vcourse course_typ;
+--    vterm term_typ;
+--    veducation education_typ;
+--    vseason season_typ;
+--BEGIN
+--    vseason:=season_typ('1','fall');
+--    vterm:=term_typ(1,vseason);
+--    veducation:=education_typ(1,'concentration');
+--    vcourse:= course_typ('201-NYC-05','Mat Algebra','Systems of linear equations and elementary operations, matrices and
+--determinants, vectors, lines, planes and vector spaces are studied in this course',3,2,3,veducation,vterm);
+--    COURSES_PACKAGE.update_course(vcourse);
+--   
+--END;
+--
+--select * from user_logs;
+
+
+
 
 
 

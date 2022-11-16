@@ -1,41 +1,23 @@
 @types.sql
---courses-----------------
-CREATE OR REPLACE PACKAGE COURSES_PACKAGE AS
-    PROCEDURE delete_course(vcourse IN course_typ);
+--update data
+CREATE PACKAGE COURSES_PACKAGE AS
+    --PROCEDURE delete_course(vcourse IN course_typ);
     PROCEDURE add_course (
-        vcourse IN course_type
+        vcourse IN course_typ
     );
-    FUNCTION calculate_total_hours(vcourse IN course_typ) RETURN number;
-    
-    PROCEDURE update_course(vcourse IN course_type) ;
-    
+    PROCEDURE update_course(vcourse IN course_typ) ;
+    FUNCTION calculate_total_hours(vcourse IN course_typ) RETURN number; 
 END COURSES_PACKAGE;
 /
-CREATE OR REPLACE PACKAGE BODY COURSES_PACKAGE AS
+CREATE PACKAGE BODY COURSES_PACKAGE AS
 -- Commented for now. After the procedure is created, I will uncomment.
 --    PROCEDURE delete_course(dawson_course_number IN dawson_courses.course_number%TYPE)
 --    AS
 --    BEGIN
---        --I should call the delete procedure in the bridging package  [package Name].remove_course(course_id)
+--        CC_BRIDGE_PACKAGE.remove_course(course_number);
 --        DELETE FROM dawson_courses WHERE dawson_course_number=course_number;
 --    END;
 
-
-    PROCEDURE update_course(vcourse IN course_typ)
-    AS
-    BEGIN
-        UPDATE dawson_courses SET 
-            course_name=vcourse.course_name,
-            course_description=vcourse.course_description,
-            class_hours=vcourse.class_hours,
-            lab_hours=vcourse.lab_hours,
-            homework_hours=vcourse.homework_hours,
-            education_type_id=vcourse.veducation.education_type_id,
-            term_id=vcourse.vterm.term_id
-            WHERE course_number=vcourse.course_number;
-    END;
-   
- 
     PROCEDURE add_course (
         vcourse IN course_typ
     ) AS
@@ -47,13 +29,30 @@ CREATE OR REPLACE PACKAGE BODY COURSES_PACKAGE AS
             vcourse.class_hours,
             vcourse.lab_hours,
             vcourse.homework_hours,
-            vcourse.veducation.education_type_id,
-            vcourse.vterm.term_id
+            vcourse.education.education_type_id,
+            vcourse.term.term_id
         );
     EXCEPTION
         WHEN dup_val_on_index THEN
             update_course(vcourse);
     END;
+    
+    PROCEDURE update_course(vcourse IN course_typ)
+    AS
+    BEGIN
+        UPDATE dawson_courses SET 
+            course_name=vcourse.course_name,
+            course_description=vcourse.course_description,
+            class_hours=vcourse.class_hours,
+            lab_hours=vcourse.lab_hours,
+            homework_hours=vcourse.homework_hours,
+            education_type_id=vcourse.education.education_type_id,
+            term_id=vcourse.term.term_id
+            WHERE course_number=vcourse.course_number;
+    END;
+   
+ 
+    
     
     FUNCTION calculate_total_hours(vcourse IN course_typ)
     RETURN number
@@ -125,8 +124,36 @@ END COMPETENCIES_PACKAGE;
 /
 --hours---------
 CREATE OR REPLACE PACKAGE CC_BRIDGE_PACKAGE AS
+    PROCEDURE add_join(course in course_typ, element in element_typ, associated_time in element_course.associated_time%type);
+    PROCEDURE remove_courses(courses_id in element_course.course_number%type);
+    PROCEDURE remove_elements(elements_id in element_course.element_id%type);
+    PROCEDURE update_allocated_time(ourse in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type);
 END CC_BRIDGE_PACKAGE;
 /
 CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
+    PROCEDURE add_join(course in course_typ, element in element_typ, associated_time in element_course.associated_time%type)
+        AS
+        BEGIN
+            INSERT INTO element_course VALUES(course.course_number,element.element_id,associated_time);
+        END;
+    PROCEDURE remove_courses(courses_id in element_course.course_number%type)
+        AS
+        BEGIN
+          delete from element_course
+           where courses_id = course_number;
+        END;
+    PROCEDURE remove_elements(elements_id in element_course.element_id%type)
+        AS
+        BEGIN
+          delete from element_course
+           where elements_id = element_id;
+        END;
+    PROCEDURE update_allocated_time(course in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type)
+        AS
+        BEGIN
+            update element_course
+                set associated_time = New_associated_time
+                where course.course_number = course_number and element.element_id = element_id; 
+        END;         
 END CC_BRIDGE_PACKAGE;
 /

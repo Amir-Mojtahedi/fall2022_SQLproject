@@ -11,7 +11,12 @@ DROP TYPE ELEMENT_TYP;
 DROP TYPE EDUCATION_TYP;
 DROP TYPE COMP_TYP;
 
+--DROP TRIGGER----------------
+DROP TRIGGER after_dawson_courses_delete;
+DROP TRIGGER after_dawson_courses_update;
+DROP TRIGGER after_dawson_courses_insert;
 --DROP TABLE------------------
+DROP TABLE user_logs;
 DROP TABLE element_course;
 DROP TABLE elements_of_competency;
 DROP TABLE dawson_courses;
