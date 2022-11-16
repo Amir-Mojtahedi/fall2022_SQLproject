@@ -4,7 +4,7 @@ import java.sql.*;
 public class Education implements SQLData{
     private String education_type_id;
     private String educationType;
-    public static String TYPE_NAME="EDUCATION_TYPE";
+    public static String TYPE_NAME="EDUCATION_TYP";
     public Education(String education_type_id, String educationType) {
         this.education_type_id = education_type_id;
         this.educationType = educationType;
