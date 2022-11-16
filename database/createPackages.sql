@@ -1,8 +1,16 @@
+<<<<<<< HEAD:database/createPackages.sql
 
 --I removed procedures which were adding an education an a season to the databse. I don't think they are useful. Alos there is no update proceure for the mentioned tables. Later in the program, if they are needed somehow, I should add them.
 --update data
 CREATE PACKAGE COURSES_PACKAGE AS
     --PROCEDURE delete_course(vcourse IN course_typ);
+=======
+@types.sql
+--I removed procedures which were adding an education an a season to the databse. I don't think they are useful. Alos there is no update proceure for the mentioned tables. Later in the program, if they are needed somehow, I should add them.
+--update data-----------------
+CREATE OR REPLACE PACKAGE COURSES_PACKAGE AS
+    PROCEDURE delete_course(vcourse IN course_typ);
+>>>>>>> 7e3e586ee9f8931919ff30c19a5ba321ff82afba:database/Packages.sql
     PROCEDURE add_course (
         vcourse IN course_typ
     );
@@ -114,8 +122,36 @@ END COMPETENCIES_PACKAGE;
 /
 --hours---------
 CREATE OR REPLACE PACKAGE CC_BRIDGE_PACKAGE AS
+    PROCEDURE add_join(course in course_typ, element in element_typ, associated_time in element_course.associated_time%type);
+    PROCEDURE remove_courses(courses_id in element_course.course_number%type);
+    PROCEDURE remove_elements(elements_id in element_course.element_id%type);
+    PROCEDURE update_allocated_time(ourse in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type);
 END CC_BRIDGE_PACKAGE;
 /
 CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
+    PROCEDURE add_join(course in course_typ, element in element_typ, associated_time in element_course.associated_time%type)
+        AS
+        BEGIN
+            INSERT INTO element_course VALUES(course.course_number,element.element_id,associated_time);
+        END;
+    PROCEDURE remove_courses(courses_id in element_course.course_number%type)
+        AS
+        BEGIN
+          delete from element_course
+           where courses_id = course_number;
+        END;
+    PROCEDURE remove_elements(elements_id in element_course.element_id%type)
+        AS
+        BEGIN
+          delete from element_course
+           where elements_id = element_id;
+        END;
+    PROCEDURE update_allocated_time(course in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type)
+        AS
+        BEGIN
+            update element_course
+                set associated_time = New_associated_time
+                where course.course_number = course_number and element.element_id = element_id; 
+        END;         
 END CC_BRIDGE_PACKAGE;
 /
