@@ -1,9 +1,7 @@
-
---I removed procedures which were adding an education an a season to the databse. I don't think they are useful. Alos there is no update proceure for the mentioned tables. Later in the program, if they are needed somehow, I should add them.
+@types.sql
 --update data
 CREATE PACKAGE COURSES_PACKAGE AS
     --PROCEDURE delete_course(vcourse IN course_typ);
-
     PROCEDURE add_course (
         vcourse IN course_typ
     );
@@ -69,6 +67,8 @@ END COURSES_PACKAGE;
 CREATE OR REPLACE PACKAGE COMPETENCIES_PACKAGE AS
     PROCEDURE add_competency(new_competency in COMP_TYP);
     PROCEDURE add_element_of_competency(new_element in element_typ);
+    PROCEDURE remove_element(rem_element_id IN varchar2);
+    PROCEDURE remove_competency(rem_comp_id IN varchar2);
     FUNCTION get_terminal_comp(comp_id CHAR) RETURN comp_typ;
 END COMPETENCIES_PACKAGE;
 /
@@ -105,12 +105,21 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
                 comp_id = new_element.comp.comp_id
                 where element_id = new_element.element_id;
     END;
+    PROCEDURE remove_competency(rem_comp_id IN varchar2) AS
+    BEGIN
+        DELETE FROM COMPETENCIES WHERE COMP_ID = rem_comp_id;
+    END;
+    PROCEDURE remove_element(rem_element_id IN varchar2) AS
+    BEGIN
+        DELETE FROM ELEMENTS_OF_COMPETENCY WHERE element_id = rem_element_id;
+    END;
     FUNCTION get_terminal_comp(comp_id CHAR) RETURN comp_typ AS
         comp_typ terminal_comp;
     BEGIN
-        FOR arow IN (SELECT * FROM courses) LOOP
-
-
+        FOR arow IN (SELECT term_id, COURSE_NAME, COMP_ID FROM TERM_seasons JOIN dawson_courses USING(term_id) JOIN ELEMENT_COURSE USING(COURSE_NUMBER) JOIN ELEMENTS_OF_COMPETENCY USING(ELEMENT_ID) JOIN COMPETENCIES USING(COMP_ID)) LOOP
+            dbms_output.put_line(arow.term_id || ' ' || arow.course_name || ' ' || arow.comp_id);
+        END LOOP;
+    END;
 END COMPETENCIES_PACKAGE;
 /
 --hours---------
