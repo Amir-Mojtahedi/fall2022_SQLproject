@@ -1,16 +1,9 @@
-<<<<<<< HEAD:database/createPackages.sql
 
 --I removed procedures which were adding an education an a season to the databse. I don't think they are useful. Alos there is no update proceure for the mentioned tables. Later in the program, if they are needed somehow, I should add them.
 --update data
 CREATE PACKAGE COURSES_PACKAGE AS
     --PROCEDURE delete_course(vcourse IN course_typ);
-=======
-@types.sql
---I removed procedures which were adding an education an a season to the databse. I don't think they are useful. Alos there is no update proceure for the mentioned tables. Later in the program, if they are needed somehow, I should add them.
---update data-----------------
-CREATE OR REPLACE PACKAGE COURSES_PACKAGE AS
-    PROCEDURE delete_course(vcourse IN course_typ);
->>>>>>> 7e3e586ee9f8931919ff30c19a5ba321ff82afba:database/Packages.sql
+
     PROCEDURE add_course (
         vcourse IN course_typ
     );
