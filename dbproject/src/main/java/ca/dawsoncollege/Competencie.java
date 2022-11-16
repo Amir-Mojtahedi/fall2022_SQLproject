@@ -8,6 +8,23 @@ public class Competencie implements SQLData{
     private char specification;
     private String compDescription;
     public static String TYPE_NAME="COMP_TYP";
+    
+    public void addToDatabase(Connection conn){
+        try(CallableStatement stmt = conn.prepareCall("{ call add_(?)}")) {//TODO procedure name 
+            stmt.setObject(1, this);
+            stmt.execute();
+        } catch (Exception e) {
+            //TODO handle exception
+        }
+    }
+    public void remobeFromDatabase(Connection conn){
+        try(CallableStatement stmt = conn.prepareCall("{ call remove_(?)}")) {//TODO procedure name 
+            stmt.setObject(1, this);
+            stmt.execute();
+        } catch (Exception e) {
+            //TODO handle exception
+        }
+    }
     @Override
     public String getSQLTypeName() throws SQLException {
         return null;
@@ -21,8 +38,10 @@ public class Competencie implements SQLData{
     }
     @Override
     public void writeSQL(SQLOutput stream) throws SQLException {
-        // TODO Auto-generated method stub
-        
+        stream.writeString(compId);
+        stream.writeString(compName);
+        stream.writeString(Character.toString(specification));
+        stream.writeString(compDescription);
     }
     public void setCompId(String compId) {
         this.compId = compId;

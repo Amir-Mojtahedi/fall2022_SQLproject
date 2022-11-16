@@ -25,6 +25,16 @@ public class ElementOfCompetency implements SQLData{
         stream.writeString(elementDescription);
         stream.writeObject(compentcie);
     }
+
+    public void addToDatabase(Connection conn){
+        try(CallableStatement stmt = conn.prepareCall("{ call add_element_of_competency(?)}")) {//TODO procedure name 
+            stmt.setObject(1, this);
+            stmt.execute();
+        } catch (Exception e) {
+            //TODO handle exception
+        }
+    }
+
     public void setElementId(String elementId) {
         this.elementId = elementId;
     }

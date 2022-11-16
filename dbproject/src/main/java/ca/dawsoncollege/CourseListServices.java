@@ -12,18 +12,6 @@ public class CourseListServices{
         this.conn=DriverManager.getConnection("jdbc:oracle:thin:@198.168.52.211:1521/pdbora19c.dawsoncollege.qc.ca",this.username,this.password);
         try {
             Map map=conn.getTypeMap();
-<<<<<<< HEAD
-            conn.setTypeMap(map);
-            map.put(Season.TYPE_NAME, Class.forName("ca.dawsoncollege.Season"));
-            map.put(TermSeason.TYPE_NAME,Class.forName("ca.dawsoncollege.TermSeason"));
-            map.put(Education.TYPE_NAME,Class.forName("ca.dawsoncollege.Education"));
-            map.put(DawsonCourse.TYPE_NAME,Class.forName("ca.dawsoncollege.DawsonCourse"));
-        }
-        catch(SQLException e){
-            System.out.println("Invalid username or password");
-        }
-        catch (ClassNotFoundException e) {
-=======
             map.put(Season.TYPE_NAME, Class.forName("ca.dawsoncollege.assignment8.Season"));
             map.put(TermSeason.TYPE_NAME,Class.forName("ca.dawsoncollege.assignment8.TermSeason"));
             map.put(Education.TYPE_NAME,Class.forName("ca.dawsoncollege.assignment8.Education"));
@@ -31,7 +19,6 @@ public class CourseListServices{
             conn.setTypeMap(map);
         } catch (ClassNotFoundException e) {
             
->>>>>>> a35b08dbbd490f6e9c3aae07ad318a4e50fedd44
             e.printStackTrace();
         }
     }
