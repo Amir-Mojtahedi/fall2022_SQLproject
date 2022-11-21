@@ -72,7 +72,7 @@ CREATE OR REPLACE PACKAGE COMPETENCIES_PACKAGE AS
     PROCEDURE add_element_of_competency(new_element in element_typ);
     PROCEDURE remove_element(rem_element_id IN varchar2);
     PROCEDURE remove_competency(rem_comp_id IN varchar2);
-    FUNCTION get_terminal_comp(comp_id CHAR) RETURN varchar2;
+    FUNCTION get_terminal_comp(comp_id_check CHAR) RETURN varchar2;
 END COMPETENCIES_PACKAGE;
 /
 CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
@@ -119,15 +119,18 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
         -- WHEN dup_val_on_index THEN
         --     update_element_of_competency(new_element);
     END;
+
     PROCEDURE remove_competency(rem_comp_id IN varchar2) AS
     BEGIN
         DELETE FROM COMPETENCIES WHERE COMP_ID = rem_comp_id;
     END;
+
     PROCEDURE remove_element(rem_element_id IN varchar2) AS
     BEGIN
         CC_BRIDGE_PACKAGE.remove_elements(rem_element_id);
         DELETE FROM ELEMENTS_OF_COMPETENCY WHERE element_id = rem_element_id;
     END;
+
     FUNCTION get_terminal_comp(comp_id_check CHAR) RETURN varchar2 AS
         --comp_typ terminal_comp;
         last_term varchar2(2);
@@ -138,6 +141,7 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
         JOIN ELEMENTS_OF_COMPETENCY USING(ELEMENT_ID) 
         JOIN COMPETENCIES USING(COMP_ID)
         WHERE comp_id = comp_id_check;
+        
         return last_term;
     END;
 END COMPETENCIES_PACKAGE;
