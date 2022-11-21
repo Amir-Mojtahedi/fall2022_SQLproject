@@ -88,11 +88,11 @@ CREATE OR REPLACE PACKAGE BODY COURSES_PACKAGE AS
  
     
     
-    FUNCTION calculate_total_hours(vcourse IN course_typ)
+    FUNCTION calculate_total_hours(dawson_class_hours IN dawson_courses.class_hours%type,dawson_lab_hours IN dawson_courses.lab_hours%TYPE)
     RETURN number
     AS
     BEGIN
-        RETURN (vcourse.class_hours+vcourse.lab_hours)*15;
+        RETURN (dawson_class_hours+dawson_lab_hours)*15;
     END;
     
 END COURSES_PACKAGE;
