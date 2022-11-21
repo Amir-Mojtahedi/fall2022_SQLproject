@@ -2,7 +2,7 @@ package ca.dawsoncollege;
 
 import java.sql.*;
 
-public class Competencie implements SQLData{
+public class Competencies implements SQLData{
     private String compId;
     private String compName;
     private char specification;
@@ -34,7 +34,7 @@ public class Competencie implements SQLData{
     }
     @Override
     public String getSQLTypeName() throws SQLException {
-        return null;
+        return TYPE_NAME;
     }
     @Override
     public void readSQL(SQLInput stream, String typeName) throws SQLException {

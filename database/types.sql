@@ -48,4 +48,3 @@ CREATE OR REPLACE TYPE ELEMENT_TYP AS OBJECT (
     element_description VARCHAR2(1000),
     comp COMP_TYP
 );
-/
