@@ -17,6 +17,8 @@ public class CourseListServices{
             map.put(TermSeason.TYPE_NAME,Class.forName("ca.dawsoncollege.TermSeason"));
             map.put(Education.TYPE_NAME,Class.forName("ca.dawsoncollege.Education"));
             map.put(DawsonCourse.TYPE_NAME,Class.forName("ca.dawsoncollege.DawsonCourse"));
+            map.put(Competencies.TYPE_NAME, Class.forName("ca.dawsoncollege.Competencies"));
+            map.put(ElementOfCompetency.TYPE_NAME, Class.forName("ca.dawsoncollege.ElementOfCompetency"));
         }
         catch(SQLException e){
             System.out.println("Invalid username or password");
@@ -56,5 +58,29 @@ public class CourseListServices{
         TermSeason termSeason=new TermSeason(term, season);
         DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason);
         course.addToDatabase(this.conn);
+    }
+    public void addCompetency(){
+
+    }
+    public void addElementCourseBridge(){
+
+    }
+    public void removeCourse(){
+
+    }
+    public void removeCompetency(){
+
+    }
+    public void removeElementCourseBridge(){
+
+    }
+    public void updateCourse(){
+
+    }
+    public void updateCompetency(){
+
+    }
+    public void updateElementCourseBridge(){
+
     }
 }
