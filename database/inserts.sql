@@ -12,26 +12,32 @@ INSERT INTO term_seasons VALUES(4,'2');
 INSERT INTO term_seasons VALUES(5,'1');
 INSERT INTO term_seasons VALUES(6,'2');
 
+INSERT INTO domains VALUES('1','Programming, Data Structures and Algorithms','The courses in the Programming, Data Structures and 
+Algorithms domain teach the knowledge and skills required to design and program solutions to typical information technology problems. 
+The students are taught object-oriented programming in the context of standalone, event-driven and web-based programs.');
+INSERT INTO domains VALUES('2','Database','The Database domain courses give the student the knowledge and skills to build relational 
+databases and to administer a database management system. This domain will draw upon the knowledge and skills learned in the 
+programming, data structures and algorithms domain.');
 
 INSERT INTO dawson_courses VALUES('201-NYC-05','Linear Algebra','Systems of linear equations and elementary operations, matrices and
-determinants, vectors, lines, planes and vector spaces are studied in this course.',3,2,3,'2',3);
+determinants, vectors, lines, planes and vector spaces are studied in this course.',3,2,3,'2',3,NULL);
 
-INSERT INTO dawson_courses VALUES('420-310-DW','Programming III','The course will enhance the students’ knowledge of object-oriented
+INSERT INTO dawson_courses VALUES('420-310-DW','Programming III','The course will enhance the studentsï¿½ knowledge of object-oriented
 programming and Java to produce stand-alone applications employing reusable
 objects, data structures and the Java collections framework. The concepts of
 inheritance, polymorphism, data abstraction and programming to interfaces are
 used to design software. Students are introduced to software version control
-and e?ective team collaboration.',3,3,3,'2',3);
+and e?ective team collaboration.',3,3,3,'2',3,'1');
 
 INSERT INTO dawson_courses VALUES('420-510-DW','Programming V','The course will focus on the use of algorithms and data structures to simulate
 real-life phenomena using an appropriate gaming framework. Projects are
-implemented using an object-oriented language.',3,3,3,'2',5);
+implemented using an object-oriented language.',3,3,3,'2',5,'1');
 
 INSERT INTO dawson_courses VALUES('420-331-DW','Database II','This course will introduce the student to the Oracle environment for building,
 deploying, hosting, and managing enterprise-class applications. The student will
 use SQL and PL/SQL to build and manage a database. In addition, the student
 will complete a case study which involves requirements analysis and data
-modeling, implemented using PL/SQL and Java.',3,3,3,'2',3);
+modeling, implemented using PL/SQL and Java.',3,3,3,'2',3,'2');
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 INSERT INTO competencies VALUES('00Q3','Solve computer-related problems using mathematics.','1','Based on situational problems
 Using quantitative data');
