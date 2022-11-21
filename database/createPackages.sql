@@ -1,3 +1,61 @@
+CREATE OR REPLACE PACKAGE CC_BRIDGE_PACKAGE AS
+    PROCEDURE add_join(course in course_typ, element in element_typ, associated_time in element_course.associated_time%type);
+    PROCEDURE remove_courses(courses_id in element_course.course_number%type);
+    PROCEDURE remove_elements(elements_id in element_course.element_id%type);
+    PROCEDURE update_allocated_time(ourse in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type);
+END CC_BRIDGE_PACKAGE;
+/
+CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
+    PROCEDURE add_join(course in course_typ, element in element_typ, associated_time in element_course.associated_time%type)
+        AS
+        BEGIN
+            INSERT INTO element_course VALUES(course.course_number,element.element_id,associated_time);
+        END;
+    PROCEDURE remove_courses(courses_id in element_course.course_number%type)
+        AS
+        BEGIN
+          delete from element_course
+           where courses_id = course_number;
+        END;
+    PROCEDURE remove_elements(elements_id in element_course.element_id%type)
+        AS
+        BEGIN
+          delete from element_course
+           where elements_id = element_id;
+        END;
+    PROCEDURE update_allocated_time(course in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type)
+        AS
+        BEGIN
+            update element_course
+                set associated_time = New_associated_time
+                where course.course_number = course_number and element.element_id = element_id; 
+        END;
+
+    function timeValidation()return VARCHAR2(1000);
+        AS 
+        ERROR_TEXT VARCHAR2(1000)
+        COURSE_HOURS NUMBER;
+        COMPETENCY_HOURS NUMBER;
+        cursor element_times is (select COURSE_NUMBER COURSE_NAME from element_course 
+        JOIN ELEMENTS_OF_COMPETENCY USING (ELEMENT_ID) GROUP BY COURSE_NUMBER, COMP_ID);
+        Begin
+            FOR element IN element_times loop
+                SELECT ((lab_hours+class_hours)*15)INTO COURSE_HOURS 
+                    FROM DAWSON_COURSES 
+                    WHERE COURSE_NUMBER = ELEMENT.COURSE_NUMBER;
+
+                SELECT ROUND(SUM(Associated_time),0) INTO COMPETENCY_HOURS 
+                    FROM ELEMENT_COURSE
+                    WHERE COURSE_NUMBER LIKE '420-510-DW';
+                    if COURSE_HOURS!=COMPETENCY_HOURS then
+                      ERROR_TEXT += "/n Hours conflict with course "+ELEMENT.COURSE_NAME;
+                    end if;
+            end loop
+            return ERROR_TEXT;
+    END;
+END CC_BRIDGE_PACKAGE;
+/
+
 --update data
 CREATE OR REPLACE PACKAGE COURSES_PACKAGE AS
     PROCEDURE delete_course(dawson_course_number IN dawson_courses.course_number%TYPE);
@@ -5,7 +63,7 @@ CREATE OR REPLACE PACKAGE COURSES_PACKAGE AS
         vcourse IN course_typ
     );
     PROCEDURE update_course(vcourse IN course_typ) ;
-    FUNCTION calculate_total_hours(vcourse IN course_typ) RETURN number; 
+    FUNCTION calculate_total_hours(dawson_class_hours IN dawson_courses.class_hours%type,dawson_lab_hours IN dawson_courses.lab_hours%TYPE) RETURN number; 
 END COURSES_PACKAGE;
 /
 CREATE OR REPLACE PACKAGE BODY COURSES_PACKAGE AS
@@ -143,66 +201,4 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
 END COMPETENCIES_PACKAGE;
 /
 --hours---------
-CREATE OR REPLACE PACKAGE CC_BRIDGE_PACKAGE AS
-    PROCEDURE add_join(course in course_typ, element in element_typ, associated_time in element_course.associated_time%type);
-    PROCEDURE remove_courses(courses_id in element_course.course_number%type);
-    PROCEDURE remove_elements(elements_id in element_course.element_id%type);
-    PROCEDURE update_allocated_time(ourse in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type);
-END CC_BRIDGE_PACKAGE;
-/
-CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
-    PROCEDURE add_join(course in course_typ, element in element_typ, associated_time in element_course.associated_time%type)
-        AS
-        BEGIN
-            INSERT INTO element_course VALUES(course.course_number,element.element_id,associated_time);
-        END;
-    PROCEDURE remove_courses(courses_id in element_course.course_number%type)
-        AS
-        BEGIN
-          delete from element_course
-           where courses_id = course_number;
-        END;
-    PROCEDURE remove_elements(elements_id in element_course.element_id%type)
-        AS
-        BEGIN
-          delete from element_course
-           where elements_id = element_id;
-        END;
-    PROCEDURE update_allocated_time(course in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type)
-        AS
-        BEGIN
-            update element_course
-                set associated_time = New_associated_time
-                where course.course_number = course_number and element.element_id = element_id; 
-        END;
 
-    function timeValidation()return VARCHAR2(1000);
-        AS 
-        ERROR_TEXT VARCHAR2(1000)
-        COURSE_HOURS NUMBER;
-        COMPETENCY_HOURS NUMBER;
-        cursor element_times is (select COURSE_NUMBER COURSE_NAME from element_course 
-        JOIN ELEMENTS_OF_COMPETENCY USING (ELEMENT_ID) GROUP BY COURSE_NUMBER, COMP_ID);
-        Begin
-            FOR element IN element_times loop
-                SELECT ((lab_hours+class_hours)*15)INTO COURSE_HOURS 
-                    FROM DAWSON_COURSES 
-                    WHERE COURSE_NUMBER = ELEMENT.COURSE_NUMBER;
-
-                SELECT ROUND(SUM(Associated_time),0) INTO COMPETENCY_HOURS 
-                    FROM ELEMENT_COURSE
-                    WHERE COURSE_NUMBER LIKE '420-510-DW';
-                    if COURSE_HOURS!=COMPETENCY_HOURS then
-                      ERROR_TEXT += "/n Hours conflict with course "+ELEMENT.COURSE_NAME;
-                    end if;
-            end loop
-            return ERROR_TEXT;
-    END;
-END CC_BRIDGE_PACKAGE;
-/
-DECLARE
-    comp_id varchar2(20);
-BEGIN
-    comp_id := COMPETENCIES_PACKAGE.get_terminal_comp('00SS');
-    dbms_output.put_line(comp_id);
-END;
