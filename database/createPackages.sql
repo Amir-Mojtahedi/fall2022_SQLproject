@@ -64,7 +64,8 @@ CREATE OR REPLACE PACKAGE BODY COURSES_PACKAGE AS
             vcourse.lab_hours,
             vcourse.homework_hours,
             vcourse.education.education_type_id,
-            vcourse.term.term_id
+            vcourse.term.term_id,
+            vcourse.domain.domain_id
         );
     EXCEPTION
         WHEN dup_val_on_index THEN
@@ -81,7 +82,8 @@ CREATE OR REPLACE PACKAGE BODY COURSES_PACKAGE AS
             lab_hours=vcourse.lab_hours,
             homework_hours=vcourse.homework_hours,
             education_type_id=vcourse.education.education_type_id,
-            term_id=vcourse.term.term_id
+            term_id=vcourse.term.term_id,
+            domain_id=vcourse.domain.domain_id
             WHERE course_number=vcourse.course_number;
     END;
    
@@ -100,12 +102,12 @@ END COURSES_PACKAGE;
 --competencies------------------
 CREATE OR REPLACE PACKAGE COMPETENCIES_PACKAGE AS
     PROCEDURE update_competency(new_competency IN COMP_TYP);
-    PROCEDURE update_element_of_competency(new_element in element_typ);
     PROCEDURE add_competency(new_competency in COMP_TYP);
+    PROCEDURE update_element_of_competency(new_element in element_typ);
     PROCEDURE add_element_of_competency(new_element in element_typ);
     PROCEDURE remove_element(rem_element_id IN varchar2);
     PROCEDURE remove_competency(rem_comp_id IN varchar2);
-    FUNCTION get_terminal_comp(comp_id CHAR) RETURN comp_typ;
+    FUNCTION get_terminal_comp(comp_id CHAR) RETURN varchar2;
 END COMPETENCIES_PACKAGE;
 /
 CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
@@ -118,7 +120,6 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
             WHERE comp_id = new_competency.comp_id;
     END;
     
-
     PROCEDURE add_competency(new_competency in COMP_TYP) AS
     BEGIN
         INSERT INTO competencies VALUES(
@@ -127,14 +128,9 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
             new_competency.specification,
             new_competency.comp_description
         );
-        EXCEPTION
-        WHEN dup_val_on_index THEN
-            update_competency(new_competency);
---            UPDATE competencies set 
---                comp_name = new_competency.comp_name,
---                specification = new_competency.specification,
---                comp_description = new_competency.comp_description
---                where comp_id = new_competency.comp_id;
+        -- EXCEPTION
+        -- WHEN dup_val_on_index THEN
+        --     update_competency(new_competency);
     END;
     
     PROCEDURE update_element_of_competency(new_element in element_typ) AS
@@ -154,14 +150,9 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
             new_element.element_description,
             new_element.comp.comp_id
         );
-        EXCEPTION
-        WHEN dup_val_on_index THEN
-        update_element_of_competency(new_element);
---            UPDATE elements_of_competency set 
---                element_name = new_element.element_name,
---                element_description = new_element.element_description,
---                comp_id = new_element.comp.comp_id
---                where element_id = new_element.element_id;
+        -- EXCEPTION
+        -- WHEN dup_val_on_index THEN
+        --     update_element_of_competency(new_element);
     END;
     PROCEDURE remove_competency(rem_comp_id IN varchar2) AS
     BEGIN
@@ -172,13 +163,23 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
         CC_BRIDGE_PACKAGE.remove_elements(rem_element_id);
         DELETE FROM ELEMENTS_OF_COMPETENCY WHERE element_id = rem_element_id;
     END;
-    FUNCTION get_terminal_comp(comp_id CHAR) RETURN comp_typ AS
-        comp_typ terminal_comp;
+    FUNCTION get_terminal_comp(comp_id_check CHAR) RETURN varchar2 AS
+        --comp_typ terminal_comp;
+        last_term varchar2(2);
     BEGIN
-        FOR arow IN (SELECT term_id, COURSE_NAME, COMP_ID FROM TERM_seasons JOIN dawson_courses USING(term_id) JOIN ELEMENT_COURSE USING(COURSE_NUMBER) JOIN ELEMENTS_OF_COMPETENCY USING(ELEMENT_ID) JOIN COMPETENCIES USING(COMP_ID)) LOOP
-            dbms_output.put_line(arow.term_id || ' ' || arow.course_name || ' ' || arow.comp_id);
-        END LOOP;
+        SELECT MAX(term_id) INTO last_term FROM TERM_seasons 
+        JOIN dawson_courses USING(term_id) 
+        JOIN ELEMENT_COURSE USING(COURSE_NUMBER) 
+        JOIN ELEMENTS_OF_COMPETENCY USING(ELEMENT_ID) 
+        JOIN COMPETENCIES USING(COMP_ID)
+        WHERE comp_id = comp_id_check;
+        return last_term;
     END;
 END COMPETENCIES_PACKAGE;
 /
---hours---------
+DECLARE
+    comp_id varchar2(20);
+BEGIN
+    comp_id := COMPETENCIES_PACKAGE.get_terminal_comp('00SS');
+    dbms_output.put_line(comp_id);
+END;
