@@ -15,6 +15,18 @@ DROP TYPE COMP_TYP;
 DROP TRIGGER after_dawson_courses_delete;
 DROP TRIGGER after_dawson_courses_update;
 DROP TRIGGER after_dawson_courses_insert;
+
+DROP TRIGGER after_element_course_insert;
+DROP TRIGGER after_element_course_delete;
+DROP TRIGGER after_element_course_update;
+
+DROP TRIGGER after_competencies_insert;
+DROP TRIGGER after_competencies_delete;
+DROP TRIGGER after_competencies_update;
+
+DROP TRIGGER after_elements_of_competency_insert;
+DROP TRIGGER after_elements_of_competency_delete;
+DROP TRIGGER after_elements_of_competency_update;
 --DROP TABLE------------------
 DROP TABLE user_logs;
 DROP TABLE element_course;
@@ -23,6 +35,7 @@ DROP TABLE dawson_courses;
 DROP TABLE term_seasons;
 DROP TABLE seasons;
 DROP TABLE educations;
+DROP TABLE domains;
 DROP TABLE COMPETENCIES;
 
 
