@@ -130,7 +130,8 @@ CREATE OR REPLACE PACKAGE COMPETENCIES_PACKAGE AS
     PROCEDURE add_element_of_competency(new_element in element_typ);
     PROCEDURE remove_element(rem_element_id IN varchar2);
     PROCEDURE remove_competency(rem_comp_id IN varchar2);
-    FUNCTION get_terminal_comp(comp_id_check CHAR) RETURN varchar2;
+    FUNCTION find_specification(specification_number IN competencies.specification%TYPE) RETURN varchar2;
+    --FUNCTION get_terminal_comp(comp_id_check CHAR) RETURN varchar2;
 END COMPETENCIES_PACKAGE;
 /
 CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
@@ -188,20 +189,28 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
         CC_BRIDGE_PACKAGE.remove_elements(rem_element_id);
         DELETE FROM ELEMENTS_OF_COMPETENCY WHERE element_id = rem_element_id;
     END;
-
-    FUNCTION get_terminal_comp(comp_id_check CHAR) RETURN varchar2 AS
-        --comp_typ terminal_comp;
-        last_term varchar2(2);
+    FUNCTION find_specification(specification_number IN competencies.specification%TYPE) RETURN varchar2
+    AS
     BEGIN
-        SELECT MAX(term_id) INTO last_term FROM TERM_seasons 
-        JOIN dawson_courses USING(term_id) 
-        JOIN ELEMENT_COURSE USING(COURSE_NUMBER) 
-        JOIN ELEMENTS_OF_COMPETENCY USING(ELEMENT_ID) 
-        JOIN COMPETENCIES USING(COMP_ID)
-        WHERE comp_id = comp_id_check;
-        
-        return last_term;
+        IF specification_number=1 THEN
+            RETURN 'Mandatory';
+        ELSE
+            RETURN 'Optional';
+        END IF;
     END;
+--    FUNCTION get_terminal_comp(comp_id_check CHAR) RETURN varchar2 AS
+--        --comp_typ terminal_comp;
+--        last_term varchar2(2);
+--    BEGIN
+--        SELECT MAX(term_id) INTO last_term FROM TERM_seasons 
+--        JOIN dawson_courses USING(term_id) 
+--        JOIN ELEMENT_COURSE USING(COURSE_NUMBER) 
+--        JOIN ELEMENTS_OF_COMPETENCY USING(ELEMENT_ID) 
+--        JOIN COMPETENCIES USING(COMP_ID)
+--        WHERE comp_id = comp_id_check;
+--        
+--        return last_term;
+--    END;
 END COMPETENCIES_PACKAGE;
 /
 --hours---------
