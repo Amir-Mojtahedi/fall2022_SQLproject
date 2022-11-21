@@ -27,15 +27,7 @@ public class Season implements SQLData {
     public void setSeasonName(String seasonName) {
         this.seasonName = seasonName;
     }
-    public void addToDatabase(Connection conn){
-        String sql="{call dawson_classes.add_season(?)}";
-        try(CallableStatement stmt=conn.prepareCall(sql)) {
-            stmt.setObject(1, this);
-            stmt.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    
     @Override
     public String toString() {
         return "Season [seasonID=" + seasonID + ", seasonName=" + seasonName + "]";

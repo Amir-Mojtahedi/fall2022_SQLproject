@@ -25,15 +25,6 @@ public class Education implements SQLData{
     public void setEducationType(String educationType) {
         this.educationType = educationType;
     }
-    public void addToDatabase(Connection conn){
-        String sql="{call dawson_classes.add_education(?)}";
-        try(CallableStatement stmt=conn.prepareCall(sql)) {
-            stmt.setObject(1, this);
-            stmt.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public String toString() {

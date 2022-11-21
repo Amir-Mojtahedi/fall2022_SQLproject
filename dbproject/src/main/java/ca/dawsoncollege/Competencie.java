@@ -17,7 +17,7 @@ public class Competencie implements SQLData{
             //TODO handle exception
         }
     }
-    public void remobeFromDatabase(Connection conn){
+    public void removeFromDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call remove_(?)}")) {//TODO procedure name 
             stmt.setObject(1, this);
             stmt.execute();

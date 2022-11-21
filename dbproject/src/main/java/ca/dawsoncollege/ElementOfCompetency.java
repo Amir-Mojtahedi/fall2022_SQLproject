@@ -27,14 +27,28 @@ public class ElementOfCompetency implements SQLData{
     }
 
     public void addToDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call add_element_of_competency(?)}")) {//TODO procedure name 
+        try(CallableStatement stmt = conn.prepareCall("{ call add_element_of_competency(?)}")) {
+            stmt.execute();
+        } catch (Exception e) {
+            //TODO handle exception
+        }
+    }
+    public void removeFromDatabase(Connection conn){
+        try(CallableStatement stmt = conn.prepareCall("{ call remove_element(?)}")) {
             stmt.setObject(1, this);
             stmt.execute();
         } catch (Exception e) {
             //TODO handle exception
         }
     }
-
+    public void updateFromDatabase(Connection conn){
+        try(CallableStatement stmt = conn.prepareCall("{ call update_element_of_competncy(?)}")) {
+            stmt.setObject(1, this);
+            stmt.execute();
+        } catch (Exception e) {
+            //TODO handle exception
+        }
+    }
     public void setElementId(String elementId) {
         this.elementId = elementId;
     }

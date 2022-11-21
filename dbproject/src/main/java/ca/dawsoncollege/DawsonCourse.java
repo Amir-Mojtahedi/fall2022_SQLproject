@@ -74,12 +74,26 @@ public class DawsonCourse implements SQLData{
         this.termID = termID;
     }
     public void addToDatabase(Connection conn){
-        String sql="{call dawson_classes.add_course(?)}";
-        try(CallableStatement stmt=conn.prepareCall(sql)) {
+        try(CallableStatement stmt = conn.prepareCall("{ call add_course(?)}")) {
+            stmt.execute();
+        } catch (Exception e) {
+            //TODO handle exception
+        }
+    }
+    public void removeFromDatabase(Connection conn){
+        try(CallableStatement stmt = conn.prepareCall("{ call remove_course(?)}")) {
             stmt.setObject(1, this);
             stmt.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            //TODO handle exception
+        }
+    }
+    public void updateFromDatabase(Connection conn){
+        try(CallableStatement stmt = conn.prepareCall("{ call update_course(?)}")) {
+            stmt.setObject(1, this);
+            stmt.execute();
+        } catch (Exception e) {
+            //TODO handle exception
         }
     }
     @Override
