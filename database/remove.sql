@@ -35,6 +35,7 @@ DROP TABLE dawson_courses;
 DROP TABLE term_seasons;
 DROP TABLE seasons;
 DROP TABLE educations;
+DROP TABLE domains;
 DROP TABLE COMPETENCIES;
 
 

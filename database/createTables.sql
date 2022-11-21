@@ -18,6 +18,11 @@ CREATE TABLE educations(
     education_type_id Char(1) PRIMARY KEY,
     education_type varchar2(30) NOT NULL
 );
+CREATE TABLE domains(
+    domain_id varchar2(3) PRIMARY KEY,
+    domain_name varchar2(50) NOT NULL,
+    description varchar2(1000) NOT NULL
+);
 CREATE TABLE dawson_courses(
     course_number varchar2(20) PRIMARY KEY, 
     course_name varchar2(50) NOT NULL,
@@ -26,7 +31,8 @@ CREATE TABLE dawson_courses(
     lab_hours number(2,0),
     homework_hours number(2,0),
     education_type_id Char(1) REFERENCES educations(education_type_id),
-    term_id number REFERENCES term_seasons(term_id)
+    term_id number REFERENCES term_seasons(term_id),
+    domain_id varchar2(3) REFERENCES domains(domain_id)
 );
 
 CREATE TABLE competencies(
