@@ -16,6 +16,12 @@ CREATE OR REPLACE TYPE education_typ AS OBJECT (
     education_type    VARCHAR2(30)
 );
 /
+CREATE OR REPLACE TYPE domain_typ AS OBJECT (
+    domain_id VARCHAR2(3),
+    domain_name VARCHAR2(50),
+    description VARCHAR2(1000)
+);
+/
 
 CREATE OR REPLACE TYPE course_typ AS OBJECT (
     course_number      VARCHAR2(20),
@@ -25,7 +31,8 @@ CREATE OR REPLACE TYPE course_typ AS OBJECT (
     lab_hours          NUMBER(2, 0),
     homework_hours     NUMBER(2, 0),
     education         education_typ,
-    term              term_typ
+    term              term_typ,
+    domain            domain_typ
 );
 /
 CREATE OR REPLACE TYPE COMP_TYP AS OBJECT (
