@@ -10,15 +10,22 @@ public class Competencie implements SQLData{
     public static String TYPE_NAME="COMP_TYP";
     
     public void addToDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call add_(?)}")) {//TODO procedure name 
-            stmt.setObject(1, this);
+        try(CallableStatement stmt = conn.prepareCall("{ call add_competency(?)}")) {
             stmt.execute();
         } catch (Exception e) {
             //TODO handle exception
         }
     }
     public void removeFromDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call remove_(?)}")) {//TODO procedure name 
+        try(CallableStatement stmt = conn.prepareCall("{ call remove_competency(?)}")) {
+            stmt.setObject(1, this);
+            stmt.execute();
+        } catch (Exception e) {
+            //TODO handle exception
+        }
+    }
+    public void updateFromDatabase(Connection conn){
+        try(CallableStatement stmt = conn.prepareCall("{ call update_competency(?)}")) {
             stmt.setObject(1, this);
             stmt.execute();
         } catch (Exception e) {
