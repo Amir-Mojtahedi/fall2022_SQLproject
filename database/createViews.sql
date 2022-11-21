@@ -23,7 +23,7 @@ LEFT OUTER JOIN competencies USING(comp_id);
 CREATE OR REPLACE VIEW user_logs_view AS
 SELECT * FROM user_logs;
 
-select * from user_logs_view;
-select * from competencies_view;
-SELECT * FROM dawson_courses_view ;
-select * from full_view;
+--select * from user_logs_view;
+--select * from competencies_view;
+--SELECT * FROM dawson_courses_view ;
+--select * from full_view;

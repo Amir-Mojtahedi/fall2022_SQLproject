@@ -2,7 +2,7 @@ CREATE OR REPLACE PACKAGE CC_BRIDGE_PACKAGE AS
     PROCEDURE add_join(course in course_typ, element in element_typ, associated_time in element_course.associated_time%type);
     PROCEDURE remove_courses(courses_id in element_course.course_number%type);
     PROCEDURE remove_elements(elements_id in element_course.element_id%type);
-    PROCEDURE update_allocated_time(ourse in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type);
+    PROCEDURE update_allocated_time(course in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type);
     function timeValidation RETURN VARCHAR2;
 END CC_BRIDGE_PACKAGE;
 /
