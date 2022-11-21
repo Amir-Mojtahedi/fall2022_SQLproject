@@ -55,7 +55,6 @@ public class CourseListServices{
         Education education_type=new Education(education_id, educationType);
         TermSeason termSeason=new TermSeason(term, season);
         DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason);
-        termSeason.addToDatabase(this.conn);
         course.addToDatabase(this.conn);
     }
 }
