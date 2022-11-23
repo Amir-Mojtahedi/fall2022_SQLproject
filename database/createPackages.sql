@@ -1,16 +1,16 @@
 CREATE OR REPLACE PACKAGE CC_BRIDGE_PACKAGE AS
-    PROCEDURE add_join(course in course_typ, element in element_typ, associated_time in element_course.associated_time%type);
+    PROCEDURE add_join(course_id in course_number, element_id in element_id, associated_time in element_course.associated_time%type)
     PROCEDURE remove_courses(courses_id in element_course.course_number%type);
     PROCEDURE remove_elements(elements_id in element_course.element_id%type);
-    PROCEDURE update_allocated_time(course in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type);
+    PROCEDURE update_allocated_time(course_id in course_number, element_id in element_id, associated_time in element_course.associated_time%type);
     function timeValidation RETURN VARCHAR2;
 END CC_BRIDGE_PACKAGE;
 /
 CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
-    PROCEDURE add_join(course in course_typ, element in element_typ, associated_time in element_course.associated_time%type)
+    PROCEDURE add_join(course_id in course_number, element_id in element_id, associated_time in element_course.associated_time%type)
         AS
         BEGIN
-            INSERT INTO element_course VALUES(course.course_number,element.element_id,associated_time);
+            INSERT INTO element_course VALUES(course_id element_id, associated_time);
         END;
     PROCEDURE remove_courses(courses_id in element_course.course_number%type)
         AS
@@ -24,7 +24,7 @@ CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
           delete from element_course
            where elements_id = element_id;
         END;
-    PROCEDURE update_allocated_time(course in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type)
+    PROCEDURE update_allocated_time(course_id in course_number, element_id in element_id, associated_time in element_course.associated_time%type)
         AS
         BEGIN
             update element_course
