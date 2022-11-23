@@ -2,7 +2,8 @@ CREATE OR REPLACE PACKAGE CC_BRIDGE_PACKAGE AS
     PROCEDURE add_join(course in course_typ, element in element_typ, associated_time in element_course.associated_time%type);
     PROCEDURE remove_courses(courses_id in element_course.course_number%type);
     PROCEDURE remove_elements(elements_id in element_course.element_id%type);
-    PROCEDURE update_allocated_time(ourse in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type);
+    PROCEDURE update_allocated_time(course in course_typ, element in element_typ, New_associated_time in element_course.associated_time%type);
+    function timeValidation RETURN VARCHAR2;
 END CC_BRIDGE_PACKAGE;
 /
 CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
@@ -31,28 +32,28 @@ CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
                 where course.course_number = course_number and element.element_id = element_id; 
         END;
 
-    function timeValidation()return VARCHAR2(1000);
+    function timeValidation RETURN VARCHAR2
         AS 
-        ERROR_TEXT VARCHAR2(1000)
+        ERROR_TEXT VARCHAR2(1000);
         COURSE_HOURS NUMBER;
         COMPETENCY_HOURS NUMBER;
-        cursor element_times is (select COURSE_NUMBER COURSE_NAME from element_course 
-        JOIN ELEMENTS_OF_COMPETENCY USING (ELEMENT_ID) GROUP BY COURSE_NUMBER, COMP_ID);
+        cursor element_times is (select COURSE_NUMBER, COURSE_NAME from DAWSON_COURSES 
+        GROUP BY COURSE_NUMBER, COURSE_NAME);
         Begin
             FOR element IN element_times loop
                 SELECT ((lab_hours+class_hours)*15)INTO COURSE_HOURS 
                     FROM DAWSON_COURSES 
-                    WHERE COURSE_NUMBER = ELEMENT.COURSE_NUMBER;
+                    WHERE COURSE_NUMBER = element.COURSE_NUMBER;
 
                 SELECT ROUND(SUM(Associated_time),0) INTO COMPETENCY_HOURS 
                     FROM ELEMENT_COURSE
                     WHERE COURSE_NUMBER LIKE '420-510-DW';
                     if COURSE_HOURS!=COMPETENCY_HOURS then
-                      ERROR_TEXT += "/n Hours conflict with course "+ELEMENT.COURSE_NAME;
+                      ERROR_TEXT := ERROR_TEXT||'/n Hours conflict with course '||element.COURSE_NAME;
                     end if;
-            end loop
+            end loop;
             return ERROR_TEXT;
-    END;
+        END;
 END CC_BRIDGE_PACKAGE;
 /
 
@@ -130,7 +131,8 @@ CREATE OR REPLACE PACKAGE COMPETENCIES_PACKAGE AS
     PROCEDURE add_element_of_competency(new_element in element_typ);
     PROCEDURE remove_element(rem_element_id IN varchar2);
     PROCEDURE remove_competency(rem_comp_id IN varchar2);
-    FUNCTION get_terminal_comp(comp_id_check CHAR) RETURN varchar2;
+    FUNCTION find_specification(specification_number IN competencies.specification%TYPE) RETURN varchar2;
+    --FUNCTION get_terminal_comp(comp_id_check CHAR) RETURN varchar2;
 END COMPETENCIES_PACKAGE;
 /
 CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
@@ -188,20 +190,28 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
         CC_BRIDGE_PACKAGE.remove_elements(rem_element_id);
         DELETE FROM ELEMENTS_OF_COMPETENCY WHERE element_id = rem_element_id;
     END;
-
-    FUNCTION get_terminal_comp(comp_id_check CHAR) RETURN varchar2 AS
-        --comp_typ terminal_comp;
-        last_term varchar2(2);
+    FUNCTION find_specification(specification_number IN competencies.specification%TYPE) RETURN varchar2
+    AS
     BEGIN
-        SELECT MAX(term_id) INTO last_term FROM TERM_seasons 
-        JOIN dawson_courses USING(term_id) 
-        JOIN ELEMENT_COURSE USING(COURSE_NUMBER) 
-        JOIN ELEMENTS_OF_COMPETENCY USING(ELEMENT_ID) 
-        JOIN COMPETENCIES USING(COMP_ID)
-        WHERE comp_id = comp_id_check;
-        
-        return last_term;
+        IF specification_number=1 THEN
+            RETURN 'Mandatory';
+        ELSE
+            RETURN 'Optional';
+        END IF;
     END;
+--    FUNCTION get_terminal_comp(comp_id_check CHAR) RETURN varchar2 AS
+--        --comp_typ terminal_comp;
+--        last_term varchar2(2);
+--    BEGIN
+--        SELECT MAX(term_id) INTO last_term FROM TERM_seasons 
+--        JOIN dawson_courses USING(term_id) 
+--        JOIN ELEMENT_COURSE USING(COURSE_NUMBER) 
+--        JOIN ELEMENTS_OF_COMPETENCY USING(ELEMENT_ID) 
+--        JOIN COMPETENCIES USING(COMP_ID)
+--        WHERE comp_id = comp_id_check;
+--        
+--        return last_term;
+--    END;
 END COMPETENCIES_PACKAGE;
 /
 --hours---------
