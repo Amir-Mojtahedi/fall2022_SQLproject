@@ -9,6 +9,12 @@ public class Competencies implements SQLData{
     private String compDescription;
     public static String TYPE_NAME="COMP_TYP";
     
+    public Competencies(String compId, String compName, char specification, String compDescription) {
+        this.compId = compId;
+        this.compName = compName;
+        this.specification = specification;
+        this.compDescription = compDescription;
+    }
     public void addToDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call add_competency(?)}")) {
             stmt.execute();

@@ -32,12 +32,21 @@ public class CourseListServices{
             this.conn.close();
         }
     }
-    //Adds a new course to the database.
-    public void addCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType) throws SQLException{
+    //get assign season and term id from term
+    private Education getEducation(String educationType){
+        String education_id=null;
+        if(educationType.equals("general")){
+            education_id="1";
+        }
+        else if(educationType.equals("concentration")){
+            education_id="2";
+        }
+        return new Education(education_id, educationType);
+    }
+    private Season getSeason(int term){
+        //checks the term to find the corresponding season
         String season_id=null;
         String seasonName=null;
-        String education_id=null;
-        //checks the term to find the corresponding season
         if(term%2==1){
             season_id="1";
             seasonName="Fall";
@@ -46,41 +55,84 @@ public class CourseListServices{
             season_id="2";
             seasonName="Winter";
         }
-
-        if(educationType.equals("general")){
-            education_id="1";
-        }
-        else if(educationType.equals("concentration")){
-            education_id="2";
-        }
-        Season season=new Season(season_id, seasonName);
-        Education education_type=new Education(education_id, educationType);
+        return new Season(season_id, seasonName);
+    }
+    //-----------------ADD rows to databse------------------
+    //Adds a new course to the database.
+    public void addCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType){
+        Season season=getSeason(term);
+        Education education_type=getEducation(educationType);
         TermSeason termSeason=new TermSeason(term, season);
         DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason);
         course.addToDatabase(this.conn);
     }
-    public void addCompetency(){
-
+    public void addCompetency(String compId,String compName,char specification,String compDescription){
+        Competencies competency = new Competencies(compId, compName, specification, compDescription);
+        competency.addToDatabase(conn);    
     }
-    public void addElementCourseBridge(){
-
+    public void addElementCourseBridge(String courseID, String elementId, double allocatedTime){
+        try(CallableStatement stmt = conn.prepareCall("{ call add_join(?,?,?)}")) {
+            stmt.setObject(1, courseID);
+            stmt.setObject(2, elementId);
+            stmt.setObject(3, allocatedTime);
+            stmt.execute();
+        } catch (Exception e) {
+            //TODO handle exception
+        }
     }
-    public void removeCourse(){
-
+    public void addElement(String Id, String  name, String  Description, Competencies  Competency){
+        ElementOfCompetency element = new ElementOfCompetency(Id, name, Description, Competency);
+        element.addToDatabase(conn);
+    }
+    //-------------delete rows--------------
+    public void removeCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType){
+        Season season=getSeason(term);
+        Education education_type=getEducation(educationType);
+        TermSeason termSeason=new TermSeason(term, season);
+        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason);
+        course.removeFromDatabase(conn);
     }
     public void removeCompetency(){
 
     }
-    public void removeElementCourseBridge(){
-
+    public void removeElementCourseBridge(String courseID, String elementId){
+        try(CallableStatement stmt = conn.prepareCall("{ call remove_join(?,?)}")) {
+            stmt.setObject(1, courseID);
+            stmt.setObject(2, elementId);
+            stmt.execute();
+        } catch (Exception e) {
+            //TODO handle exception
+        }
     }
-    public void updateCourse(){
-
+    public void removeElement(String Id, String  name, String  Description, Competencies  Competency){
+        ElementOfCompetency element = new ElementOfCompetency(Id, name, Description, Competency);
+        element.removeFromDatabase(conn);
+    }
+    //-----------updates-----------------
+    public void updateCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType){
+        Season season=getSeason(term);
+        Education education_type=getEducation(educationType);
+        TermSeason termSeason=new TermSeason(term, season);
+        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason);
+        course.updateFromDatabase(conn);
     }
     public void updateCompetency(){
 
     }
-    public void updateElementCourseBridge(){
-
+    public void updateElementCourseBridge(String courseID, String elementId, double allocatedTime){
+        try(CallableStatement stmt = conn.prepareCall("{ call update_allocated_time(?,?,?)}")) {
+            stmt.setObject(1, courseID);
+            stmt.setObject(2, elementId);
+            stmt.setObject(3, allocatedTime);
+            stmt.execute();
+        } catch (Exception e) {
+            //TODO handle exception
+        }
+    }
+    public void updateElement(String Id, String  name, String  Description, Competencies  Competency){
+        ElementOfCompetency element = new ElementOfCompetency(Id, name, Description, Competency);
+        element.updateFromDatabase(conn);
     }
 }
+
+
