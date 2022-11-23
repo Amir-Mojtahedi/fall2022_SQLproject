@@ -15,6 +15,9 @@ public class Competencies implements SQLData{
         this.specification = specification;
         this.compDescription = compDescription;
     }
+    public Competencies() {
+    }
+    
     public void addToDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call add_competency(?)}")) {
             stmt.execute();

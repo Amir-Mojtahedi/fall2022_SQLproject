@@ -294,21 +294,21 @@ public class Menu {
     }
 
     private void addCourseMenu(){
-        //call a method in CourseListServices that adds a course
-        String courseNumber = System.console().readLine("Please input your new course number: ");
-        String courseName = System.console().readLine("Please input your new course name: ");
-        String courseDescription = System.console().readLine("Please input your new course description: ");
-        int classHours = 2;
-        int labHours = 2;
-        int homeworkHours = 2;
-        int TermSeason = 3;
-        String educationType = "Ed";
-        try {
-            dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        // //call a method in CourseListServices that adds a course
+        // String courseNumber = System.console().readLine("Please input your new course number: ");
+        // String courseName = System.console().readLine("Please input your new course name: ");
+        // String courseDescription = System.console().readLine("Please input your new course description: ");
+        // int classHours = 2;
+        // int labHours = 2;
+        // int homeworkHours = 2;
+        // int TermSeason = 3;
+        // String educationType = "Ed";
+        // try {
+        //     dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType);
+        // } catch (SQLException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
     }
 
      /*

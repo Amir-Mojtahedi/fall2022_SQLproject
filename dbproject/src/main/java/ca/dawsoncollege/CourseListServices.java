@@ -143,6 +143,10 @@ public class CourseListServices{
         Competencies competenciesView = new Competencies();
         competenciesView.displayCompetencies(this.conn);
     }
+
+    public void displayFull(){
+        
+    }
 }
 
 
