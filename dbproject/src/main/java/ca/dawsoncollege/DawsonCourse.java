@@ -100,16 +100,27 @@ public class DawsonCourse implements SQLData{
     public void displayCourses(Connection conn){
         try(PreparedStatement stmt = conn.prepareStatement("select * from dawson_courses_view")){
             ResultSet results = stmt.executeQuery();
-            DawsonCourse course = null;
+            CoursesView course = null;
             while(results.next()){
-                course = new DawsonCourse(results.getString("coursenumber"),
-                results.getString("coursename"),
-                results.getString("courseDescription"),
-                results.getInt("classhours"))
+                course = new CoursesView(
+                results.getString("course_number"),
+                results.getString("course_name"),
+                results.getString("course_description"),
+                results.getInt("class_hours"),
+                results.getInt("lab_hours"),
+                results.getInt("homework_hours"),
+                results.getInt("total hours"),
+                results.getInt("semester"),
+                results.getString("season_name"),
+                results.getString("education_type"),
+                results.getString("domain_name"),
+                results.getString("domain description"));
+
+                System.out.println(course);
             }
         }
         catch(SQLException e){
-            //TODO handle exception
+            e.printStackTrace();
         }
     }
     @Override

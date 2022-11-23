@@ -75,9 +75,8 @@ public class Menu {
             System.out.println("Welcome to the Display Options");
             System.out.println("(1) Display All Courses");
             System.out.println("(2) Display All Competencies");
-            System.out.println("(3) Display All Elements of Competencies");
-            System.out.println("(4) Full Display");
-            System.out.println("(5) Back");
+            System.out.println("(3) Full Display");
+            System.out.println("(4) Back");
 
             String input = inputRequest();
 
@@ -89,12 +88,9 @@ public class Menu {
                     displayCompetencies();
                     break;
                 case "3":
-                    displayElements();
-                    break;
-                case "4":
                     displayFull();
                     break;
-                case "5":
+                case "4":
                     running = false;
                     break;
                 default:
@@ -165,6 +161,7 @@ public class Menu {
         while(running){
             System.out.println("Here are all the competencies");
             //display user friendly table of objects
+            dbDriver.displayCompetencies();
             System.out.println("(1) Filter by competency id");
             System.out.println("(2) Filter by keyword in competency name");
             System.out.println("(3) Back");
@@ -188,39 +185,12 @@ public class Menu {
         }
     }
 
-    private void displayElements() {
-        boolean running = true;
-        while(running){
-            System.out.println("Here are all of the Elements of Competencies");
-            //display user friendly table of elements
-            System.out.println("(1) Filter by element id");
-            System.out.println("(2) Filter by keyword in  element name");
-            System.out.println("(3) Back");
-
-            String input = inputRequest();
-
-            switch(input){
-                case "1":
-                    filterElementName();
-                    break;
-                case "2":
-                    filterElementId();
-                    break;
-                case "3":
-                    running = false;
-                    break;
-                default:
-                    invalidInput();
-                    break;
-            }
-        }
-    }
-
     private void displayCourses() {
         boolean running = true;
         while(running){
             System.out.println("Here are all the courses");
             //display user friendly table of objects
+            dbDriver.displayCourses();
             System.out.println("(1) Filter by course id");
             System.out.println("(2) Filter by keyword in course name");
             System.out.println("(3) Back");
