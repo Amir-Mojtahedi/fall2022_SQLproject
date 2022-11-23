@@ -5,9 +5,9 @@ public class ElementOfCompetency implements SQLData{
     private String elementId;
     private String elementName;
     private String elementDescription;
-    private Competencies competencies;
+    private String competencies;
     public static String TYPE_NAME="ELEMENT_TYP";
-    public ElementOfCompetency(String elementId, String elementName, String elementDescription, Competencies competencies) {
+    public ElementOfCompetency(String elementId, String elementName, String elementDescription, String competencies) {
         this.elementId = elementId;
     }
     @Override
@@ -19,14 +19,14 @@ public class ElementOfCompetency implements SQLData{
         setElementId(stream.readString());
         setElementName(stream.readString());
         setElementDescription(stream.readString());
-        setCompentcies((Competencies)stream.readObject());
+        setCompentcies(stream.readString());
     }
     @Override
     public void writeSQL(SQLOutput stream) throws SQLException {
         stream.writeString(elementId);
         stream.writeString(elementName);
         stream.writeString(elementDescription);
-        stream.writeObject(competencies);
+        stream.writeString(competencies);
     }
 
     public void addToDatabase(Connection conn){
@@ -61,7 +61,7 @@ public class ElementOfCompetency implements SQLData{
     public void setElementDescription(String elementDescription) {
         this.elementDescription = elementDescription;
     }
-    public void setCompentcies(Competencies compentcie) {
+    public void setCompentcies(String compentcie) {
         this.competencies = compentcie;
     }
 

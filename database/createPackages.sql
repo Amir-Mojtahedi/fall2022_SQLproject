@@ -171,6 +171,7 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
     BEGIN
         INSERT INTO elements_of_competency VALUES(
             new_element.element_id,
+            new_element.element_number
             new_element.element_name,
             new_element.element_description,
             new_element.comp.comp_id

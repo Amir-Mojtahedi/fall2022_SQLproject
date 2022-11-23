@@ -8,12 +8,13 @@ public class DawsonCourse implements SQLData{
     private int classHours;
     private int labHours;
     private int homeworkHours;
+    private String domain
     private Education education_type;
     private TermSeason termID;
     public static String TYPE_NAME="COURSE_TYP";
 
     public DawsonCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours,
-            int homeworkHours, Education education_type, TermSeason termID) {
+            int homeworkHours, Education education_type, TermSeason termID,String domain) {
         this.courseNumber = courseNumber;
         this.courseName = courseName;
         this.courseDescription = courseDescription;
@@ -131,7 +132,7 @@ public class DawsonCourse implements SQLData{
         setLabHours(stream.readInt());
         setHomeworkHours(stream.readInt());
         setEducation_type((Education)stream.readObject());
-        setTermID((TermSeason)stream.readObject());
+        setTermID((TermSeason)stream.readObject());//TODO add domain
         
     }
     @Override

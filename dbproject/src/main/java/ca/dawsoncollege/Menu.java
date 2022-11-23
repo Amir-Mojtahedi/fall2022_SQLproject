@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class Menu {
     private CourseListServices dbDriver;
-
+    final static java.util.Scanner scan = new java.util.Scanner (System.in);
     public void start(){
         boolean running = true;
         while(running){
@@ -311,16 +311,21 @@ public class Menu {
 
     private void addElementMenu() {
         //call a method in CourseListServices that adds an element
-        String elementId = System.console().readLine("Please input your new element id: ");
+        String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to add");
+        String elementNumber = System.console().readLine("Please input your new element number: ");
         String elementName = System.console().readLine("Please input your new element name: ");
         String elementDescription = System.console().readLine("Please input your new element description: ");
         String compId = System.console().readLine("Please input the competency id of the competency this element connects to: ");
 
-        //addElement from dbDriver with these inputs
+        System.out.println(dbDriver.addElement(elementNumber, elementName, elementDescription, compId));
     }
 
     private void addCompetencyMenu() {
-        //call a method in CourseListServices that adds a competency
+        String code = System.console().readLine("Input the Competentcy Code of the Competency you wish to add");
+        String name = System.console().readLine("Input the name of the Competentcy you wish to add");;
+        char specification = (System.console().readLine("If the competency is Mandatory input '1' /n if competency is optional input '0'")).charAt(0);
+        String description =System.console().readLine("Input the competency description");;
+        System.out.println(dbDriver.addCompetency(code, name, specification, description));
     }
 
     private void addCourseMenu(){
@@ -331,17 +336,23 @@ public class Menu {
         int classHours = 2;
         int labHours = 2;
         int homeworkHours = 2;
-        int TermSeason = 3;
-        String educationType = "Ed";
-        try {
-            dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        int TermSeason = getInt("Input the term of the course");
+        String educationType = System.console().readLine("Input the course education type");
+        String domain = System.console().readLine("Intput the course's domain");
+            dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType, domain);
     }
-
-     /*
+    private void addJoin(){
+        String course = System.console().readLine("Input a course Number: ");
+        String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to join");
+        char continueConnection;
+        do{
+        String element = System.console().readLine("Input an element "  );//TODO finish sentence
+        double allocatedTime = getDouble("Input the amount of time this element is convered in this course");
+        System.out.println(dbDriver.addElementCourseBridge(course, competency+element, allocatedTime));
+        continueConnection = getFirstChar(System.console().readLine("do you wish to continue connecting element and courses"));
+        }while(continueConnection == 'Y');
+    }
+    /*
       * DELETE FUNCTIONS
       */
 
@@ -378,17 +389,18 @@ public class Menu {
 
     private void deleteCourse() {
         String courseToRemove = System.console().readLine("Please write the course id of the course you would like to remove: ");
-        //call remove procedure with course id
+        System.out.println(dbDriver.removeCourse(courseToRemove));
     }
 
     private void deleteCompetency() {
         String compToRemove = System.console().readLine("Please write the competency id of the course you would like to remove: ");
-        //call remove procedure with comp id
+        System.out.println(dbDriver.removeCompetency(compToRemove));
     }
 
     private void deleteElement() {
-        String elementToRemove = System.console().readLine("Please write the element id of the course you would like to remove: ");
-        //call remove procedure with elemend id
+        String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to remove");
+        String elementNumber = System.console().readLine("Please input your the number of the element you wish to remove: ");
+        System.out.println(dbDriver.removeElement(competency+elementNumber));
     }
 
     /*
@@ -400,5 +412,30 @@ public class Menu {
 
     private String inputRequest() {
         return System.console().readLine("Please select an option: ");
+    }
+    private double getDouble(String inputQuestion){
+        double number= 0;
+        System.out.println(inputQuestion)
+            while(!scan.hasNextDouble())
+            {
+            System.out.println(" invalid input/n"+inputQuestion);
+            scan.next();
+            }
+            number = scan.nextDouble();
+        return number;
+    }
+    private int  getInt(String inputQuestion){
+        int number= 0;
+        System.out.println(inputQuestion)
+            while(!scan.hasNextInt())
+            {
+            System.out.println(" invalid input/n"+inputQuestion);
+            scan.next();
+            }
+            number = scan.nextInt();
+        return number;
+    }
+    private char getFirstChar(String word){
+        return Character.toUpperCase(word.charAt(0));
     }
 }

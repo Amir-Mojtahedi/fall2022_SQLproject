@@ -44,6 +44,7 @@ CREATE TABLE competencies(
 
 CREATE TABLE elements_of_competency(
     element_id varchar2(3) PRIMARY KEY,
+    element_number number(1),
     element_name varchar2(100) NOT NULL,
     element_description varchar2(1000) NOT NULL,
     comp_id char(4) REFERENCES competencies(comp_id)
