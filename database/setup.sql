@@ -4,3 +4,4 @@
 @types.sql;
 @createTriggers;
 @createPackages.sql;
+@createViews;

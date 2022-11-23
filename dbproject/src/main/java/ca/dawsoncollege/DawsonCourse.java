@@ -11,6 +11,7 @@ public class DawsonCourse implements SQLData{
     private Education education_type;
     private TermSeason termID;
     public static String TYPE_NAME="COURSE_TYP";
+
     public DawsonCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours,
             int homeworkHours, Education education_type, TermSeason termID) {
         this.courseNumber = courseNumber;
@@ -96,6 +97,21 @@ public class DawsonCourse implements SQLData{
             //TODO handle exception
         }
     }
+    public void displayCourses(Connection conn){
+        try(PreparedStatement stmt = conn.prepareStatement("select * from dawson_courses_view")){
+            ResultSet results = stmt.executeQuery();
+            DawsonCourse course = null;
+            while(results.next()){
+                course = new DawsonCourse(results.getString("coursenumber"),
+                results.getString("coursename"),
+                results.getString("courseDescription"),
+                results.getInt("classhours"))
+            }
+        }
+        catch(SQLException e){
+            //TODO handle exception
+        }
+    }
     @Override
     public String toString() {
         return "DawsonCourse [courseNumber=" + courseNumber + ", courseName=" + courseName + ", courseDescription="
@@ -130,6 +146,4 @@ public class DawsonCourse implements SQLData{
         stream.writeObject(getTermID());
         
     }
-    
-
 }
