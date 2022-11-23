@@ -148,6 +148,20 @@ public class CourseListServices{
         ElementOfCompetency element = new ElementOfCompetency(Id, name, Description, Competency);
         element.updateFromDatabase(conn);
     }
+
+    public void displayCourses(){
+        DawsonCourse coursesView = new DawsonCourse();
+        coursesView.displayCourses(this.conn);
+    }
+
+    public void displayCompetencies(){
+        Competencies competenciesView = new Competencies();
+        competenciesView.displayCompetencies(this.conn);
+    }
+
+    public void displayFull(){
+        
+    }
 }
 
 

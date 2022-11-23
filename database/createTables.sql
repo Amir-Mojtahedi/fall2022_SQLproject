@@ -1,7 +1,7 @@
 
 --CREATING TABLES
 CREATE TABLE user_logs(
-    ussername varchar2(50),
+    username varchar2(50),
     date_time timestamp,
     message varchar2(500)
 );

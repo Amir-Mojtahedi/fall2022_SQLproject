@@ -15,6 +15,9 @@ public class Competencies implements SQLData{
         this.specification = specification;
         this.compDescription = compDescription;
     }
+    public Competencies() {
+    }
+    
     public void addToDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call add_competency(?)}")) {
             stmt.execute();
@@ -36,6 +39,28 @@ public class Competencies implements SQLData{
             stmt.execute();
         } catch (Exception e) {
             //TODO handle exception
+        }
+    }
+    public void displayCompetencies(Connection conn){
+        CompetenciesView competencies = null; 
+        try(PreparedStatement stmt = conn.prepareStatement("select * from competencies_view")) {
+            ResultSet results = stmt.executeQuery();
+
+            while(results.next()){
+                competencies = new CompetenciesView(
+                    results.getString("comp_id"),
+                    results.getString("comp_name"),
+                    results.getString("comp_description"),
+                    results.getString("specification"),
+                    results.getString("element_name"),
+                    results.getString("element_description")
+                    );
+
+                    System.out.println(competencies);
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
         }
     }
     @Override
