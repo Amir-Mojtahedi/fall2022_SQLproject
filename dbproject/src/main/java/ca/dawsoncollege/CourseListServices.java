@@ -17,6 +17,7 @@ public class CourseListServices{
             map.put(TermSeason.TYPE_NAME,Class.forName("ca.dawsoncollege.TermSeason"));
             map.put(Education.TYPE_NAME,Class.forName("ca.dawsoncollege.Education"));
             map.put(DawsonCourse.TYPE_NAME,Class.forName("ca.dawsoncollege.DawsonCourse"));
+            
         }
         catch(SQLException e){
             System.out.println("Invalid username or password");
