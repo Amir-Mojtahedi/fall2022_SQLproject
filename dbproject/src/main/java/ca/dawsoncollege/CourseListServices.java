@@ -78,7 +78,7 @@ public class CourseListServices{
         return competency.addToDatabase(conn);    
     }
     public String addElementCourseBridge(String courseID, String elementId, double allocatedTime){
-        try(CallableStatement stmt = conn.prepareCall("{ call add_join(?,?,?)}")) {
+        try(CallableStatement stmt = conn.prepareCall("{ call  CC_BRIDGE_PACKAGE.add_join(?,?,?)}")) {
             stmt.setObject(1, courseID);
             stmt.setObject(2, elementId);
             stmt.setObject(3, allocatedTime);
@@ -145,7 +145,7 @@ public class CourseListServices{
     }
 
     public String updateElementCourseBridge(String courseID, String elementId, double allocatedTime){
-        try(CallableStatement stmt = conn.prepareCall("{ call update_allocated_time(?,?,?)}")) {
+        try(CallableStatement stmt = conn.prepareCall("{ call  CC_BRIDGE_PACKAGE.update_allocated_time(?,?,?)}")) {
             stmt.setObject(1, courseID);
             stmt.setObject(2, elementId);
             stmt.setObject(3, allocatedTime);

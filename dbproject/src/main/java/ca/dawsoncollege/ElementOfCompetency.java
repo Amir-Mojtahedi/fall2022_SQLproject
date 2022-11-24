@@ -30,7 +30,7 @@ public class ElementOfCompetency implements SQLData{
     }
 
     public String addToDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call add_element_of_competency(?)}")) {
+        try(CallableStatement stmt = conn.prepareCall("{ call COMPETENCIES_PACKAGE.add_element_of_competency(?)}")) {
             stmt.execute();
             return "SUCCESSFUL";
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class ElementOfCompetency implements SQLData{
         }
     }*/
     public String updateFromDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call update_element_of_competncy(?)}")) {
+        try(CallableStatement stmt = conn.prepareCall("{ call COMPETENCIES_PACKAGE.update_element_of_competncy(?)}")) {
             stmt.setObject(1, this);
             stmt.execute();
             return "SUCCESSFUL";

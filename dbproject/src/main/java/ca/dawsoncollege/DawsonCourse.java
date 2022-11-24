@@ -80,24 +80,16 @@ public class DawsonCourse implements SQLData{
         this.domain = domain;
     }
     public String addToDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call add_course(?)}")) {
+        try(CallableStatement stmt = conn.prepareCall("{ call COURSES_PACKAGE.add_course(?)}")) {
             stmt.execute();
             return "SUCCESSFUL";
         } catch (Exception e) {
             return "failure";
             //TODO handle exception
         }
-    }/*
-    public void removeFromDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call remove_course(?)}")) {
-            stmt.setObject(1, this);
-            stmt.execute();
-        } catch (Exception e) {
-            //TODO handle exception
-        }
-    }*/
+    }
     public String updateFromDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call update_course(?)}")) {
+        try(CallableStatement stmt = conn.prepareCall("{ call COURSES_PACKAGE.update_course(?)}")) {
             stmt.setObject(1, this);
             stmt.execute();
             return "SUCCESSFUL";
