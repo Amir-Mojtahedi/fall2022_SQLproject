@@ -285,9 +285,8 @@ public class Menu {
         String elementNumber = System.console().readLine("Please input your new element number: ");
         String elementName = System.console().readLine("Please input your new element name: ");
         String elementDescription = System.console().readLine("Please input your new element description: ");
-        String compId = System.console().readLine("Please input the competency id of the competency this element connects to: ");
 
-        System.out.println(dbDriver.addElement(competency+elementNumber, elementNumber, elementName, elementDescription, compId));
+        System.out.println(dbDriver.addElement(competency+elementNumber, elementNumber, elementName, elementDescription, competency));
     }
 
     private void addCompetencyMenu() {

@@ -43,7 +43,7 @@ CREATE OR REPLACE TYPE COMP_TYP AS OBJECT (
 );
 /
 CREATE OR REPLACE TYPE ELEMENT_TYP AS OBJECT (
-    element_id VARCHAR2(3),
+    element_id VARCHAR2(5),
     element_number number(1),
     element_name VARCHAR2(100),
     element_description VARCHAR2(1000),

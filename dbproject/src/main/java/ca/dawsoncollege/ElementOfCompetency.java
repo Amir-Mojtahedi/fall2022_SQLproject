@@ -37,6 +37,7 @@ public class ElementOfCompetency implements SQLData{
     }
 
     public String addToDatabase(Connection conn){
+        System.out.println(elementId);
         try(CallableStatement stmt = conn.prepareCall("{ call COMPETENCIES_PACKAGE.add_element_of_competency(?)}")) {
             stmt.setObject(1, this);
             stmt.execute();
