@@ -22,6 +22,7 @@ public class Competencies implements SQLData{
     
     public String addToDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call COMPETENCIES_PACKAGE.add_competency(?)}")) {
+            stmt.setObject(1, this);
             stmt.execute();
             return "SUCCESSFUL";
         } catch (Exception e) {

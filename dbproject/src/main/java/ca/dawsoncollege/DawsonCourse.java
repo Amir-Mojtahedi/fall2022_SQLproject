@@ -81,9 +81,11 @@ public class DawsonCourse implements SQLData{
     }
     public String addToDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call COURSES_PACKAGE.add_course(?)}")) {
+            stmt.setObject(1, this);
             stmt.execute();
             return "SUCCESSFUL";
         } catch (Exception e) {
+            e.printStackTrace();
             return "failure";
             //TODO handle exception
         }

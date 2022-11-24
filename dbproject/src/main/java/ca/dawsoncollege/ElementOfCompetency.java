@@ -3,12 +3,17 @@ package ca.dawsoncollege;
 import java.sql.*;
 public class ElementOfCompetency implements SQLData{
     private String elementId;
+    private String elementNumber;
     private String elementName;
     private String elementDescription;
     private String competencies;
     public static String TYPENAME="ELEMENT_TYP";
-    public ElementOfCompetency(String elementId, String elementName, String elementDescription, String competencies) {
+    public ElementOfCompetency(String elementId, String elementNumber, String elementName, String elementDescription, String competencies) {
         this.elementId = elementId;
+        this.elementNumber = elementNumber;
+        this.elementName = elementName;
+        this.elementDescription = elementDescription;
+        this.competencies = competencies;
     }
     @Override
     public String getSQLTypeName() throws SQLException {
@@ -17,6 +22,7 @@ public class ElementOfCompetency implements SQLData{
     @Override
     public void readSQL(SQLInput stream, String typeName) throws SQLException {
         setElementId(stream.readString());
+        setElementNumber(stream.readString());
         setElementName(stream.readString());
         setElementDescription(stream.readString());
         setCompentcies(stream.readString());
@@ -24,6 +30,7 @@ public class ElementOfCompetency implements SQLData{
     @Override
     public void writeSQL(SQLOutput stream) throws SQLException {
         stream.writeString(elementId);
+        stream.writeString(elementNumber);
         stream.writeString(elementName);
         stream.writeString(elementDescription);
         stream.writeString(competencies);
@@ -31,22 +38,17 @@ public class ElementOfCompetency implements SQLData{
 
     public String addToDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call COMPETENCIES_PACKAGE.add_element_of_competency(?)}")) {
+            stmt.setObject(1, this);
             stmt.execute();
             return "SUCCESSFUL";
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
             return "failure";
             //TODO handle exception
         }
-    }/*
-    public void removeFromDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call remove_element(?)}")) {
-            stmt.setObject(1, this);
-            stmt.execute();
-        } catch (Exception e) {
-        }
-    }*/
+    }
     public String updateFromDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call COMPETENCIES_PACKAGE.update_element_of_competncy(?)}")) {
+        try(CallableStatement stmt = conn.prepareCall("{ call COMPETENCIES_PACKAGE.update_element_of_competency(?)}")) {
             stmt.setObject(1, this);
             stmt.execute();
             return "SUCCESSFUL";
@@ -66,6 +68,9 @@ public class ElementOfCompetency implements SQLData{
     }
     public void setCompentcies(String compentcie) {
         this.competencies = compentcie;
+    }
+    public void setElementNumber(String elementNumber) {
+        this.elementNumber = elementNumber;
     }
 
 }
