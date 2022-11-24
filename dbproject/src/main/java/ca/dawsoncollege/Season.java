@@ -4,7 +4,7 @@ import java.sql.*;
 public class Season implements SQLData {
     private String seasonID;
     private String seasonName;
-    public static String TYPE_NAME="SEASON_TYP";
+    public static String TYPENAME="SEASON_TYP";
 
     public Season(String seasonID, String seasonName) {
         this.seasonID = seasonID;
@@ -34,7 +34,7 @@ public class Season implements SQLData {
     }
     @Override
     public String getSQLTypeName() throws SQLException {
-        return TYPE_NAME;
+        return TYPENAME;
     }
     @Override
     public void readSQL(SQLInput stream, String typeName) throws SQLException {

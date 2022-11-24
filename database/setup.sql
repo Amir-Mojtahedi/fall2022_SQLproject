@@ -2,6 +2,6 @@
 @createTables.sql;
 @inserts.sql;
 @types.sql;
-@createTriggers;
+@createTriggers.sql;
 @createPackages.sql;
-@createViews;
+@createViews.sql;

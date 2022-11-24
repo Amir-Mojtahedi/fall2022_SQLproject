@@ -2,12 +2,14 @@ package ca.dawsoncollege;
 
 import java.sql.*;
 
+//import org.omg.PortableInterceptor.SUCCESSFUL;
+
 public class Competencies implements SQLData{
     private String compId;
     private String compName;
     private char specification;
     private String compDescription;
-    public static String TYPE_NAME="COMP_TYP";
+    public static String TYPENAME="COMP_TYP";
     
     public Competencies(String compId, String compName, char specification, String compDescription) {
         this.compId = compId;
@@ -18,27 +20,29 @@ public class Competencies implements SQLData{
     public Competencies() {
     }
     
-    public void addToDatabase(Connection conn){
+    public String addToDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call add_competency(?)}")) {
             stmt.execute();
+            return "SUCCESSFUL";
         } catch (Exception e) {
+            return "failure";
             //TODO handle exception
         }
-    }
+    }/*
     public void removeFromDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call remove_competency(?)}")) {
             stmt.setObject(1, this);
             stmt.execute();
         } catch (Exception e) {
-            //TODO handle exception
         }
-    }
-    public void updateFromDatabase(Connection conn){
+    }*/
+    public String updateFromDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call update_competency(?)}")) {
             stmt.setObject(1, this);
             stmt.execute();
+            return "SUCCESSFUL";
         } catch (Exception e) {
-            //TODO handle exception
+            return "failure";
         }
     }
     public void displayCompetencies(Connection conn){
@@ -65,7 +69,7 @@ public class Competencies implements SQLData{
     }
     @Override
     public String getSQLTypeName() throws SQLException {
-        return TYPE_NAME;
+        return TYPENAME;
     }
     @Override
     public void readSQL(SQLInput stream, String typeName) throws SQLException {
@@ -92,8 +96,5 @@ public class Competencies implements SQLData{
     }
     public void setCompDescription(String compDescription) {
         this.compDescription = compDescription;
-    }
-    public static void setTYPE_NAME(String tYPE_NAME) {
-        TYPE_NAME = tYPE_NAME;
     }
 }
