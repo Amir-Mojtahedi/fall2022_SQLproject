@@ -8,10 +8,14 @@ public class DawsonCourse implements SQLData{
     private int classHours;
     private int labHours;
     private int homeworkHours;
+<<<<<<< HEAD
     private String domain;
+=======
+>>>>>>> 1cc7e4de87e1d25d801b0ceb49345bcda322c5fe
     private Education education_type;
     private TermSeason termID;
-    public static String TYPE_NAME="COURSE_TYP";
+    private String domain;
+    public static String TYPENAME="COURSE_TYP";
 
     public DawsonCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours,
             int homeworkHours, Education education_type, TermSeason termID,String domain) {
@@ -23,6 +27,7 @@ public class DawsonCourse implements SQLData{
         this.homeworkHours = homeworkHours;
         this.education_type = education_type;
         this.termID = termID;
+        this.domain = domain;
     }
     public DawsonCourse(){
         
@@ -75,26 +80,25 @@ public class DawsonCourse implements SQLData{
     public void setTermID(TermSeason termID) {
         this.termID = termID;
     }
-    public void addToDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call add_course(?)}")) {
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+    public String addToDatabase(Connection conn){
+        try(CallableStatement stmt = conn.prepareCall("{ call COURSES_PACKAGE.add_course(?)}")) {
             stmt.execute();
+            return "SUCCESSFUL";
         } catch (Exception e) {
+            return "failure";
             //TODO handle exception
         }
     }
-    public void removeFromDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call remove_course(?)}")) {
+    public String updateFromDatabase(Connection conn){
+        try(CallableStatement stmt = conn.prepareCall("{ call COURSES_PACKAGE.update_course(?)}")) {
             stmt.setObject(1, this);
             stmt.execute();
+            return "SUCCESSFUL";
         } catch (Exception e) {
-            //TODO handle exception
-        }
-    }
-    public void updateFromDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call update_course(?)}")) {
-            stmt.setObject(1, this);
-            stmt.execute();
-        } catch (Exception e) {
+            return "failure";
             //TODO handle exception
         }
     }
@@ -128,11 +132,11 @@ public class DawsonCourse implements SQLData{
     public String toString() {
         return "DawsonCourse [courseNumber=" + courseNumber + ", courseName=" + courseName + ", courseDescription="
                 + courseDescription + ", classHours=" + classHours + ", labHours=" + labHours + ", homeworkHours="
-                + homeworkHours + ", education_type=" + education_type + ", termID=" + termID + "]";
+                + homeworkHours + ", education_type=" + education_type + ", termID=" + termID + ", DomainID=" + domain+ "]";
     }
     @Override
     public String getSQLTypeName() throws SQLException {
-        return TYPE_NAME;
+        return TYPENAME;
     }
     @Override
     public void readSQL(SQLInput stream, String typeName) throws SQLException {
@@ -143,7 +147,8 @@ public class DawsonCourse implements SQLData{
         setLabHours(stream.readInt());
         setHomeworkHours(stream.readInt());
         setEducation_type((Education)stream.readObject());
-        setTermID((TermSeason)stream.readObject());//TODO add domain
+        setTermID((TermSeason)stream.readObject());
+        setDomain(stream.readString());
         
     }
     @Override
@@ -156,6 +161,7 @@ public class DawsonCourse implements SQLData{
         stream.writeInt(getHomeworkHours());
         stream.writeObject(getEducation_type());
         stream.writeObject(getTermID());
+        stream.writeString(domain);
         
     }
 }
