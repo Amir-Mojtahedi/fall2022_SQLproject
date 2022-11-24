@@ -16,7 +16,7 @@ CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
         AS
         BEGIN
           delete from element_course
-           where courses_id = course_number;
+           where course_number = courses_id;
         END;
     PROCEDURE remove_elements(elements_id in element_course.element_id%type)
         AS

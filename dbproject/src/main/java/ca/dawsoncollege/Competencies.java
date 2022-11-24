@@ -24,19 +24,13 @@ public class Competencies implements SQLData{
         try(CallableStatement stmt = conn.prepareCall("{ call COMPETENCIES_PACKAGE.add_competency(?)}")) {
             stmt.setObject(1, this);
             stmt.execute();
-            return "SUCCESSFUL";
+             return "";
         } catch (Exception e) {
-            return "failure";
+            e.printStackTrace();
+            return "fail";
             //TODO handle exception
         }
-    }/*
-    public void removeFromDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call remove_competency(?)}")) {
-            stmt.setObject(1, this);
-            stmt.execute();
-        } catch (Exception e) {
-        }
-    }*/
+    }
     public String updateFromDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call COMPETENCIES_PACKAGE.update_competency(?)}")) {
             stmt.setObject(1, this);
@@ -53,12 +47,13 @@ public class Competencies implements SQLData{
 
             while(results.next()){
                 competencies = new CompetenciesView(
-                    results.getString("comp_id"),
-                    results.getString("comp_name"),
-                    results.getString("comp_description"),
-                    results.getString("specification"),
-                    results.getString("element_name"),
-                    results.getString("element_description")
+                    results.getString("code"),
+                    results.getString("\"Statement of the Competency\""),
+                    results.getString("\"Achievement Context\""),
+                    results.getString("\"specification\""),
+                    results.getString("\"element number\""),
+                    results.getString("\"Elements of the Competency\""),
+                    results.getString("\"Performance Criteria\"")
                     );
 
                     System.out.println(competencies);
