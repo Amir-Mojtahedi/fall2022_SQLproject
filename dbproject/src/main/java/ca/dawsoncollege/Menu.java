@@ -255,7 +255,8 @@ public class Menu {
             System.out.println("(1) Add a Course");
             System.out.println("(2) Add an Element of a Competency");
             System.out.println("(3) Add a Competency");
-            System.out.println("(4) Back");
+            System.out.println("(4) Add a link between a course and elements");
+            System.out.println("(5) Back");
 
             String input = inputRequest();
 
@@ -270,6 +271,9 @@ public class Menu {
                     addCompetencyMenu();
                     break;
                 case "4":
+                    addJoin();
+                    break;
+                case "5":
                     running = false;
                     break;
                 default:
@@ -332,7 +336,8 @@ public class Menu {
             System.out.println("(1) Delete a Course");
             System.out.println("(2) Delete a Competency");
             System.out.println("(3) Delete an Element");
-            System.out.println("(4) Back");
+            System.out.println("(4) Delete a link between a course and one/many elements");
+            System.out.print("(5) Back");
 
             String input = inputRequest();
 
@@ -347,6 +352,9 @@ public class Menu {
                     deleteElement();
                     break;
                 case "4":
+                    deleteElementCoursJoin();
+                    break;
+                case "5":
                     running = false;
                     break;
                 default:
