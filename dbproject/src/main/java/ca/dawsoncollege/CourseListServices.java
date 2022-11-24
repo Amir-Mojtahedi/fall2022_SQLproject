@@ -94,26 +94,11 @@ public class CourseListServices{
         return element.addToDatabase(conn);
     }
     //-------------delete rows--------------
-<<<<<<< HEAD
-    public String removeCourse(String courseNumber){/*, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType,String domain){
-        Season season=getSeason(term);
-        Education education_type=getEducation(educationType);
-        TermSeason termSeason=new TermSeason(term, season);
-        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason, domain);*/
-        removeRowFromDatabase("{ call remove_course(?)}",courseNumber);
-        return "";
-    }
-    public String removeCompetency(String id){/* 
-        Competencies competency = new Competencies(id, name, specification, description);*/
-        removeRowFromDatabase("{ call remove_competency(?)}", id);
-        return "";
-=======
     public String removeCourse(String courseNumber){
         return removeRowFromDatabase("{ call COURSES_PACKAGE.delete_course(?)}",courseNumber);
     }
     public String removeCompetency(String id){
         return removeRowFromDatabase("{ call COMPETENCIES_PACKAGE.remove_competency(?)}", id);
->>>>>>> 1cc7e4de87e1d25d801b0ceb49345bcda322c5fe
 
     }
     public String removeElement(String Id){
@@ -129,7 +114,6 @@ public class CourseListServices{
           return "failed";
             //TODO handle exception
         }
-        return "";
     }
     public String removeRowFromDatabase(String query, String value){//query not altered by user
         try(CallableStatement stmt = conn.prepareCall(query)) {

@@ -291,19 +291,11 @@ public class Menu {
     }
 
     private void addCompetencyMenu() {
-<<<<<<< HEAD
-        String code = System.console().readLine("Input the Competentcy Code of the Competency you wish to add");
-        String name = System.console().readLine("Input the name of the Competentcy you wish to add");;
-        char specification = (System.console().readLine("If the competency is Mandatory input '1' /n if competency is optional input '0'")).charAt(0);
-        String description =System.console().readLine("Input the competency description");;
-        //System.out.println(dbDriver.addCompetency(code, name, specification, description));
-=======
         String code = System.console().readLine("Input the Competentcy Code of the Competency you wish to add: ");
         String name = System.console().readLine("Input the name of the Competentcy you wish to add: ");
         char specification = (System.console().readLine("If the competency is Mandatory input '1' \n if competency is optional input '0': ")).charAt(0);
         String description =System.console().readLine("Input the competency description: ");
         System.out.println(dbDriver.addCompetency(code, name, specification, description));
->>>>>>> 1cc7e4de87e1d25d801b0ceb49345bcda322c5fe
     }
 
     private void addCourseMenu(){
@@ -324,17 +316,10 @@ public class Menu {
         String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to join: ");
         char continueConnection;
         do{
-<<<<<<< HEAD
-        String element = System.console().readLine("Input an element "  );//TODO finish sentence
-        double allocatedTime = getDouble("Input the amount of time this element is convered in this course");
-        //System.out.println(dbDriver.addElementCourseBridge(course, competency+element, allocatedTime));
-        continueConnection = getFirstChar(System.console().readLine("do you wish to continue connecting element and courses"));
-=======
         String element = System.console().readLine("Input an element: "  );//TODO finish sentence
         double allocatedTime = getDouble("Input the amount of time this element is convered in this course: ");
         System.out.println(dbDriver.addElementCourseBridge(course, competency+element, allocatedTime));
         continueConnection = getFirstChar(System.console().readLine("do you wish to continue connecting element and courses if so input 'y' if not input 'n': "));
->>>>>>> 1cc7e4de87e1d25d801b0ceb49345bcda322c5fe
         }while(continueConnection == 'Y');
     }
     /*

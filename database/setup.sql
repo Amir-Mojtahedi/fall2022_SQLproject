@@ -5,3 +5,5 @@
 @createTriggers.sql;
 @createPackages.sql;
 @createViews.sql;
+
+select * from DAWSON_COURSES;

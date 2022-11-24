@@ -1,5 +1,7 @@
 package ca.dawsoncollege;
 
+import java.util.List;
+
 public class CompetenciesView {
     private String competencyId;
     private String competencyName;
