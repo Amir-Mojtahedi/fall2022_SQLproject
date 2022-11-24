@@ -43,7 +43,7 @@ CREATE TABLE competencies(
 );
 
 CREATE TABLE elements_of_competency(
-    element_id varchar2(3) PRIMARY KEY,
+    element_id varchar2(5) PRIMARY KEY,
     element_number number(1),
     element_name varchar2(100) NOT NULL,
     element_description varchar2(1000) NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE elements_of_competency(
 );
 
 CREATE TABLE element_course(
-    element_id varchar2(3) REFERENCES elements_of_competency(element_id),
+    element_id varchar2(5) REFERENCES elements_of_competency(element_id),
     course_number varchar2(20) REFERENCES dawson_courses(course_number),
     associated_time number(4,2) NOT NULL
 );

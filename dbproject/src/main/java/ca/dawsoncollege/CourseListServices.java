@@ -2,8 +2,6 @@ package ca.dawsoncollege;
 import java.sql.*;
 import java.util.Map;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.SpecialAction;
-//import java.util.Scanner;
 public class CourseListServices{
     private String username;
     private String password;
@@ -11,16 +9,23 @@ public class CourseListServices{
     public CourseListServices(String username, String password) throws SQLException {
         this.username = username;
         this.password = password;
-        this.conn=DriverManager.getConnection("jdbc:oracle:thin:@198.168.52.211:1521/pdbora19c.dawsoncollege.qc.ca",this.username,this.password);
+        this.conn=DriverManager.getConnection("jdbc:oracle:thin:@198.168.52.211:1521/pdbora19c.dawsoncollege.qc.ca",username,password);
+        Map map;
         try {
-            Map map=conn.getTypeMap();
+            map=conn.getTypeMap();
+            map.put(Season.TYPENAME, 
+            Class.forName("ca.dawsoncollege.Season"));
+            map.put(TermSeason.TYPENAME,
+            Class.forName("ca.dawsoncollege.TermSeason"));
+            map.put(Education.TYPENAME,
+            Class.forName("ca.dawsoncollege.Education"));
+            map.put(DawsonCourse.TYPENAME,
+            Class.forName("ca.dawsoncollege.DawsonCourse"));
+            map.put(Competencies.TYPENAME, 
+            Class.forName("ca.dawsoncollege.Competencies"));
+            map.put(ElementOfCompetency.TYPENAME, 
+            Class.forName("ca.dawsoncollege.ElementOfCompetency"));
             conn.setTypeMap(map);
-            map.put(Season.TYPE_NAME, Class.forName("ca.dawsoncollege.Season"));
-            map.put(TermSeason.TYPE_NAME,Class.forName("ca.dawsoncollege.TermSeason"));
-            map.put(Education.TYPE_NAME,Class.forName("ca.dawsoncollege.Education"));
-            map.put(DawsonCourse.TYPE_NAME,Class.forName("ca.dawsoncollege.DawsonCourse"));
-            map.put(Competencies.TYPE_NAME, Class.forName("ca.dawsoncollege.Competencies"));
-            map.put(ElementOfCompetency.TYPE_NAME, Class.forName("ca.dawsoncollege.ElementOfCompetency"));
         }
         catch(SQLException e){
             System.out.println("Invalid username or password");
@@ -61,32 +66,35 @@ public class CourseListServices{
     }
     //-----------------ADD rows to databse------------------
     //Adds a new course to the database.
-    public void addCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType, String domain){
+    public String addCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType, String domain){
         Season season=getSeason(term);
         Education education_type=getEducation(educationType);
         TermSeason termSeason=new TermSeason(term, season);
         DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason, domain);
-        course.addToDatabase(this.conn);
+        return course.addToDatabase(this.conn);
     }
-    public void addCompetency(String compId,String compName,char specification,String compDescription){
+    public String addCompetency(String compId,String compName,char specification,String compDescription){
         Competencies competency = new Competencies(compId, compName, specification, compDescription);
-        competency.addToDatabase(conn);    
+        return competency.addToDatabase(conn);    
     }
-    public void addElementCourseBridge(String courseID, String elementId, double allocatedTime){
-        try(CallableStatement stmt = conn.prepareCall("{ call add_join(?,?,?)}")) {
+    public String addElementCourseBridge(String courseID, String elementId, double allocatedTime){
+        try(CallableStatement stmt = conn.prepareCall("{ call  CC_BRIDGE_PACKAGE.add_join(?,?,?)}")) {
             stmt.setObject(1, courseID);
             stmt.setObject(2, elementId);
             stmt.setObject(3, allocatedTime);
             stmt.execute();
+            return "success";
         } catch (Exception e) {
+          return "failed";
             //TODO handle exception
         }
     }
-    public void addElement(String Id, String  name, String  Description, String  Competency){
+    public String addElement(String Id, String  name, String  Description, String  Competency){
         ElementOfCompetency element = new ElementOfCompetency(Id, name, Description, Competency);
-        element.addToDatabase(conn);
+        return element.addToDatabase(conn);
     }
     //-------------delete rows--------------
+<<<<<<< HEAD
     public String removeCourse(String courseNumber){/*, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType,String domain){
         Season season=getSeason(term);
         Education education_type=getEducation(educationType);
@@ -99,59 +107,72 @@ public class CourseListServices{
         Competencies competency = new Competencies(id, name, specification, description);*/
         removeRowFromDatabase("{ call remove_competency(?)}", id);
         return "";
+=======
+    public String removeCourse(String courseNumber){
+        return removeRowFromDatabase("{ call COURSES_PACKAGE.delete_course(?)}",courseNumber);
+    }
+    public String removeCompetency(String id){
+        return removeRowFromDatabase("{ call COMPETENCIES_PACKAGE.remove_competency(?)}", id);
+>>>>>>> 1cc7e4de87e1d25d801b0ceb49345bcda322c5fe
 
     }
+    public String removeElement(String Id){
+        return removeRowFromDatabase("{ call COMPETENCIES_PACKAGE.remove_element(?)}",Id);
+    }
     public String removeElementCourseBridge(String courseID, String elementId){
-        try(CallableStatement stmt = conn.prepareCall("{ call remove_join(?,?)}")) {
+        try(CallableStatement stmt = conn.prepareCall("{ call CC_BRIDGE_PACKAGE.remove_join(?,?)}")) {
             stmt.setObject(1, courseID);
             stmt.setObject(2, elementId);
             stmt.execute();
+            return "success";
         } catch (Exception e) {
+          return "failed";
             //TODO handle exception
         }
         return "";
     }
-    public String removeElement(String Id){/*, String  name, String  Description, String  Competency){
-        ElementOfCompetency element = new ElementOfCompetency(Id, name, Description, Competency);
-        element.removeFromDatabase(conn);*/
-        return removeRowFromDatabase("{ call remove_element(?)}",Id);
-    }
     public String removeRowFromDatabase(String query, String value){//query not altered by user
         try(CallableStatement stmt = conn.prepareCall(query)) {
-            stmt.setObject(1, this);
+            stmt.setObject(1,  value);
             stmt.execute();
             return "succesful";
         } catch (Exception e) {
+            e.printStackTrace();
             return "fail";
         }
     }
     //-----------updates-----------------
-    public void updateCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType,String domain){
+    public String updateCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType,String domain){
         Season season=getSeason(term);
         Education education_type=getEducation(educationType);
         TermSeason termSeason=new TermSeason(term, season);
         DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason,domain);
-        course.updateFromDatabase(conn);
+        return course.updateFromDatabase(conn);
     }
+
     public void updateCompetency(String id, String name, char specification, String description){
         Competencies competency = new Competencies(id, name, specification, description);
         competency.updateFromDatabase(conn);
     }
-    public void updateElementCourseBridge(String courseID, String elementId, double allocatedTime){
-        try(CallableStatement stmt = conn.prepareCall("{ call update_allocated_time(?,?,?)}")) {
+
+    public String updateElement(String Id, String  name, String  Description, String  Competency){
+        ElementOfCompetency element = new ElementOfCompetency(Id, name, Description, Competency);
+        return element.updateFromDatabase(conn);
+    }
+
+    public String updateElementCourseBridge(String courseID, String elementId, double allocatedTime){
+        try(CallableStatement stmt = conn.prepareCall("{ call  CC_BRIDGE_PACKAGE.update_allocated_time(?,?,?)}")) {
             stmt.setObject(1, courseID);
             stmt.setObject(2, elementId);
             stmt.setObject(3, allocatedTime);
             stmt.execute();
+            return "SUCCESSFUL";
         } catch (Exception e) {
+            return "failure";
             //TODO handle exception
         }
     }
-    public void updateElement(String Id, String  name, String  Description, String  Competency){
-        ElementOfCompetency element = new ElementOfCompetency(Id, name, Description, Competency);
-        element.updateFromDatabase(conn);
-    }
-
+//-------------display----------
     public void displayCourses(){
         DawsonCourse coursesView = new DawsonCourse();
         coursesView.displayCourses(this.conn);

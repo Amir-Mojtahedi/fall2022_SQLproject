@@ -4,7 +4,7 @@ import java.sql.*;
 public class Education implements SQLData{
     private String education_type_id;
     private String educationType;
-    public static String TYPE_NAME="EDUCATION_TYP";
+    public static String TYPENAME="EDUCATION_TYP";
     public Education(String education_type_id, String educationType) {
         this.education_type_id = education_type_id;
         this.educationType = educationType;
@@ -33,7 +33,7 @@ public class Education implements SQLData{
     @Override
     public String getSQLTypeName() throws SQLException {
         
-        return TYPE_NAME;
+        return TYPENAME;
     }
     @Override
     public void readSQL(SQLInput stream, String typeName) throws SQLException {
