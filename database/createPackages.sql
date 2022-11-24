@@ -1,22 +1,22 @@
 CREATE OR REPLACE PACKAGE CC_BRIDGE_PACKAGE AS
-    PROCEDURE add_join(course_id in course_number, element_id in element_id, associated_time in element_course.associated_time%type)
+    PROCEDURE add_join(course_id in dawson_courses.course_number%TYPE, element_identifier in elements_of_competency.element_id%TYPE, associated_element_time in element_course.associated_time%type);
     PROCEDURE remove_courses(courses_id in element_course.course_number%type);
     PROCEDURE remove_elements(elements_id in element_course.element_id%type);
-    PROCEDURE update_allocated_time(course_id in course_number, element_id in element_id, associated_time in element_course.associated_time%type);
+    PROCEDURE update_allocated_time(course_id in dawson_courses.course_number%TYPE, element_identifier in elements_of_competency.element_id%TYPE, associated_element_time in element_course.associated_time%type);
     function timeValidation RETURN VARCHAR2;
 END CC_BRIDGE_PACKAGE;
 /
 CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
-    PROCEDURE add_join(course_id in course_number, element_id in element_id, associated_time in element_course.associated_time%type)
+    PROCEDURE add_join(course_id in dawson_courses.course_number%TYPE, element_identifier in elements_of_competency.element_id%TYPE, associated_element_time in element_course.associated_time%type)
         AS
         BEGIN
-            INSERT INTO element_course VALUES(course_id element_id, associated_time);
+            INSERT INTO element_course VALUES(course_id ,element_identifier, associated_element_time);
         END;
     PROCEDURE remove_courses(courses_id in element_course.course_number%type)
         AS
         BEGIN
           delete from element_course
-           where courses_id = course_number;
+           where course_number = courses_id;
         END;
     PROCEDURE remove_elements(elements_id in element_course.element_id%type)
         AS
@@ -24,12 +24,12 @@ CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
           delete from element_course
            where elements_id = element_id;
         END;
-    PROCEDURE update_allocated_time(course_id in course_number, element_id in element_id, associated_time in element_course.associated_time%type)
+    PROCEDURE update_allocated_time(course_id in dawson_courses.course_number%TYPE, element_identifier in elements_of_competency.element_id%TYPE, associated_element_time in element_course.associated_time%type)
         AS
         BEGIN
             update element_course
-                set associated_time = New_associated_time
-                where course.course_number = course_number and element.element_id = element_id; 
+                set associated_time = associated_element_time
+                where course_number = course_id and element_id = element_identifier; 
         END;
 
     function timeValidation RETURN VARCHAR2
@@ -171,7 +171,7 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
     BEGIN
         INSERT INTO elements_of_competency VALUES(
             new_element.element_id,
-            new_element.element_number
+            new_element.element_number,
             new_element.element_name,
             new_element.element_description,
             new_element.comp.comp_id

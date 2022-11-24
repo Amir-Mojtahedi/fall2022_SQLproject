@@ -1,21 +1,13 @@
-CREATE OR REPLACE VIEW dawson_courses_view AS
-SELECT course_number,course_name,course_description,class_hours,lab_hours,homework_hours,COURSES_PACKAGE.calculate_total_hours(class_hours,lab_hours) AS "total hours",term_id AS "semester",season_name,education_type,domain_name,description AS "domain description" FROM dawson_courses
-LEFT OUTER JOIN domains USING(domain_id)
-LEFT OUTER JOIN educations USING(education_type_id)
-LEFT OUTER JOIN term_seasons USING(term_id)
-LEFT OUTER JOIN seasons USING(season_id);
+CREATE OR REPLACE VIEW course_list_view AS
+SELECT term_id AS "Semester",course_number,course_name,course_description,class_hours,lab_hours,homework_hours,COURSES_PACKAGE.calculate_total_hours(class_hours,lab_hours) AS "total hours" FROM dawson_courses;
 
 CREATE OR REPLACE VIEW competencies_view AS
-SELECT comp_id, comp_name,comp_description,COMPETENCIES_PACKAGE.find_specification(specification) AS "specification",element_name,element_description FROM competencies
+SELECT comp_id AS "CODE", comp_name AS "Statement of the Competency",comp_description AS "Achievement Context",COMPETENCIES_PACKAGE.find_specification(specification) AS "specification",element_id AS "element number",element_name AS "Elements of the Competency",element_description AS "Performance Criteria" FROM competencies
 INNER JOIN elements_of_competency USING(comp_id);
 
-CREATE OR REPLACE VIEW full_view AS
-SELECT course_number,course_name,class_hours,lab_hours,homework_hours,COURSES_PACKAGE.calculate_total_hours(class_hours,lab_hours) AS "total hours",term_id AS "semester",comp_name,COMPETENCIES_PACKAGE.find_specification(specification) AS "specification",comp_id,element_name
+CREATE OR REPLACE VIEW grid_view AS
+SELECT DISTINCT course_name,course_number, comp_id AS "Competency Code",comp_name AS "Statement of the Competency"
 FROM dawson_courses
-LEFT OUTER JOIN domains USING(domain_id)
-LEFT OUTER JOIN educations USING(education_type_id)
-LEFT OUTER JOIN term_seasons USING(term_id)
-LEFT OUTER JOIN seasons USING(season_id)
 LEFT OUTER JOIN element_course USING(course_number)
 LEFT OUTER JOIN elements_of_competency USING(element_id)
 LEFT OUTER JOIN competencies USING(comp_id);
@@ -25,5 +17,5 @@ SELECT * FROM user_logs;
 
 --select * from user_logs_view;
 --select * from competencies_view;
---SELECT * FROM dawson_courses_view ;
---select * from full_view;
+SELECT course_number FROM course_list_view ;
+--select * from grid_view;
