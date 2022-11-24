@@ -87,16 +87,18 @@ public class CourseListServices{
         element.addToDatabase(conn);
     }
     //-------------delete rows--------------
-    public String removeCourse(String courseNumber)/*, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType,String domain){
+    public String removeCourse(String courseNumber){/*, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType,String domain){
         Season season=getSeason(term);
         Education education_type=getEducation(educationType);
         TermSeason termSeason=new TermSeason(term, season);
         DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason, domain);*/
         removeRowFromDatabase("{ call remove_course(?)}",courseNumber);
+        return "";
     }
     public String removeCompetency(String id){/* 
         Competencies competency = new Competencies(id, name, specification, description);*/
         removeRowFromDatabase("{ call remove_competency(?)}", id);
+        return "";
 
     }
     public String removeElementCourseBridge(String courseID, String elementId){
@@ -107,6 +109,7 @@ public class CourseListServices{
         } catch (Exception e) {
             //TODO handle exception
         }
+        return "";
     }
     public String removeElement(String Id){/*, String  name, String  Description, String  Competency){
         ElementOfCompetency element = new ElementOfCompetency(Id, name, Description, Competency);

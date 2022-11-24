@@ -287,7 +287,7 @@ public class Menu {
         String elementDescription = System.console().readLine("Please input your new element description: ");
         String compId = System.console().readLine("Please input the competency id of the competency this element connects to: ");
 
-        System.out.println(dbDriver.addElement(elementNumber, elementName, elementDescription, compId));
+        //System.out.println(dbDriver.addElement(elementNumber, elementName, elementDescription, compId));
     }
 
     private void addCompetencyMenu() {
@@ -295,7 +295,7 @@ public class Menu {
         String name = System.console().readLine("Input the name of the Competentcy you wish to add");;
         char specification = (System.console().readLine("If the competency is Mandatory input '1' /n if competency is optional input '0'")).charAt(0);
         String description =System.console().readLine("Input the competency description");;
-        System.out.println(dbDriver.addCompetency(code, name, specification, description));
+        //System.out.println(dbDriver.addCompetency(code, name, specification, description));
     }
 
     private void addCourseMenu(){
@@ -318,7 +318,7 @@ public class Menu {
         do{
         String element = System.console().readLine("Input an element "  );//TODO finish sentence
         double allocatedTime = getDouble("Input the amount of time this element is convered in this course");
-        System.out.println(dbDriver.addElementCourseBridge(course, competency+element, allocatedTime));
+        //System.out.println(dbDriver.addElementCourseBridge(course, competency+element, allocatedTime));
         continueConnection = getFirstChar(System.console().readLine("do you wish to continue connecting element and courses"));
         }while(continueConnection == 'Y');
     }
@@ -385,7 +385,7 @@ public class Menu {
     }
     private double getDouble(String inputQuestion){
         double number= 0;
-        System.out.println(inputQuestion)
+        System.out.println(inputQuestion);
             while(!scan.hasNextDouble())
             {
             System.out.println(" invalid input/n"+inputQuestion);
@@ -396,7 +396,7 @@ public class Menu {
     }
     private int  getInt(String inputQuestion){
         int number= 0;
-        System.out.println(inputQuestion)
+        System.out.println(inputQuestion);
             while(!scan.hasNextInt())
             {
             System.out.println(" invalid input/n"+inputQuestion);

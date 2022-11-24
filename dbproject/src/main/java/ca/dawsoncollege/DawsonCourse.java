@@ -8,7 +8,7 @@ public class DawsonCourse implements SQLData{
     private int classHours;
     private int labHours;
     private int homeworkHours;
-    private String domain
+    private String domain;
     private Education education_type;
     private TermSeason termID;
     public static String TYPE_NAME="COURSE_TYP";
