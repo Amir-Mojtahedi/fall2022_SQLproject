@@ -10,11 +10,11 @@ public class DawsonCourse implements SQLData{
     private int homeworkHours;
     private Education education_type;
     private TermSeason termID;
-    private String domain;
+    private Domain domain;
     public static String TYPENAME="COURSE_TYP";
 
     public DawsonCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours,
-            int homeworkHours, Education education_type, TermSeason termID,String domain) {
+            int homeworkHours, Education education_type, TermSeason termID,Domain domain) {
         this.courseNumber = courseNumber;
         this.courseName = courseName;
         this.courseDescription = courseDescription;
@@ -52,6 +52,9 @@ public class DawsonCourse implements SQLData{
     public TermSeason getTermID() {
         return termID;
     }
+    private Domain getDomain() {
+        return this.domain;
+    }
     public void setCourseNumber(String courseNumber) {
         this.courseNumber = courseNumber;
     }
@@ -76,7 +79,7 @@ public class DawsonCourse implements SQLData{
     public void setTermID(TermSeason termID) {
         this.termID = termID;
     }
-    public void setDomain(String domain) {
+    public void setDomain(Domain domain) {
         this.domain = domain;
     }
     public String addToDatabase(Connection conn){
@@ -101,7 +104,7 @@ public class DawsonCourse implements SQLData{
         }
     }
     public void displayCourses(Connection conn){
-        try(PreparedStatement stmt = conn.prepareStatement("select * from dawson_courses_view")){
+        try(PreparedStatement stmt = conn.prepareStatement("select * from course_list_view")){
             ResultSet results = stmt.executeQuery();
             CoursesView course = null;
             while(results.next()){
@@ -146,7 +149,7 @@ public class DawsonCourse implements SQLData{
         setHomeworkHours(stream.readInt());
         setEducation_type((Education)stream.readObject());
         setTermID((TermSeason)stream.readObject());
-        setDomain(stream.readString());
+        setDomain((Domain)stream.readObject());
         
     }
     @Override
@@ -159,7 +162,8 @@ public class DawsonCourse implements SQLData{
         stream.writeInt(getHomeworkHours());
         stream.writeObject(getEducation_type());
         stream.writeObject(getTermID());
-        stream.writeString(domain);
+        stream.writeObject(getDomain());
         
     }
+    
 }

@@ -15,6 +15,8 @@ public class CourseListServices{
             Class.forName("ca.dawsoncollege.TermSeason"));
             map.put(Education.TYPENAME,
             Class.forName("ca.dawsoncollege.Education"));
+            map.put(Domain.TYPENAME,
+            Class.forName("ca.dawsoncollege.Domain");)
             map.put(DawsonCourse.TYPENAME,
             Class.forName("ca.dawsoncollege.DawsonCourse"));
             map.put(Competencies.TYPENAME, 

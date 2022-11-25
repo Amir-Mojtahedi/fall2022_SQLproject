@@ -49,3 +49,9 @@ CREATE OR REPLACE TYPE ELEMENT_TYP AS OBJECT (
     element_description VARCHAR2(1000),
     comp_id CHAR(4)
 );
+/
+CREATE OR REPLACE TYPE DOMAIN_TYP AS OBJECT (
+    domain_id VARCHAR2(3),
+    domain_name number(50),
+    domain_description VARCHAR2(1000)
+);

@@ -4,20 +4,20 @@ import java.sql.*;
 
 //import org.omg.PortableInterceptor.SUCCESSFUL;
 
-public class Competencies implements SQLData{
+public class Competency implements SQLData{
     private String compId;
     private String compName;
     private char specification;
     private String compDescription;
     public static String TYPENAME="COMP_TYP";
     
-    public Competencies(String compId, String compName, char specification, String compDescription) {
+    public Competency(String compId, String compName, char specification, String compDescription) {
         this.compId = compId;
         this.compName = compName;
         this.specification = specification;
         this.compDescription = compDescription;
     }
-    public Competencies() {
+    public Competency() {
     }
     
     public String addToDatabase(Connection conn){
