@@ -1,15 +1,24 @@
 package ca.dawsoncollege;
 
+import java.sql.SQLException;
+
 /**
  * Hello world!
  *
  */
 public class App 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws SQLException
     {
-        Menu menu = new Menu();
-        menu.start();
+        // Menu menu = new Menu();
+        // menu.start();
+        System.out.println("Enter your username: ");
+        String username=System.console().readLine();
+        System.out.println("Enter your password: ");
+        String password=new String(System.console().readPassword());
+        CourseListServices service=new CourseListServices(username, password);
+        
+
     }
 }
 

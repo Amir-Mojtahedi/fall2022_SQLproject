@@ -54,4 +54,5 @@ public class Domain implements SQLData {
         stream.writeString(getDomainDescription());
         
     }
+    
 }

@@ -115,12 +115,12 @@ public class DawsonCourse implements SQLData{
                 results.getInt("class_hours"),
                 results.getInt("lab_hours"),
                 results.getInt("homework_hours"),
-                results.getInt("total hours"),
-                results.getInt("semester"),
-                results.getString("season_name"),
-                results.getString("education_type"),
+                results.getInt("\"total hours\""),
+                results.getInt("\"Semester\""),
+                // results.getString("season_name"),
+                // results.getString("education_type"),
                 results.getString("domain_name"),
-                results.getString("domain description"));
+                results.getString("\"Domain description\""));
 
                 System.out.println(course);
             }

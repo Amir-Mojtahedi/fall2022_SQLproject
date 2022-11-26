@@ -62,18 +62,36 @@ public class CourseListServices{
         }
         return new Season(season_id, seasonName);
     }
+    public Domain getDomain(String domainId, Connection conn){
+        Domain domain=null;
+        String sql="SELECT * FROM domains WHERE domain_id=?";
+        try(PreparedStatement stmt=conn.prepareStatement(sql)) {
+            stmt.setString(1, domainId);
+            ResultSet result=stmt.executeQuery();
+            while (result.next()) {
+                domain=new Domain(
+                    result.getString("domain_id"),
+                    result.getString("domain_name"),
+                    result.getString("description")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return domain;
+    }
     //-----------------ADD rows to databse------------------
     //Adds a new course to the database.
-    public String addCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType, String domain){
+    public String addCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType, String domainID){
         Season season=getSeason(term);
-        
         Education education_type=getEducation(educationType);
         TermSeason termSeason=new TermSeason(term, season);
-        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason, domain);
+        Domain domainType=getDomain(domainID, this.conn);
+        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason, domainType);
         return course.addToDatabase(this.conn);
     }
     public String addCompetency(String compId,String compName,char specification,String compDescription){
-        Competencies competency = new Competencies(compId, compName, specification, compDescription);
+        Competency competency = new Competency(compId, compName, specification, compDescription);
         return competency.addToDatabase(conn);    
     }
     public String addElementCourseBridge(String courseID, String elementId, double allocatedTime){
@@ -125,16 +143,17 @@ public class CourseListServices{
         }
     }
     //-----------updates-----------------
-    public String updateCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType,String domain){
+    public String updateCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType,String domainId){
         Season season=getSeason(term);
         Education education_type=getEducation(educationType);
         TermSeason termSeason=new TermSeason(term, season);
-        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason,domain);
+        Domain domainType=getDomain(domainId, this.conn);
+        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason,domainType);
         return course.updateFromDatabase(conn);
     }
 
     public void updateCompetency(String id, String name, char specification, String description){
-        Competencies competency = new Competencies(id, name, specification, description);
+        Competency competency = new Competency(id, name, specification, description);
         competency.updateFromDatabase(conn);
     }
 
@@ -162,7 +181,7 @@ public class CourseListServices{
     }
 
     public void displayCompetencies(){
-        Competencies competenciesView = new Competencies();
+        Competency competenciesView = new Competency();
         competenciesView.displayCompetencies(this.conn);
     }
 

@@ -10,13 +10,13 @@ public class CoursesView {
     private int homeworkHours;
     private int totalHours;
     private int termId;
-    private String seasonName;
-    private String educationType;
+    // private String seasonName;
+    // private String educationType;
     private String domainName;
     private String domainDescription;
 
     public CoursesView(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours, 
-    int totalHours, int termId, String seasonName, String educationType, String domainName, String domainDescription) {
+    int totalHours, int termId, String domainName, String domainDescription) {
                 this.courseNumber = courseNumber;
                 this.courseName = courseName;
                 this.courseDescription = courseDescription;
@@ -25,8 +25,8 @@ public class CoursesView {
                 this.homeworkHours = homeworkHours;
                 this.totalHours = totalHours;
                 this.termId = termId;
-                this.seasonName = seasonName;
-                this.educationType = educationType;
+                // this.seasonName = seasonName;
+                // this.educationType = educationType;
                 this.domainName = domainName;
                 this.domainDescription = domainDescription;
     }
@@ -40,8 +40,8 @@ public class CoursesView {
         "\n" + "Homework Hours: " + this.homeworkHours + 
         "\n" + "Total Hours: " + this.totalHours + 
         "\n" + "Term Number: " + this.termId + 
-        "\n" + "Season Name: " + this.seasonName + 
-        "\n" + "Education Type: " + this.educationType + 
+        // "\n" + "Season Name: " + this.seasonName + 
+        // "\n" + "Education Type: " + this.educationType + 
         "\n" + "Domain Name: " + this.domainName + 
         "\n" + "Domain Description: " + this.domainDescription + "\n";
     }
