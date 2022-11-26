@@ -11,6 +11,7 @@ Steps for setup
 7. Select the App.java file
 8. Run the App.java file
 9. Navigate through the menus and discover all our applications different functions
+10. Once you finish altering the database from our java application. you may run the remove.sql file in the database folder to remove all  the sql
 
 Alexander Zacharkiw 2142443
 Clovis Boucher 2133295
