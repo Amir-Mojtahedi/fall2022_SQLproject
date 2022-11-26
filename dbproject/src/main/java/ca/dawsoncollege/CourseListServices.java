@@ -15,10 +15,12 @@ public class CourseListServices{
             Class.forName("ca.dawsoncollege.TermSeason"));
             map.put(Education.TYPENAME,
             Class.forName("ca.dawsoncollege.Education"));
+            map.put(Domain.TYPENAME,
+            Class.forName("ca.dawsoncollege.Domain"));
             map.put(DawsonCourse.TYPENAME,
             Class.forName("ca.dawsoncollege.DawsonCourse"));
-            map.put(Competencies.TYPENAME, 
-            Class.forName("ca.dawsoncollege.Competencies"));
+            map.put(Competency.TYPENAME, 
+            Class.forName("ca.dawsoncollege.Competency"));
             map.put(ElementOfCompetency.TYPENAME, 
             Class.forName("ca.dawsoncollege.ElementOfCompetency"));
             conn.setTypeMap(map);
@@ -60,17 +62,19 @@ public class CourseListServices{
         }
         return new Season(season_id, seasonName);
     }
+    
     //-----------------ADD rows to databse------------------
     //Adds a new course to the database.
-    public String addCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType, String domain){
+    public String addCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType, String domainId){
         Season season=getSeason(term);
         Education education_type=getEducation(educationType);
         TermSeason termSeason=new TermSeason(term, season);
-        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason, domain);
+        //Domain domainType=getDomain(domainID, this.conn);
+        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason, domainId);
         return course.addToDatabase(this.conn);
     }
     public String addCompetency(String compId,String compName,char specification,String compDescription){
-        Competencies competency = new Competencies(compId, compName, specification, compDescription);
+        Competency competency = new Competency(compId, compName, specification, compDescription);
         return competency.addToDatabase(conn);    
     }
     public String addElementCourseBridge(String courseID, String elementId, double allocatedTime){
@@ -122,16 +126,17 @@ public class CourseListServices{
         }
     }
     //-----------updates-----------------
-    public String updateCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType,String domain){
+    public String updateCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType,String domainId){
         Season season=getSeason(term);
         Education education_type=getEducation(educationType);
         TermSeason termSeason=new TermSeason(term, season);
-        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason,domain);
+       
+        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason,domainId);
         return course.updateFromDatabase(conn);
     }
 
     public void updateCompetency(String id, String name, char specification, String description){
-        Competencies competency = new Competencies(id, name, specification, description);
+        Competency competency = new Competency(id, name, specification, description);
         competency.updateFromDatabase(conn);
     }
 
@@ -159,7 +164,7 @@ public class CourseListServices{
     }
 
     public void displayCompetencies(){
-        Competencies competenciesView = new Competencies();
+        Competency competenciesView = new Competency();
         competenciesView.displayCompetencies(this.conn);
     }
 

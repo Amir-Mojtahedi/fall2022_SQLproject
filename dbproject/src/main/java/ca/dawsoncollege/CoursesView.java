@@ -9,7 +9,7 @@ public class CoursesView {
     private int labHours;
     private int homeworkHours;
     private int totalHours;
-    private int credits;
+    private double credits;
     private int termId;
     private String seasonName;
     private String educationType;
@@ -17,7 +17,7 @@ public class CoursesView {
     private String domainDescription;
 
     public CoursesView(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours, 
-    int totalHours, int credits, int termId, String seasonName, String educationType, String domainName, String domainDescription) {
+    int totalHours, double credits, int termId, String seasonName, String educationType, String domainName, String domainDescription) {
                 this.courseNumber = courseNumber;
                 this.courseName = courseName;
                 this.courseDescription = courseDescription;
