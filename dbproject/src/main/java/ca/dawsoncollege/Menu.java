@@ -57,9 +57,12 @@ public class Menu {
                     addMenu();
                     break;
                 case "3":
-                    deleteMenu();
+                    updateMenu();
                     break;
                 case "4":
+                    deleteMenu();
+                    break;
+                case "5":
                     running = false;
                     break;
                 default:
@@ -112,8 +115,9 @@ public class Menu {
         
         System.out.println("(1) Display Options");
         System.out.println("(2) Add Options");
-        System.out.println("(3) Delete Options");
-        System.out.println("(4) Back");
+        System.out.println("(3) Update options");
+        System.out.println("(4) Delete Options");
+        System.out.println("(5) Back");
     }
 
     /*
@@ -255,7 +259,8 @@ public class Menu {
             System.out.println("(1) Add a Course");
             System.out.println("(2) Add an Element of a Competency");
             System.out.println("(3) Add a Competency");
-            System.out.println("(4) Back");
+            System.out.println("(4) Add a link between a course and elements");
+            System.out.println("(5) Back");
 
             String input = inputRequest();
 
@@ -270,6 +275,9 @@ public class Menu {
                     addCompetencyMenu();
                     break;
                 case "4":
+                    addJoin();
+                    break;
+                case "5":
                     running = false;
                     break;
                 default:
@@ -291,7 +299,7 @@ public class Menu {
 
     private void addCompetencyMenu() {
         String code = System.console().readLine("Input the Competentcy Code of the Competency you wish to add: ");
-        String name = System.console().readLine("Input the name of the Competentcy you wish to add: ");
+        String name = System.console().readLine("Input the name of the Competency you wish to add: ");
         char specification = (System.console().readLine("If the competency is Mandatory input '1' \n if competency is optional input '0': ")).charAt(0);
         String description =System.console().readLine("Input the competency description: ");
         System.out.println(dbDriver.addCompetency(code, name, specification, description));
@@ -315,8 +323,8 @@ public class Menu {
         String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to join: ");
         char continueConnection;
         do{
-        String element = System.console().readLine("Input an element: "  );//TODO finish sentence
-        double allocatedTime = getDouble("Input the amount of time this element is convered in this course: ");
+        String element = System.console().readLine("Input an element number: "  );
+        double allocatedTime = getDouble("Input the amount of time this element is covered in this course: ");
         System.out.println(dbDriver.addElementCourseBridge(course, competency+element, allocatedTime));
         continueConnection = getFirstChar(System.console().readLine("do you wish to continue connecting element and courses if so input 'y' if not input 'n': "));
         }while(continueConnection == 'Y');
@@ -332,7 +340,8 @@ public class Menu {
             System.out.println("(1) Delete a Course");
             System.out.println("(2) Delete a Competency");
             System.out.println("(3) Delete an Element");
-            System.out.println("(4) Back");
+            System.out.println("(4) Delete a link between a course and one/many elements");
+            System.out.print("(5) Back");
 
             String input = inputRequest();
 
@@ -347,6 +356,9 @@ public class Menu {
                     deleteElement();
                     break;
                 case "4":
+                    deleteElementCoursJoin();
+                    break;
+                case "5":
                     running = false;
                     break;
                 default:
@@ -382,6 +394,83 @@ public class Menu {
         continueConnection = getFirstChar(System.console().readLine("do you wish to continue disconnecting element and courses if so input 'y' if not 'n': "));
         }while(continueConnection == 'Y');
     }
+    //--------------Update menu---------------
+    private void updateMenu() {
+        boolean running = true;
+        while(running){
+            System.out.println("Welcome to the Update Options");
+            System.out.println("(1) Update a Course");
+            System.out.println("(2) Update a Competency");
+            System.out.println("(3) Update an Element");
+            System.out.println("(4) Update a link between a course and one/many elements");
+            System.out.print("(5) Back");
+
+            String input = inputRequest();
+
+            switch(input){
+                case "1":
+                    UpdateCourse();
+                    break;
+                case "2":
+                    UpdateCompetency();
+                    break;
+                case "3":
+                    UpdateElement();
+                    break;
+                case "4":
+                    UpdateElementCoursJoin();
+                    break;
+                case "5":
+                    running = false;
+                    break;
+                default:
+                    invalidInput();
+                    break;
+            }
+        }
+    }
+        private void UpdateElement() {
+            //call a method in CourseListServices that Update an element
+            String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to update: ");
+            String elementNumber = System.console().readLine("Please input your new element number: ");
+            String elementName = System.console().readLine("Please input your new element name: ");
+            String elementDescription = System.console().readLine("Please input your new element description: ");
+    
+            System.out.println(dbDriver.addElement(competency+elementNumber, elementNumber, elementName, elementDescription, competency));
+        }
+    
+        private void UpdateCompetency() {
+            String code = System.console().readLine("Input the Competentcy Code of the Competency you wish to update: ");
+            String name = System.console().readLine("Input the name of the Competentcy: ");
+            char specification = (System.console().readLine("If the competency is Mandatory input '1' \n if competency is optional input '0': ")).charAt(0);
+            String description =System.console().readLine("Input the competency description: ");
+            System.out.println(dbDriver.addCompetency(code, name, specification, description));
+        }
+    
+        private void UpdateCourse(){
+            //call a method in CourseListServices that Update a course
+            String courseNumber = System.console().readLine("Please input your course number: ");
+            String courseName = System.console().readLine("Please input your course name: ");
+            String courseDescription = System.console().readLine("Please input your course description: ");
+            int classHours = 2;
+            int labHours = 2;
+            int homeworkHours = 2;
+            int TermSeason = getInt("Input the term of the course: ");
+            String educationType = System.console().readLine("Input the course education type: ");
+            String domain = System.console().readLine("Intput the course's domain name: ");
+                System.out.println(dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType, domain));
+        }
+        private void UpdateElementCoursJoin(){
+            String course = System.console().readLine("Input a course Number: ");
+            String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to join: ");
+            char continueConnection;
+            do{
+            String element = System.console().readLine("Input an element number: "  );
+            double allocatedTime = getDouble("Input the new amount of time this element is covered in this course: ");
+            System.out.println(dbDriver.addElementCourseBridge(course, competency+element, allocatedTime));
+            continueConnection = getFirstChar(System.console().readLine("do you wish to continue updating time allocation if so input 'y' if not input 'n': "));
+            }while(continueConnection == 'Y');
+        }
     /*
        * GENERAL FUNCTIONS
        */

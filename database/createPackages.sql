@@ -65,6 +65,7 @@ CREATE OR REPLACE PACKAGE COURSES_PACKAGE AS
     );
     PROCEDURE update_course(vcourse IN course_typ) ;
     FUNCTION calculate_total_hours(dawson_class_hours IN dawson_courses.class_hours%type,dawson_lab_hours IN dawson_courses.lab_hours%TYPE) RETURN number; 
+    FUNCTION getCredits(class_time dawson_courses.class_hours%type,lab_time dawson_courses.lab_hours%type,individual_time dawson_courses.homework_hours%type) RETURN number;
 END COURSES_PACKAGE;
 /
 CREATE OR REPLACE PACKAGE BODY COURSES_PACKAGE AS
@@ -119,6 +120,11 @@ CREATE OR REPLACE PACKAGE BODY COURSES_PACKAGE AS
     AS
     BEGIN
         RETURN (dawson_class_hours+dawson_lab_hours)*15;
+    END;
+
+    FUNCTION getCredits(class_time dawson_courses.class_hours%type,lab_time dawson_courses.lab_hours%type,individual_time dawson_courses.homework_hours%type) RETURN number AS
+    BEGIN
+        RETURN (class_time+lab_time+individual_time)/3;
     END;
     
 END COURSES_PACKAGE;
@@ -200,6 +206,7 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
             RETURN 'Optional';
         END IF;
     END;
+
 --    FUNCTION get_terminal_comp(comp_id_check CHAR) RETURN varchar2 AS
 --        --comp_typ terminal_comp;
 --        last_term varchar2(2);

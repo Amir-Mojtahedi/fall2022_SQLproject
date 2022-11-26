@@ -52,6 +52,9 @@ public class DawsonCourse implements SQLData{
     public TermSeason getTermID() {
         return termID;
     }
+    private String getDomain() {
+        return this.domain;
+    }
     public void setCourseNumber(String courseNumber) {
         this.courseNumber = courseNumber;
     }
@@ -101,7 +104,7 @@ public class DawsonCourse implements SQLData{
         }
     }
     public void displayCourses(Connection conn){
-        try(PreparedStatement stmt = conn.prepareStatement("select * from dawson_courses_view")){
+        try(PreparedStatement stmt = conn.prepareStatement("select * from course_list_view ORDER BY \"Semester\" ASC")){
             ResultSet results = stmt.executeQuery();
             CoursesView course = null;
             while(results.next()){
@@ -113,11 +116,12 @@ public class DawsonCourse implements SQLData{
                 results.getInt("lab_hours"),
                 results.getInt("homework_hours"),
                 results.getInt("total hours"),
+                results.getDouble("credits"),
                 results.getInt("semester"),
                 results.getString("season_name"),
                 results.getString("education_type"),
                 results.getString("domain_name"),
-                results.getString("domain description"));
+                results.getString("Domain description"));
 
                 System.out.println(course);
             }
@@ -159,7 +163,8 @@ public class DawsonCourse implements SQLData{
         stream.writeInt(getHomeworkHours());
         stream.writeObject(getEducation_type());
         stream.writeObject(getTermID());
-        stream.writeString(domain);
+        stream.writeString(getDomain());
         
     }
+    
 }

@@ -15,19 +15,31 @@ INSERT INTO term_seasons VALUES(6,'2');
 INSERT INTO domains VALUES('1','Programming, Data Structures and Algorithms','The courses in the Programming, Data Structures and 
 Algorithms domain teach the knowledge and skills required to design and program solutions to typical information technology problems. 
 The students are taught object-oriented programming in the context of standalone, event-driven and web-based programs.');
+
 INSERT INTO domains VALUES('2','Database','The Database domain courses give the student the knowledge and skills to build relational 
 databases and to administer a database management system. This domain will draw upon the knowledge and skills learned in the 
 programming, data structures and algorithms domain.');
 
+INSERT INTO domains VALUES('3','Infrastructure, Operating Systems and Networking','The courses within the Infrastructure, Operating Systems and Networking domain deliver the knowledge
+and skills required by the student to understand, install and optimally configure various operating systems locally or on the cloud, and to deploy and run applications on these systems.');
+
+INSERT INTO domains VALUES('4','Web Applications','The courses in the Web Applications domain will enable the student to combine the knowledge and skill sets developed in the other domains 
+with new knowledge specific to this domain in order to create web-based applications. The project of the Web Applications V course integrates knowledge attained through
+the entire program: students are required to work in groups, to manage projects, to make oral presentations, to design, develop, test and deploy a substantial web application, and to write user documentation.');
+
+INSERT INTO domains VALUES('5','Career Preparation','The courses in the Career Preparation domain prepare the student to work in industry. Topics such as ethics in the profession, analyzing security risks, researching technology
+and professional communication are revisited. The internship permits the student to apply the knowledge and skills acquired in the classroom to the workplace.
+The student will be called upon to use any or all of the knowledge and skills of the domains as an entry-level software developer.');
+
 INSERT INTO dawson_courses VALUES('201-NYC-05','Linear Algebra','Systems of linear equations and elementary operations, matrices and
 determinants, vectors, lines, planes and vector spaces are studied in this course.',3,2,3,'2',3,NULL);
 
-INSERT INTO dawson_courses VALUES('420-310-DW','Programming III','The course will enhance the students� knowledge of object-oriented
+INSERT INTO dawson_courses VALUES('420-310-DW','Programming III','The course will enhance the students'' knowledge of object-oriented
 programming and Java to produce stand-alone applications employing reusable
 objects, data structures and the Java collections framework. The concepts of
 inheritance, polymorphism, data abstraction and programming to interfaces are
 used to design software. Students are introduced to software version control
-and e?ective team collaboration.',3,3,3,'2',3,'1');
+and effective team collaboration.',3,3,3,'2',3,'1');
 
 INSERT INTO dawson_courses VALUES('420-510-DW','Programming V','The course will focus on the use of algorithms and data structures to simulate
 real-life phenomena using an appropriate gaming framework. Projects are
@@ -257,7 +269,10 @@ Clear record of the work carried out','00SW');
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO element_course VALUES('00Q32','201-NYC-05',75);
+INSERT INTO element_course VALUES('00Q31','201-NYC-05',18.75);
+INSERT INTO element_course VALUES('00Q32','201-NYC-05',18.75);
+INSERT INTO element_course VALUES('00Q33','201-NYC-05',18.75);
+INSERT INTO element_course VALUES('00Q34','201-NYC-05',18.75);
 INSERT INTO element_course VALUES('00Q61','420-310-DW',12);
 INSERT INTO element_course VALUES('00Q62','420-310-DW',12);
 INSERT INTO element_course VALUES('00Q63','420-310-DW',12);
@@ -265,7 +280,9 @@ INSERT INTO element_course VALUES('00Q64','420-310-DW',12);
 INSERT INTO element_course VALUES('00Q65','420-310-DW',12);
 INSERT INTO element_course VALUES('00Q66','420-310-DW',12);
 INSERT INTO element_course VALUES('00Q67','420-310-DW',12);
-INSERT INTO element_course VALUES('00SE2','420-310-DW',6);
+INSERT INTO element_course VALUES('00SE1','420-310-DW',2);
+INSERT INTO element_course VALUES('00SE2','420-310-DW',2);
+INSERT INTO element_course VALUES('00SE3','420-310-DW',2);
 INSERT INTO element_course VALUES('00SS1','420-331-DW',11.25);
 INSERT INTO element_course VALUES('00SS2','420-331-DW',11.25);
 INSERT INTO element_course VALUES('00SS3','420-331-DW',11.25);
