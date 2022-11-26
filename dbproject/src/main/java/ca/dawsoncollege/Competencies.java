@@ -20,23 +20,17 @@ public class Competencies implements SQLData{
     public Competencies() {
     }
     
-    public void addToDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call add_competency(?)}")) {
+    public String addToDatabase(Connection conn){
+        try(CallableStatement stmt = conn.prepareCall("{ call COMPETENCIES_PACKAGE.add_competency(?)}")) {
             stmt.setObject(1, this);
             stmt.execute();
-            // return "SUCCESSFUL";
+             return "";
         } catch (Exception e) {
             e.printStackTrace();
+            return "fail";
             //TODO handle exception
         }
-    }/*
-    public void removeFromDatabase(Connection conn){
-        try(CallableStatement stmt = conn.prepareCall("{ call remove_competency(?)}")) {
-            stmt.setObject(1, this);
-            stmt.execute();
-        } catch (Exception e) {
-        }
-    }*/
+    }
     public String updateFromDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call COMPETENCIES_PACKAGE.update_competency(?)}")) {
             stmt.setObject(1, this);

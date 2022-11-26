@@ -285,9 +285,8 @@ public class Menu {
         String elementNumber = System.console().readLine("Please input your new element number: ");
         String elementName = System.console().readLine("Please input your new element name: ");
         String elementDescription = System.console().readLine("Please input your new element description: ");
-        String compId = System.console().readLine("Please input the competency id of the competency this element connects to: ");
 
-        //System.out.println(dbDriver.addElement(elementNumber, elementName, elementDescription, compId));
+        System.out.println(dbDriver.addElement(competency+elementNumber, elementNumber, elementName, elementDescription, competency));
     }
 
     private void addCompetencyMenu() {
@@ -309,7 +308,7 @@ public class Menu {
         int TermSeason = getInt("Input the term of the course: ");
         String educationType = System.console().readLine("Input the course education type: ");
         String domain = System.console().readLine("Intput the course's domain: ");
-            dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType, domain);
+            System.out.println(dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType, domain));
     }
     private void addJoin(){
         String course = System.console().readLine("Input a course Number: ");

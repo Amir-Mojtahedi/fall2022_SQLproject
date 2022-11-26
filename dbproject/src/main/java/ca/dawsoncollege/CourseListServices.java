@@ -3,12 +3,8 @@ import java.sql.*;
 import java.util.Map;
 
 public class CourseListServices{
-    private String username;
-    private String password;
     private Connection conn;
     public CourseListServices(String username, String password) throws SQLException {
-        this.username = username;
-        this.password = password;
         this.conn=DriverManager.getConnection("jdbc:oracle:thin:@198.168.52.211:1521/pdbora19c.dawsoncollege.qc.ca",username,password);
         Map map;
         try {
@@ -89,8 +85,8 @@ public class CourseListServices{
             //TODO handle exception
         }
     }
-    public String addElement(String Id, String  name, String  Description, String  Competency){
-        ElementOfCompetency element = new ElementOfCompetency(Id, name, Description, Competency);
+    public String addElement(String Id, String number, String  name, String  Description, String  Competency){
+        ElementOfCompetency element = new ElementOfCompetency(Id, number, name, Description, Competency);
         return element.addToDatabase(conn);
     }
     //-------------delete rows--------------
@@ -139,8 +135,8 @@ public class CourseListServices{
         competency.updateFromDatabase(conn);
     }
 
-    public String updateElement(String Id, String  name, String  Description, String  Competency){
-        ElementOfCompetency element = new ElementOfCompetency(Id, name, Description, Competency);
+    public String updateElement(String Id, String number, String  name, String  Description, String  Competency){
+        ElementOfCompetency element = new ElementOfCompetency(Id, number, name, Description, Competency);
         return element.updateFromDatabase(conn);
     }
 
