@@ -20,15 +20,13 @@ public class Competency implements SQLData{
     public Competency() {
     }
     
-    public String addToDatabase(Connection conn){
+    public String addToDatabase(Connection conn) throws SQLException{
         try(CallableStatement stmt = conn.prepareCall("{ call COMPETENCIES_PACKAGE.add_competency(?)}")) {
             stmt.setObject(1, this);
             stmt.execute();
              return "";
         } catch (Exception e) {
-            e.printStackTrace();
             return "fail";
-            //TODO handle exception
         }
     }
     public String updateFromDatabase(Connection conn){
@@ -40,7 +38,7 @@ public class Competency implements SQLData{
             return "failure";
         }
     }
-    public void displayCompetencies(Connection conn){
+    public void displayCompetencies(Connection conn) throws SQLException{
         CompetenciesView competencies = null; 
         try(PreparedStatement stmt = conn.prepareStatement("select * from competencies_view")) {
             ResultSet results = stmt.executeQuery();
@@ -58,9 +56,6 @@ public class Competency implements SQLData{
 
                     System.out.println(competencies);
             }
-        }
-        catch(SQLException e){
-            e.printStackTrace();
         }
     }
     @Override

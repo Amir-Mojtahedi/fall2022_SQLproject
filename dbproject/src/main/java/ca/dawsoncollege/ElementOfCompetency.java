@@ -43,7 +43,6 @@ public class ElementOfCompetency implements SQLData{
             stmt.execute();
             return "SUCCESSFUL";
         } catch (SQLException e) {
-            e.printStackTrace();
             return "failure";
             //TODO handle exception
         }

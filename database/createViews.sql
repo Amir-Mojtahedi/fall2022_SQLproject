@@ -13,7 +13,7 @@ INNER JOIN elements_of_competency USING(comp_id);
 
 --View that conncets courses with the competencies they contain.
 CREATE OR REPLACE VIEW grid_view AS
-SELECT DISTINCT course_name,course_number, comp_id AS "Competency Code",comp_name AS "Statement of the Competency"
+SELECT DISTINCT course_name,course_number, comp_id AS "Competency Code",comp_name AS "Statement of the Competency", TERM_ID, CLASS_HOURS, LAB_HOURS, HOMEWORK_HOURS, COURSES_PACKAGE.CALCULATE_TOTAL_HOURS(CLASS_HOURS,LAB_HOURS) AS "total hours", ROUND(COURSES_PACKAGE.getCredits(CLASS_HOURS,LAB_HOURS,HOMEWORK_HOURS),2) AS "credits", COMPETENCIES_PACKAGE.find_specification(specification) AS "specification"
 FROM dawson_courses
 LEFT OUTER JOIN element_course USING(course_number)
 LEFT OUTER JOIN elements_of_competency USING(element_id)
@@ -27,13 +27,3 @@ LEFT OUTER JOIN elements_of_competency USING(element_id) ORDER BY course_name,el
 
 CREATE OR REPLACE VIEW user_logs_view AS
 SELECT * FROM user_logs;
-
---select * from element_course_view;
---select * from user_logs_view;
---select * from competencies_view;
-SELECT * FROM course_list_view;
---select * from grid_view;
---select * from DAWSON_COURSES;
---SELECT "Semester" FROM course_list_view ;
---select * from grid_view;
---select * from user_logs;

@@ -2,6 +2,7 @@ package ca.dawsoncollege;
 
 //import java.io.Console;
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 
 public class Menu {
     private CourseListServices dbDriver;
@@ -127,7 +128,14 @@ public class Menu {
         boolean running = true;
         while(running){
             System.out.println("Here are all the courses and their competencies");
+            System.out.println("");
             //display user friendly table of objects
+            try{
+                dbDriver.displayFull();
+            }
+            catch(SQLException e){
+
+            }
             System.out.println("(1) Filter by course id");
             System.out.println("(2) Filter by course name");
             System.out.println("(3) Filter by competency id");
@@ -165,7 +173,13 @@ public class Menu {
         while(running){
             System.out.println("Here are all the competencies");
             //display user friendly table of objects
-            dbDriver.displayCompetencies();
+            System.out.println("");
+            try{
+                dbDriver.displayCompetencies();
+            }
+            catch(SQLException e){
+
+            }
             System.out.println("(1) Filter by competency id");
             System.out.println("(2) Filter by keyword in competency name");
             System.out.println("(3) Back");
@@ -194,7 +208,13 @@ public class Menu {
         while(running){
             System.out.println("Here are all the courses");
             //display user friendly table of objects
-            dbDriver.displayCourses();
+            System.out.println("");
+            try{
+                dbDriver.displayCourses();
+            }
+            catch(SQLException e){
+
+            }
             System.out.println("(1) Filter by course id");
             System.out.println("(2) Filter by keyword in course name");
             System.out.println("(3) Back");
@@ -294,7 +314,12 @@ public class Menu {
         String elementName = System.console().readLine("Please input your new element name: ");
         String elementDescription = System.console().readLine("Please input your new element description: ");
 
+        try{
         System.out.println(dbDriver.addElement(competency+elementNumber, elementNumber, elementName, elementDescription, competency));
+        }
+        catch(SQLException e){
+
+        }
     }
 
     private void addCompetencyMenu() {
@@ -302,7 +327,12 @@ public class Menu {
         String name = System.console().readLine("Input the name of the Competency you wish to add: ");
         char specification = (System.console().readLine("If the competency is Mandatory input '1' \n if competency is optional input '0': ")).charAt(0);
         String description =System.console().readLine("Input the competency description: ");
+        try{
         System.out.println(dbDriver.addCompetency(code, name, specification, description));
+        }
+        catch(SQLException e){
+
+        }
     }
 
     private void addCourseMenu(){
@@ -310,13 +340,34 @@ public class Menu {
         String courseNumber = System.console().readLine("Please input your new course number: ");
         String courseName = System.console().readLine("Please input your new course name: ");
         String courseDescription = System.console().readLine("Please input your new course description: ");
-        int classHours = 2;
-        int labHours = 2;
-        int homeworkHours = 2;
+        int classHours = 0;
+        int labHours = 0;
+        int homeworkHours = 0;
+        boolean correctInput = false;
+        while(!correctInput){
+            try{
+                System.out.print("Please input the amount of class hours per week this class consumes: ");
+                classHours = scan.nextInt();
+                System.out.print("Please input the amount of lab hours per week this class consumes: ");
+                labHours = scan.nextInt();
+                System.out.print("Please input the amount of homework hours per week this class consumes: ");
+                homeworkHours = scan.nextInt();
+                correctInput = true;
+            }
+            catch(InputMismatchException e){
+                System.out.println("Please input a valid number");
+                scan.next();
+            }
+        }
         int TermSeason = getInt("Input the term of the course: ");
         String educationType = System.console().readLine("Input the course education type: ");
         String domain = System.console().readLine("Intput the course's domain: ");
+        try{
             System.out.println(dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType, domain));
+        }
+        catch(SQLException e){
+
+        }
     }
     private void addJoin(){
         String course = System.console().readLine("Input a course Number: ");
@@ -325,7 +376,12 @@ public class Menu {
         do{
         String element = System.console().readLine("Input an element number: "  );
         double allocatedTime = getDouble("Input the amount of time this element is covered in this course: ");
-        System.out.println(dbDriver.addElementCourseBridge(course, competency+element, allocatedTime));
+        try{
+            System.out.println(dbDriver.addElementCourseBridge(course, competency+element, allocatedTime));
+        }
+        catch(SQLException e){
+
+        }
         continueConnection = getFirstChar(System.console().readLine("do you wish to continue connecting element and courses if so input 'y' if not input 'n': "));
         }while(continueConnection == 'Y');
     }
@@ -341,7 +397,7 @@ public class Menu {
             System.out.println("(2) Delete a Competency");
             System.out.println("(3) Delete an Element");
             System.out.println("(4) Delete a link between a course and one/many elements");
-            System.out.print("(5) Back");
+            System.out.println("(5) Back");
 
             String input = inputRequest();
 
@@ -370,18 +426,33 @@ public class Menu {
 
     private void deleteCourse() {
         String courseToRemove = System.console().readLine("Please write the course id of the course you would like to remove: ");
-        System.out.println(dbDriver.removeCourse(courseToRemove));
+        try{
+            System.out.println(dbDriver.removeCourse(courseToRemove));
+        }
+        catch(SQLException e){
+
+        }
     }
 
     private void deleteCompetency() {
         String compToRemove = System.console().readLine("Please write the competency id of the course you would like to remove: ");
-        System.out.println(dbDriver.removeCompetency(compToRemove));
+        try{
+            System.out.println(dbDriver.removeCompetency(compToRemove));
+        }
+        catch(SQLException e){
+
+        }
     }
 
     private void deleteElement() {
         String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to remove: ");
         String elementNumber = System.console().readLine("Please input your the number of the element you wish to remove: ");
-        System.out.println(dbDriver.removeElement(competency+elementNumber));
+        try{
+            System.out.println(dbDriver.removeElement(competency+elementNumber));
+        }
+        catch(SQLException e){
+
+        }
     }
 
     private void deleteElementCoursJoin() {
@@ -436,7 +507,12 @@ public class Menu {
             String elementName = System.console().readLine("Please input your new element name: ");
             String elementDescription = System.console().readLine("Please input your new element description: ");
     
-            System.out.println(dbDriver.addElement(competency+elementNumber, elementNumber, elementName, elementDescription, competency));
+            try{
+                System.out.println(dbDriver.addElement(competency+elementNumber, elementNumber, elementName, elementDescription, competency));
+            }
+            catch(SQLException e){
+
+            }
         }
     
         private void UpdateCompetency() {
@@ -444,7 +520,12 @@ public class Menu {
             String name = System.console().readLine("Input the name of the Competentcy: ");
             char specification = (System.console().readLine("If the competency is Mandatory input '1' \n if competency is optional input '0': ")).charAt(0);
             String description =System.console().readLine("Input the competency description: ");
-            System.out.println(dbDriver.addCompetency(code, name, specification, description));
+            try{
+                System.out.println(dbDriver.addCompetency(code, name, specification, description));
+            }
+            catch(SQLException e){
+
+            }
         }
     
         private void UpdateCourse(){
@@ -458,7 +539,12 @@ public class Menu {
             int TermSeason = getInt("Input the term of the course: ");
             String educationType = System.console().readLine("Input the course education type: ");
             String domain = System.console().readLine("Intput the course's domain name: ");
-                System.out.println(dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType, domain));
+            try{
+            System.out.println(dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType, domain));
+            }
+            catch(SQLException e){
+
+            }
         }
         private void UpdateElementCoursJoin(){
             String course = System.console().readLine("Input a course Number: ");
@@ -467,7 +553,12 @@ public class Menu {
             do{
             String element = System.console().readLine("Input an element number: "  );
             double allocatedTime = getDouble("Input the new amount of time this element is covered in this course: ");
-            System.out.println(dbDriver.addElementCourseBridge(course, competency+element, allocatedTime));
+            try{
+                System.out.println(dbDriver.addElementCourseBridge(course, competency+element, allocatedTime));
+            }
+            catch(SQLException e){
+
+            }
             continueConnection = getFirstChar(System.console().readLine("do you wish to continue updating time allocation if so input 'y' if not input 'n': "));
             }while(continueConnection == 'Y');
         }

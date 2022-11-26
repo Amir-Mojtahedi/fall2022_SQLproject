@@ -25,11 +25,8 @@ public class CourseListServices{
             Class.forName("ca.dawsoncollege.ElementOfCompetency"));
             conn.setTypeMap(map);
         }
-        catch(SQLException e){
-            System.out.println("Invalid username or password");
-        }
         catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            
         }
     }
     public void close() throws SQLException{
@@ -65,19 +62,18 @@ public class CourseListServices{
     
     //-----------------ADD rows to databse------------------
     //Adds a new course to the database.
-    public String addCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType, String domainId){
+    public String addCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType, String domainId) throws SQLException{
         Season season=getSeason(term);
         Education education_type=getEducation(educationType);
         TermSeason termSeason=new TermSeason(term, season);
-        //Domain domainType=getDomain(domainID, this.conn);
         DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason, domainId);
         return course.addToDatabase(this.conn);
     }
-    public String addCompetency(String compId,String compName,char specification,String compDescription){
+    public String addCompetency(String compId,String compName,char specification,String compDescription) throws SQLException{
         Competency competency = new Competency(compId, compName, specification, compDescription);
         return competency.addToDatabase(conn);    
     }
-    public String addElementCourseBridge(String courseID, String elementId, double allocatedTime){
+    public String addElementCourseBridge(String courseID, String elementId, double allocatedTime) throws SQLException{
         try(CallableStatement stmt = conn.prepareCall("{ call  CC_BRIDGE_PACKAGE.add_join(?,?,?)}")) {
             stmt.setObject(1, courseID);
             stmt.setObject(2, elementId);
@@ -86,22 +82,20 @@ public class CourseListServices{
             return "success";
         } catch (Exception e) {
           return "failed";
-            //TODO handle exception
         }
     }
-    public String addElement(String Id, String number, String  name, String  Description, String  Competency){
+    public String addElement(String Id, String number, String  name, String  Description, String  Competency) throws SQLException{
         ElementOfCompetency element = new ElementOfCompetency(Id, number, name, Description, Competency);
         return element.addToDatabase(conn);
     }
     //-------------delete rows--------------
-    public String removeCourse(String courseNumber){
+    public String removeCourse(String courseNumber) throws SQLException{
         return removeRowFromDatabase("{ call COURSES_PACKAGE.delete_course(?)}",courseNumber);
     }
-    public String removeCompetency(String id){
+    public String removeCompetency(String id) throws SQLException{
         return removeRowFromDatabase("{ call COMPETENCIES_PACKAGE.remove_competency(?)}", id);
-
     }
-    public String removeElement(String Id){
+    public String removeElement(String Id) throws SQLException{
         return removeRowFromDatabase("{ call COMPETENCIES_PACKAGE.remove_element(?)}",Id);
     }
     public String removeElementCourseBridge(String courseID, String elementId){
@@ -115,13 +109,12 @@ public class CourseListServices{
             //TODO handle exception
         }
     }
-    public String removeRowFromDatabase(String query, String value){//query not altered by user
+    public String removeRowFromDatabase(String query, String value) throws SQLException{//query not altered by user
         try(CallableStatement stmt = conn.prepareCall(query)) {
             stmt.setObject(1,  value);
             stmt.execute();
             return "succesful";
         } catch (Exception e) {
-            e.printStackTrace();
             return "fail";
         }
     }
@@ -158,18 +151,37 @@ public class CourseListServices{
         }
     }
 //-------------display----------
-    public void displayCourses(){
+    public void displayCourses() throws SQLException{
         DawsonCourse coursesView = new DawsonCourse();
         coursesView.displayCourses(this.conn);
     }
 
-    public void displayCompetencies(){
+    public void displayCompetencies() throws SQLException{
         Competency competenciesView = new Competency();
         competenciesView.displayCompetencies(this.conn);
     }
 
-    public void displayFull(){
-        
+    public void displayFull() throws SQLException{
+        try(PreparedStatement stmt = this.conn.prepareStatement("select * from grid_view ORDER BY term_id")){
+            ResultSet results = stmt.executeQuery();
+
+            while(results.next()){
+                FullDisplayView display = new FullDisplayView(
+                    results.getString("course_number"),
+                    results.getString("course_name"),
+                    results.getInt("class_hours"),
+                    results.getInt("lab_hours"),
+                    results.getInt("homework_hours"),
+                    results.getInt("total hours"),
+                    results.getInt("term_id"),
+                    results.getDouble("credits"),
+                    results.getString("Competency Code"),
+                    results.getString("Statement of the Competency"),
+                    results.getString("specification")
+                ); 
+                System.out.println(display);
+            }
+        }   
     }
 }
 

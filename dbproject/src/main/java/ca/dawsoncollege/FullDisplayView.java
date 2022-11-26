@@ -9,12 +9,13 @@ public class FullDisplayView {
     private int homeworkHours;
     private int totalHours;
     private int termId;
+    private double credits;
+    private String comp_id;
     private String competencyName;
     private String specification;
-    private String elementName;
 
     public FullDisplayView(String courseNumber, String courseName, int classHours, int labHours, int homeworkHours, int totalHours,
-    int termId, String competencyName, String specification, String elementName) {
+    int termId, double credits, String comp_id, String competencyName, String specification) {
         this.courseNumber = courseNumber;
         this.courseName = courseName;
         this.classHours = classHours;
@@ -22,13 +23,22 @@ public class FullDisplayView {
         this.homeworkHours = homeworkHours;
         this.totalHours = totalHours;
         this.termId = termId;
+        this.credits = credits;
+        this.comp_id = comp_id;
         this.competencyName = competencyName;
         this.specification = specification;
-        this.elementName = elementName;
     }
 
     @Override
     public String toString(){
-        return "e";
+        return "Term: " + this.termId +
+        "\n" + "Course Name: " + this.courseName +
+        "\n" + "Course Id: " + this.courseNumber +
+        "\n" + "Competency Name: " + this.competencyName +
+        "\n" + "Competency Id: " + this.comp_id +
+        "\n" + "Specification: " + this.specification +
+        "\n" + "Total Hours: " + this.totalHours +
+        "\n" + "Class-Lab-Homework Hours: " + this.classHours + "-" + this.labHours + "-" + this.homeworkHours +
+        "\n" + "Credits: " + this.credits + "\n";
     }
 }

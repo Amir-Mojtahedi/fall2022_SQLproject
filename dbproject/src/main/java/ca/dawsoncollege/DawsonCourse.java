@@ -88,7 +88,6 @@ public class DawsonCourse implements SQLData{
             stmt.execute();
             return "SUCCESSFUL";
         } catch (Exception e) {
-            e.printStackTrace();
             return "failure";
             //TODO handle exception
         }
@@ -103,7 +102,7 @@ public class DawsonCourse implements SQLData{
             //TODO handle exception
         }
     }
-    public void displayCourses(Connection conn){
+    public void displayCourses(Connection conn) throws SQLException{
         try(PreparedStatement stmt = conn.prepareStatement("select * from course_list_view ORDER BY \"Semester\" ASC")){
             ResultSet results = stmt.executeQuery();
             CoursesView course = null;
@@ -125,9 +124,6 @@ public class DawsonCourse implements SQLData{
 
                 System.out.println(course);
             }
-        }
-        catch(SQLException e){
-            e.printStackTrace();
         }
     }
     @Override
