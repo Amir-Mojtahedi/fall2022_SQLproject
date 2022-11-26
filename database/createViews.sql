@@ -27,3 +27,5 @@ LEFT OUTER JOIN elements_of_competency USING(element_id) ORDER BY course_name,el
 
 CREATE OR REPLACE VIEW user_logs_view AS
 SELECT * FROM user_logs;
+
+select * from USER_LOGS_VIEW;

@@ -188,6 +188,21 @@ public class CourseListServices{
             }
         }   
     }
+
+    public void displayLogs() throws SQLException{
+        try(PreparedStatement stmt = this.conn.prepareStatement("select * from user_logs_view")){
+            ResultSet results = stmt.executeQuery();
+
+            while(results.next()){
+                LogsView logs = new LogsView(
+                    results.getString("username"),
+                    results.getDate("date_time"),
+                    results.getString("message"));
+
+                    System.out.println(logs);
+            }
+        }
+    }
 }
 
 

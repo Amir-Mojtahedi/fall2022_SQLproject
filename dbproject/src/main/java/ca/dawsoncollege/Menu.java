@@ -64,6 +64,41 @@ public class Menu {
                     deleteMenu();
                     break;
                 case "5":
+                    miscMenu();
+                    break;
+                case "6":
+                    running = false;
+                    break;
+                default:
+                    invalidInput();
+                    break;
+            }
+        }
+    }
+
+    private void miscMenu() {
+        boolean running = true;
+        while(running){
+            System.out.println("Welcome to the Validation and Logs Center");
+            System.out.println("(1) Display validation");
+            System.out.println("(2) Display Logs");
+            System.out.println("(3) Back");
+
+            String input = inputRequest();
+
+            switch(input){
+                case "1":
+                    //display validation here
+                    break;
+                case "2":
+                    try{
+                        this.dbDriver.displayLogs();
+                    }
+                    catch(SQLException e){
+                        
+                    }
+                    break;
+                case "3":
                     running = false;
                     break;
                 default:
@@ -118,7 +153,8 @@ public class Menu {
         System.out.println("(2) Add Options");
         System.out.println("(3) Update options");
         System.out.println("(4) Delete Options");
-        System.out.println("(5) Back");
+        System.out.println("(5) Validation/Logs Options");
+        System.out.println("(6) Back");
     }
 
     /*
