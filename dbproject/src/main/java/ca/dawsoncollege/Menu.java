@@ -295,7 +295,7 @@ public class Menu {
 
     private void addCompetencyMenu() {
         String code = System.console().readLine("Input the Competentcy Code of the Competency you wish to add: ");
-        String name = System.console().readLine("Input the name of the Competentcy you wish to add: ");
+        String name = System.console().readLine("Input the name of the Competency you wish to add: ");
         char specification = (System.console().readLine("If the competency is Mandatory input '1' \n if competency is optional input '0': ")).charAt(0);
         String description =System.console().readLine("Input the competency description: ");
         System.out.println(dbDriver.addCompetency(code, name, specification, description));

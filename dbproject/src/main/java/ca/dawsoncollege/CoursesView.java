@@ -9,6 +9,7 @@ public class CoursesView {
     private int labHours;
     private int homeworkHours;
     private int totalHours;
+    private int credits;
     private int termId;
     private String seasonName;
     private String educationType;
@@ -16,7 +17,7 @@ public class CoursesView {
     private String domainDescription;
 
     public CoursesView(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours, 
-    int totalHours, int termId, String seasonName, String educationType, String domainName, String domainDescription) {
+    int totalHours, int credits, int termId, String seasonName, String educationType, String domainName, String domainDescription) {
                 this.courseNumber = courseNumber;
                 this.courseName = courseName;
                 this.courseDescription = courseDescription;
@@ -24,6 +25,7 @@ public class CoursesView {
                 this.labHours = labHours;
                 this.homeworkHours = homeworkHours;
                 this.totalHours = totalHours;
+                this.credits = credits;
                 this.termId = termId;
                 this.seasonName = seasonName;
                 this.educationType = educationType;
@@ -35,10 +37,9 @@ public class CoursesView {
     public String toString() {
         return this.courseNumber + ": " + this.courseName + 
         "\n" + "Course Description: " + this.courseDescription + 
-        "\n" + "Class Hours: " + this.classHours + 
-        "\n" + "Lab Hours: " + this.labHours + 
-        "\n" + "Homework Hours: " + this.homeworkHours + 
+        "\n" + "Class-Lab-Homework Hours: " + this.classHours + "-" + this.labHours + "-" + this.homeworkHours + 
         "\n" + "Total Hours: " + this.totalHours + 
+        "\n" + "Credits: " + this.credits +
         "\n" + "Term Number: " + this.termId + 
         "\n" + "Season Name: " + this.seasonName + 
         "\n" + "Education Type: " + this.educationType + 

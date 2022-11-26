@@ -101,7 +101,7 @@ public class DawsonCourse implements SQLData{
         }
     }
     public void displayCourses(Connection conn){
-        try(PreparedStatement stmt = conn.prepareStatement("select * from dawson_courses_view")){
+        try(PreparedStatement stmt = conn.prepareStatement("select * from course_list_view")){
             ResultSet results = stmt.executeQuery();
             CoursesView course = null;
             while(results.next()){
@@ -113,6 +113,7 @@ public class DawsonCourse implements SQLData{
                 results.getInt("lab_hours"),
                 results.getInt("homework_hours"),
                 results.getInt("total hours"),
+                results.getInt("credits"),
                 results.getInt("semester"),
                 results.getString("season_name"),
                 results.getString("education_type"),
