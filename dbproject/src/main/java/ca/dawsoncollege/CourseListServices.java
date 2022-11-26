@@ -16,10 +16,10 @@ public class CourseListServices{
             map.put(Education.TYPENAME,
             Class.forName("ca.dawsoncollege.Education"));
             map.put(Domain.TYPENAME,
-            Class.forName("ca.dawsoncollege.Domain");)
+            Class.forName("ca.dawsoncollege.Domain"));
             map.put(DawsonCourse.TYPENAME,
             Class.forName("ca.dawsoncollege.DawsonCourse"));
-            map.put(Competencies.TYPENAME, 
+            map.put(Competency.TYPENAME, 
             Class.forName("ca.dawsoncollege.Competencies"));
             map.put(ElementOfCompetency.TYPENAME, 
             Class.forName("ca.dawsoncollege.ElementOfCompetency"));
@@ -66,6 +66,7 @@ public class CourseListServices{
     //Adds a new course to the database.
     public String addCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType, String domain){
         Season season=getSeason(term);
+        
         Education education_type=getEducation(educationType);
         TermSeason termSeason=new TermSeason(term, season);
         DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason, domain);
