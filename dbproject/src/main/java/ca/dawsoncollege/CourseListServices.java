@@ -203,6 +203,16 @@ public class CourseListServices{
             }
         }
     }
+    public void displayTimeValidity()throws SQLException{
+        CallableStatement stmt = conn.prepareCall("{ CALL CC_BRIDGE_PACKAGE.timeValidation}");
+        ResultSet results = stmt.executeQuery();
+        while(results.next()){
+            System.out.println(results);
+        }
+        if(!stmt.isClosed()){
+            stmt.close();
+        }
+    }
 }
 
 

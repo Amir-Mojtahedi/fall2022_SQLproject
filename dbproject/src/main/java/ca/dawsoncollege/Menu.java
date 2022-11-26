@@ -88,7 +88,10 @@ public class Menu {
 
             switch(input){
                 case "1":
-                    //display validation here
+                try {
+                    dbDriver.displayTimeValidity(); 
+                } catch (Exception e) {
+                }
                     break;
                 case "2":
                     try{
