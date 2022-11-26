@@ -86,7 +86,12 @@ public class CourseListServices{
     }
     public String addElement(String Id, String number, String  name, String  Description, String  Competency) throws SQLException{
         ElementOfCompetency element = new ElementOfCompetency(Id, number, name, Description, Competency);
-        return element.addToDatabase(conn);
+        try{
+            return element.addToDatabase(conn);
+        }
+        catch(NumberFormatException e){
+            return "failure";
+        }
     }
     //-------------delete rows--------------
     public String removeCourse(String courseNumber) throws SQLException{
