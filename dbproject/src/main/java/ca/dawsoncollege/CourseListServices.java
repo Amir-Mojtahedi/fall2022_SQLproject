@@ -20,7 +20,7 @@ public class CourseListServices{
             map.put(DawsonCourse.TYPENAME,
             Class.forName("ca.dawsoncollege.DawsonCourse"));
             map.put(Competency.TYPENAME, 
-            Class.forName("ca.dawsoncollege.Competencies"));
+            Class.forName("ca.dawsoncollege.Competency"));
             map.put(ElementOfCompetency.TYPENAME, 
             Class.forName("ca.dawsoncollege.ElementOfCompetency"));
             conn.setTypeMap(map);
@@ -62,32 +62,15 @@ public class CourseListServices{
         }
         return new Season(season_id, seasonName);
     }
-    public Domain getDomain(String domainId, Connection conn){
-        Domain domain=null;
-        String sql="SELECT * FROM domains WHERE domain_id=?";
-        try(PreparedStatement stmt=conn.prepareStatement(sql)) {
-            stmt.setString(1, domainId);
-            ResultSet result=stmt.executeQuery();
-            while (result.next()) {
-                domain=new Domain(
-                    result.getString("domain_id"),
-                    result.getString("domain_name"),
-                    result.getString("description")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return domain;
-    }
+    
     //-----------------ADD rows to databse------------------
     //Adds a new course to the database.
-    public String addCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType, String domainID){
+    public String addCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours, int homeworkHours,int term,String educationType, String domainId){
         Season season=getSeason(term);
         Education education_type=getEducation(educationType);
         TermSeason termSeason=new TermSeason(term, season);
-        Domain domainType=getDomain(domainID, this.conn);
-        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason, domainType);
+        //Domain domainType=getDomain(domainID, this.conn);
+        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason, domainId);
         return course.addToDatabase(this.conn);
     }
     public String addCompetency(String compId,String compName,char specification,String compDescription){
@@ -147,8 +130,8 @@ public class CourseListServices{
         Season season=getSeason(term);
         Education education_type=getEducation(educationType);
         TermSeason termSeason=new TermSeason(term, season);
-        Domain domainType=getDomain(domainId, this.conn);
-        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason,domainType);
+       
+        DawsonCourse course=new DawsonCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, education_type, termSeason,domainId);
         return course.updateFromDatabase(conn);
     }
 
