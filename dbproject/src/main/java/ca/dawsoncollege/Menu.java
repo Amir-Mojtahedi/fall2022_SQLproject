@@ -361,7 +361,7 @@ public class Menu {
         }
         int TermSeason = getInt("Input the term of the course: ");
         String educationType = System.console().readLine("Input the course education type: ");
-        String domain = System.console().readLine("Intput the course's domain: ");
+        String domain = System.console().readLine("Input the course's domain: ");
         try{
             System.out.println(dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType, domain));
         }
@@ -474,7 +474,7 @@ public class Menu {
             System.out.println("(2) Update a Competency");
             System.out.println("(3) Update an Element");
             System.out.println("(4) Update a link between a course and one/many elements");
-            System.out.print("(5) Back");
+            System.out.println("(5) Back");
 
             String input = inputRequest();
 
@@ -530,22 +530,37 @@ public class Menu {
     
         private void UpdateCourse(){
             //call a method in CourseListServices that Update a course
-            String courseNumber = System.console().readLine("Please input your course number: ");
-            String courseName = System.console().readLine("Please input your course name: ");
-            String courseDescription = System.console().readLine("Please input your course description: ");
-            int classHours = 2;
-            int labHours = 2;
-            int homeworkHours = 2;
-            int TermSeason = getInt("Input the term of the course: ");
-            String educationType = System.console().readLine("Input the course education type: ");
-            String domain = System.console().readLine("Intput the course's domain name: ");
+            String courseNumber = System.console().readLine("Please input the course number of the course you would like to update: ");
+            String courseName = System.console().readLine("Please input your updated course name: ");
+            String courseDescription = System.console().readLine("Please input your updated course description: ");
+            int classHours = 0;
+            int labHours = 0;
+            int homeworkHours = 0;
+            boolean correctInput = false;
+            while(!correctInput){
+                try{
+                    System.out.print("Please input the updated amount of class hours per week this class consumes: ");
+                    classHours = scan.nextInt();
+                    System.out.print("Please input the updated amount of lab hours per week this class consumes: ");
+                    labHours = scan.nextInt();
+                    System.out.print("Please input the updated amount of homework hours per week this class consumes: ");
+                    homeworkHours = scan.nextInt();
+                    correctInput = true;
+                }
+                catch(InputMismatchException e){
+                    System.out.println("Please input a valid number");
+                    scan.next();
+                }
+            }
+            int TermSeason = getInt("Input the updated term of the course: ");
+            String educationType = System.console().readLine("Input the updated course education type: ");
+            String domain = System.console().readLine("Input the course's updated domain: ");
             try{
-            System.out.println(dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType, domain));
+                System.out.println(dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType, domain));
             }
             catch(SQLException e){
-
-            }
         }
+    }
         private void UpdateElementCoursJoin(){
             String course = System.console().readLine("Input a course Number: ");
             String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to join: ");
