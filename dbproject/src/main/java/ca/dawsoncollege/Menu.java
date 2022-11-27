@@ -167,38 +167,68 @@ public class Menu {
             System.out.println("");
             //display user friendly table of objects
             try{
-                dbDriver.displayFull();
+                dbDriver.displayFull("select * from grid_view ORDER BY term_id");
             }
             catch(SQLException e){
 
             }
             System.out.println("(1) Filter by course id");
-            System.out.println("(2) Filter by course name");
-            System.out.println("(3) Filter by competency id");
-            System.out.println("(4) Filter by competency name");
-            System.out.println("(5) Back");
+            System.out.println("(2) Filter by competency id");
+            System.out.println("(3) Back");
 
             String input = inputRequest();
 
             switch(input){
                 case "1":
-                    filterCourseId();
+                    filterCourseIdFull();
                     break;
                 case "2":
-                    filterCourseName();
+                    filterCompetencyIdFull();
                     break;
                 case "3":
-                    filterCompetencyId();
-                    break;
-                case "4":
-                    filterCompetencyName();
-                    break;
-                case "5":
                     running = false;
                     break;
                 default:
                     invalidInput();
                     break;
+            }
+        }
+    }
+
+    private void filterCompetencyIdFull() {
+        boolean onpage = true;
+        while(onpage){
+            String filter = System.console().readLine("Please enter the competency code you would like to see or type exit to leave page: ");
+
+            if(filter.equals("exit")){
+                onpage = false;
+                break;
+            }
+            try{
+                String query = "select * from grid_view WHERE comp_id =";
+                query = query + " \'" + filter + "\'";
+                this.dbDriver.displayFull(query);
+            }
+            catch(SQLException e){
+            }
+        }
+    }
+
+    private void filterCourseIdFull() {
+        boolean onpage = true;
+        while(onpage){
+            String filter = System.console().readLine("Please enter the course id you would like to see or type exit to leave page: ");
+
+            if(filter.equals("exit")){
+                onpage = false;
+                break;
+            }
+            try{
+                String query = "select * from grid_view WHERE course_number =";
+                query = query + " \'" + filter + "\'";
+                this.dbDriver.displayFull(query);
+            }
+            catch(SQLException e){
             }
         }
     }
@@ -217,8 +247,7 @@ public class Menu {
 
             }
             System.out.println("(1) Filter by competency id");
-            System.out.println("(2) Filter by keyword in competency name");
-            System.out.println("(3) Back");
+            System.out.println("(2) Back");
 
             String input = inputRequest();
 
@@ -227,9 +256,6 @@ public class Menu {
                     filterCompetencyId();
                     break;
                 case "2":
-                    filterCompetencyName();
-                    break;
-                case "3":
                     running = false;
                     break;
                 default:
@@ -252,8 +278,7 @@ public class Menu {
 
             }
             System.out.println("(1) Filter by course id");
-            System.out.println("(2) Filter by keyword in course name");
-            System.out.println("(3) Back");
+            System.out.println("(2) Back");
 
             String input = inputRequest();
 
@@ -262,9 +287,6 @@ public class Menu {
                     filterCourseId();
                     break;
                 case "2":
-                    filterCourseName();
-                    break;
-                case "3":
                     running = false;
                     break;
                 default:
@@ -274,34 +296,39 @@ public class Menu {
         }
     }
 
-    private void filterElementId() {
-        System.out.println("Enter your element id");
-        //prepared statement with a element id check
-    }
-
-    private void filterElementName() {
-        System.out.println("Enter your element name");
-        //prepared statement with a competency name using LIKE
-    }
-
-    private void filterCompetencyName() {
-        System.out.println("Enter your competency name");
-        //prepared statement with a competency name using LIKE
-    }
-
     private void filterCompetencyId() {
-        System.out.println("Enter your competency id");
-        //prepared statement with a competency id check
-    }
+        boolean onpage = true;
+        while(onpage){
+            String filter = System.console().readLine("Please enter the competency id you would like to see or type exit to leave page: ");
 
-    private void filterCourseName() {
-        System.out.println("Enter your course name");
-        //prepared statement with a course name using LIKE
+            if(filter.equals("exit")){
+                onpage = false;
+                break;
+            }
+            try{
+                this.dbDriver.displayCompetencies(filter);
+            }
+            catch(SQLException e){
+            }
+        }
     }
 
     private void filterCourseId() {
-        System.out.println("Enter your course id");
-        //prepared statement with a course id
+        boolean onpage = true;
+        while(onpage){
+            String filter = System.console().readLine("Please enter the course id you would like to see or type exit to leave page: ");
+
+            if(filter.equals("exit")){
+                onpage = false;
+                break;
+            }
+            try{
+                this.dbDriver.DisplayCourses(filter);
+            }
+            catch(SQLException e){
+
+            }
+        }
     }
 
     /*

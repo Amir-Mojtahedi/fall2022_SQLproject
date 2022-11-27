@@ -13,6 +13,17 @@ public class DawsonCourse implements SQLData{
     private String domain;
     public static String TYPENAME="COURSE_TYP";
 
+    /**
+     * @param courseNumber
+     * @param courseName
+     * @param courseDescription
+     * @param classHours
+     * @param labHours
+     * @param homeworkHours
+     * @param education_type
+     * @param termID
+     * @param domain
+     */
     public DawsonCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours,
             int homeworkHours, Education education_type, TermSeason termID,String domain) {
         this.courseNumber = courseNumber;
@@ -89,7 +100,6 @@ public class DawsonCourse implements SQLData{
             return "SUCCESSFUL";
         } catch (Exception e) {
             return "failure";
-            //TODO handle exception
         }
     }
     public String updateFromDatabase(Connection conn){
@@ -104,6 +114,31 @@ public class DawsonCourse implements SQLData{
     }
     public void displayCourses(Connection conn) throws SQLException{
         try(PreparedStatement stmt = conn.prepareStatement("select * from course_list_view ORDER BY \"Semester\" ASC")){
+            ResultSet results = stmt.executeQuery();
+            CoursesView course = null;
+            while(results.next()){
+                course = new CoursesView(
+                results.getString("course_number"),
+                results.getString("course_name"),
+                results.getString("course_description"),
+                results.getInt("class_hours"),
+                results.getInt("lab_hours"),
+                results.getInt("homework_hours"),
+                results.getInt("total hours"),
+                results.getDouble("credits"),
+                results.getInt("semester"),
+                results.getString("season_name"),
+                results.getString("education_type"),
+                results.getString("domain_name"),
+                results.getString("Domain description"));
+
+                System.out.println(course);
+            }
+        }
+    }
+    public void displayCourses(Connection conn, String filter) throws SQLException{
+        try(PreparedStatement stmt = conn.prepareStatement("select * from course_list_view WHERE course_number = ?")){
+            stmt.setString(1, filter);
             ResultSet results = stmt.executeQuery();
             CoursesView course = null;
             while(results.next()){
