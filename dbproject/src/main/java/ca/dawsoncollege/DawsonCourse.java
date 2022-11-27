@@ -14,21 +14,7 @@ public class DawsonCourse implements SQLData{
     private String domain;
     public static String TYPENAME="COURSE_TYP";
 
-<<<<<<< HEAD
-    /**
-     * @param courseNumber
-     * @param courseName
-     * @param courseDescription
-     * @param classHours
-     * @param labHours
-     * @param homeworkHours
-     * @param education_type
-     * @param termID
-     * @param domain
-     */
-=======
     //Constructor
->>>>>>> 009cb5c265c51b5ed9377901a93ed73f76a923e3
     public DawsonCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours,
             int homeworkHours, Education education_type, TermSeason termID,String domain) {
         this.courseNumber = courseNumber;
@@ -151,7 +137,6 @@ public class DawsonCourse implements SQLData{
             }
         }
     }
-<<<<<<< HEAD
     public void displayCourses(Connection conn, String filter) throws SQLException{
         try(PreparedStatement stmt = conn.prepareStatement("select * from course_list_view WHERE course_number = ?")){
             stmt.setString(1, filter);
@@ -177,10 +162,6 @@ public class DawsonCourse implements SQLData{
             }
         }
     }
-=======
-
-    //toString() method
->>>>>>> 009cb5c265c51b5ed9377901a93ed73f76a923e3
     @Override
     public String toString() {
         return "DawsonCourse [courseNumber=" + courseNumber + ", courseName=" + courseName + ", courseDescription="
