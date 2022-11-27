@@ -1,7 +1,5 @@
 package ca.dawsoncollege;
 
-import java.util.List;
-
 public class CompetenciesView {
     private String competencyId;
     private String competencyName;
@@ -11,7 +9,9 @@ public class CompetenciesView {
     private String elementName;
     private String elementDescription;
 
-   
+   /*
+    * Constructor for competencies view
+    */
     public CompetenciesView(String competencyId, String competencyName, String competencyDescription,
             String specification, String elementNumber, String elementName, String elementDescription) {
         this.competencyId = competencyId;
@@ -23,11 +23,14 @@ public class CompetenciesView {
         this.elementDescription = elementDescription;
     }
 
-
+    /*
+    * Prints competencies in user friendly way 
+    */
     public String toString(){
         return this.competencyId + ": " + this.competencyName +
         "\n" + "Competency Description: " + this.competencyDescription +
         "\n" + "Specification: " + this.specification +
+        "\n" + "Element Number: " + this.elementNumber +
         "\n" + "Element Name: "+ this.elementName +
         "\n" + "Element Description: " + this.elementDescription + "\n";
     }

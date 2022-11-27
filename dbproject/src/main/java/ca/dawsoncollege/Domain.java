@@ -1,11 +1,13 @@
 package ca.dawsoncollege;
 import java.sql.*;
 public class Domain implements SQLData {
+    // Fields
     private String domainId;
     private String domainName;
     private String domainDescription;
     public static String TYPENAME="DOMAIN_TYP";
     
+    //Constructor
     public Domain(String domainId, String domainName, String domainDescription) {
         this.domainId = domainId;
         this.domainName = domainName;
@@ -14,6 +16,7 @@ public class Domain implements SQLData {
     public Domain(){
 
     };
+    //Getters
     public String getDomainId() {
         return domainId;
     }
@@ -23,6 +26,7 @@ public class Domain implements SQLData {
     public String getDomainDescription() {
         return domainDescription;
     }
+    //Setters
     public void setDomainId(String domainId) {
         this.domainId = domainId;
     }
@@ -32,11 +36,13 @@ public class Domain implements SQLData {
     public void setDomainDescription(String domainDescription) {
         this.domainDescription = domainDescription;
     }
+    //toString() method
     @Override
     public String toString() {
         return "domain [domainId=" + domainId + ", domainName=" + domainName + ", domainDescription="
                 + domainDescription + "]";
     }
+    //Implemented methods which are used to setup the object properly for it to being sent to database.
     @Override
     public String getSQLTypeName() throws SQLException {
         return TYPENAME;
