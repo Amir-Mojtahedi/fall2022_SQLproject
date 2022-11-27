@@ -14,6 +14,20 @@ public class DawsonCourse implements SQLData{
     private String domain;
     public static String TYPENAME="COURSE_TYP";
 
+<<<<<<< HEAD
+=======
+    /**
+     * @param courseNumber
+     * @param courseName
+     * @param courseDescription
+     * @param classHours
+     * @param labHours
+     * @param homeworkHours
+     * @param education_type
+     * @param termID
+     * @param domain
+     */
+>>>>>>> db22b2fc61f4f291137457509b8065afb8c3e774
     //Constructor
     public DawsonCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours,
             int homeworkHours, Education education_type, TermSeason termID,String domain) {
@@ -162,6 +176,10 @@ public class DawsonCourse implements SQLData{
             }
         }
     }
+<<<<<<< HEAD
+=======
+    //toString() method
+>>>>>>> db22b2fc61f4f291137457509b8065afb8c3e774
     @Override
     public String toString() {
         return "DawsonCourse [courseNumber=" + courseNumber + ", courseName=" + courseName + ", courseDescription="

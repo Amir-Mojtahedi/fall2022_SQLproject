@@ -55,7 +55,7 @@ CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
                     FROM ELEMENT_COURSE
                     WHERE COURSE_NUMBER LIKE '420-510-DW';
                     if COURSE_HOURS!=COMPETENCY_HOURS then
-                      ERROR_TEXT := ERROR_TEXT||'\n Hours conflicting for the course '||element.COURSE_NAME;
+                      ERROR_TEXT := ERROR_TEXT||char(13)||char(10)||'c Hours conflicting for the course '||element.COURSE_NAME;
                     end if;
             end loop;
             return ERROR_TEXT;
@@ -142,7 +142,7 @@ CREATE OR REPLACE PACKAGE COMPETENCIES_PACKAGE AS
     PROCEDURE update_element_of_competency(new_element in element_typ);
     PROCEDURE add_element_of_competency(new_element in element_typ);
     PROCEDURE remove_element(rem_element_id IN varchar2);
-    PROCEDURE remove_competency(rem_comp_id IN varchar2);
+    PROCEDURE remove_competency(rem_comp_id IN char);
     FUNCTION find_specification(specification_number IN competencies.specification%TYPE) RETURN varchar2;
     --FUNCTION get_terminal_comp(comp_id_check CHAR) RETURN varchar2;
 END COMPETENCIES_PACKAGE;
@@ -193,7 +193,7 @@ CREATE OR REPLACE PACKAGE BODY COMPETENCIES_PACKAGE AS
         --     update_element_of_competency(new_element);
     END;
 
-    PROCEDURE remove_competency(rem_comp_id IN varchar2) AS
+    PROCEDURE remove_competency(rem_comp_id IN char) AS
     BEGIN
         DELETE FROM COMPETENCIES WHERE COMP_ID = rem_comp_id;
     END;
