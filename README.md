@@ -15,5 +15,5 @@ Steps for setup
 
 Alexander Zacharkiw 2142443
 Clovis Boucher 2133295
-Seyed Amirreza Mojtahedi
+Seyed Amirreza Mojtahedi 2133044
 
