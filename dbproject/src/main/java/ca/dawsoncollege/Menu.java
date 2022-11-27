@@ -1,12 +1,17 @@
 package ca.dawsoncollege;
 
 //import java.io.Console;
+
+//Imports
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 
 public class Menu {
+    //Fields
     private CourseListServices dbDriver;
     final static java.util.Scanner scan = new java.util.Scanner (System.in);
+
+    //strat() uses other methods to build up a nice menu while the program is running.
     public void start(){
         boolean running = true;
         while(running){
@@ -43,6 +48,7 @@ public class Menu {
         }
     }
 
+    //mainMenu() creates the main menu. There exist some sub-menus for the main menu that are provoked based on the user's input.
     private void mainMenu() {
         boolean running = true;
         while(running){
@@ -75,7 +81,7 @@ public class Menu {
             }
         }
     }
-
+    //Logs menu and validation menu are diplayed using miscMenu() function. This menu is a main menu's sub-menu.
     private void miscMenu() {
         boolean running = true;
         while(running){
@@ -88,7 +94,10 @@ public class Menu {
 
             switch(input){
                 case "1":
-                    //display validation here
+                try {
+                    dbDriver.displayTimeValidity(); 
+                } catch (Exception e) {
+                }
                     break;
                 case "2":
                     try{
@@ -108,6 +117,7 @@ public class Menu {
         }
     }
 
+    //diplayMenu() holds within it all the display options. It is one of the main menu's sub-menues
     private void displayMenu() {
         boolean running = true;
         while(running){
@@ -140,12 +150,14 @@ public class Menu {
         }
     }
 
+    //welcomeMenuTet() function welcomes the user to the projcect by prompting them to enter their access credentials
     private void welcomeMenuText() {
         System.out.println("Welcome to the database");
         System.out.println("(1) Log-In");
         System.out.println("(2) Disconnect");
     }
 
+    //This functions show all the options when the user successfully logs in to the databse.
     private void optionsMenuText() {
         System.out.println("Welcome to the Options Menu");
         
@@ -265,6 +277,7 @@ public class Menu {
         }
     }
 
+    //This function display all the courses which are in the database.
     private void displayCourses() {
         boolean running = true;
         while(running){
@@ -335,6 +348,7 @@ public class Menu {
      * ADD FUNCTIONS
      */
 
+     //This function creates a add menu which is one of the sub-menus of the main menu.
     private void addMenu() {
         boolean running = true;
         while(running){
@@ -370,6 +384,8 @@ public class Menu {
         }
     }
 
+    //This function adds an element of competency to the database.It sends the user's inputs to another method
+    //which is defined in CourseListServices so that an object of the corresponding type can be created and added to the databse.
     private void addElementMenu() {
         //call a method in CourseListServices that adds an element
         String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to add: ");
@@ -385,6 +401,8 @@ public class Menu {
         }
     }
 
+    //The following method creates a menu for adding a competency to the database. It sends the user's inputs to another method
+    //which is defined in CourseListServices so that an object of the corresponding type can be created and added to the databse.
     private void addCompetencyMenu() {
         String code = System.console().readLine("Input the Competentcy Code of the Competency you wish to add: ");
         String name = System.console().readLine("Input the name of the Competency you wish to add: ");
@@ -398,6 +416,8 @@ public class Menu {
         }
     }
 
+    //The following mehtod creates a menu for adding a course to the database.It sends the user's inputs to another method
+    //which is defined in CourseListServices so that an object of the corresponding type can be created and added to the databse.
     private void addCourseMenu(){
         //call a method in CourseListServices that adds a course
         String courseNumber = System.console().readLine("Please input your new course number: ");
@@ -451,7 +471,7 @@ public class Menu {
     /*
       * DELETE FUNCTIONS
       */
-
+    // The following function creates a delete menu for the program. It is one of the sub-menus of the main method.
       private void deleteMenu() {
         boolean running = true;
         while(running){
@@ -487,6 +507,8 @@ public class Menu {
         }
     }
 
+    //This function asks the user to enter the course_id of the course they want to delete. It uses the response by sending it 
+    //to another function.
     private void deleteCourse() {
         String courseToRemove = System.console().readLine("Please write the course id of the course you would like to remove: ");
         try{
@@ -496,7 +518,7 @@ public class Menu {
 
         }
     }
-
+    //This function deletes a competency by getting from the user the competency id.
     private void deleteCompetency() {
         String compToRemove = System.console().readLine("Please write the competency id of the course you would like to remove: ");
         try{
@@ -507,9 +529,10 @@ public class Menu {
         }
     }
 
+    //This function deletes an elemets by concatenating the two inputs of the user and giving the result to another function. 
     private void deleteElement() {
         String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to remove: ");
-        String elementNumber = System.console().readLine("Please input your the number of the element you wish to remove: ");
+        String elementNumber = System.console().readLine("Please input the number of the element you wish to remove: ");
         try{
             System.out.println(dbDriver.removeElement(competency+elementNumber));
         }
@@ -529,6 +552,7 @@ public class Menu {
         }while(continueConnection == 'Y');
     }
     //--------------Update menu---------------
+    //This function creates a menu for updating. It is one of the sub-menus of the main menu.
     private void updateMenu() {
         boolean running = true;
         while(running){
@@ -562,7 +586,8 @@ public class Menu {
                     break;
             }
         }
-    }
+    }   
+        //This function updates an element by getting the modified values from the user and giving its values to another function.
         private void UpdateElement() {
             //call a method in CourseListServices that Update an element
             String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to update: ");
@@ -577,7 +602,7 @@ public class Menu {
 
             }
         }
-    
+        //This function updates a competency by giving new values to another funcction.
         private void UpdateCompetency() {
             String code = System.console().readLine("Input the Competentcy Code of the Competency you wish to update: ");
             String name = System.console().readLine("Input the name of the Competentcy: ");
@@ -591,6 +616,7 @@ public class Menu {
             }
         }
     
+        //This function updates a course by calling a function which takes as inputs the user values.
         private void UpdateCourse(){
             //call a method in CourseListServices that Update a course
             String courseNumber = System.console().readLine("Please input the course number of the course you would like to update: ");
@@ -643,10 +669,13 @@ public class Menu {
     /*
        * GENERAL FUNCTIONS
        */
+    
+       //This function gets provoked when the user enters an invalid input
     private void invalidInput() {
         System.out.println("Invalid Input. Please Try Again");
     }
 
+    //Everytime the user has an option to choose, this function is provoked.
     private String inputRequest() {
         return System.console().readLine("Please select an option: ");
     }

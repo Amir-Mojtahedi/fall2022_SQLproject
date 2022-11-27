@@ -3,6 +3,7 @@ CREATE OR REPLACE PACKAGE CC_BRIDGE_PACKAGE AS
     PROCEDURE remove_courses(courses_id in element_course.course_number%type);
     PROCEDURE remove_elements(elements_id in element_course.element_id%type);
     PROCEDURE update_allocated_time(course_id in DAWSON_COURSES.course_number%TYPE, elements_id in ELEMENT_COURSE.element_id%TYPE, new_associated_time in element_course.associated_time%type);
+    PROCEDURE REMOVE_JOIN(course_id in DAWSON_COURSES.course_number%TYPE, elements_id in ELEMENT_COURSE.element_id%TYPE);
     function timeValidation RETURN VARCHAR2;
 END CC_BRIDGE_PACKAGE;
 /
@@ -31,7 +32,12 @@ CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
                 set associated_time = New_associated_time
                 where course_number = course_id and element_id = elements_id; 
         END;
-
+    PROCEDURE REMOVE_JOIN(course_id in DAWSON_COURSES.course_number%TYPE, elements_id in ELEMENT_COURSE.element_id%TYPE)
+        AS
+        begin
+            DELETE FROM ELEMENT_COURSE 
+                where course_number = course_id and element_id = elements_id;
+        end;
     function timeValidation RETURN VARCHAR2
         AS 
         ERROR_TEXT VARCHAR2(1000);
@@ -49,7 +55,7 @@ CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
                     FROM ELEMENT_COURSE
                     WHERE COURSE_NUMBER LIKE '420-510-DW';
                     if COURSE_HOURS!=COMPETENCY_HOURS then
-                      ERROR_TEXT := ERROR_TEXT||'/n Hours conflict with course '||element.COURSE_NAME;
+                      ERROR_TEXT := ERROR_TEXT||'\n Hours conflicting for the course '||element.COURSE_NAME;
                     end if;
             end loop;
             return ERROR_TEXT;
