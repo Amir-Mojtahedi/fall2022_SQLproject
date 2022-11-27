@@ -75,8 +75,8 @@ public class CourseListServices{
     }
     public String addElementCourseBridge(String courseID, String elementId, double allocatedTime) throws SQLException{
         try(CallableStatement stmt = conn.prepareCall("{ call  CC_BRIDGE_PACKAGE.add_join(?,?,?)}")) {
-            stmt.setObject(1, courseID);
-            stmt.setObject(2, elementId);
+            stmt.setObject(1, elementId);
+            stmt.setObject(2, courseID);
             stmt.setObject(3, allocatedTime);
             stmt.execute();
             return "success";
@@ -204,11 +204,10 @@ public class CourseListServices{
         }
     }
     public void displayTimeValidity()throws SQLException{
-        CallableStatement stmt = conn.prepareCall("{ CALL CC_BRIDGE_PACKAGE.timeValidation}");
-        ResultSet results = stmt.executeQuery();
-        while(results.next()){
-            System.out.println(results);
-        }
+        CallableStatement stmt = conn.prepareCall("{? = call CC_BRIDGE_PACKAGE.timeValidation()}");
+        stmt.registerOutParameter(1,java.sql.Types.VARCHAR);
+        stmt.executeQuery();
+            System.out.println("here are the "+stmt.getString(1));
         if(!stmt.isClosed()){
             stmt.close();
         }

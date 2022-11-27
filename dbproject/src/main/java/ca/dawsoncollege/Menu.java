@@ -91,6 +91,7 @@ public class Menu {
                 try {
                     dbDriver.displayTimeValidity(); 
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
                     break;
                 case "2":
@@ -379,25 +380,9 @@ public class Menu {
         String courseNumber = System.console().readLine("Please input your new course number: ");
         String courseName = System.console().readLine("Please input your new course name: ");
         String courseDescription = System.console().readLine("Please input your new course description: ");
-        int classHours = 0;
-        int labHours = 0;
-        int homeworkHours = 0;
-        boolean correctInput = false;
-        while(!correctInput){
-            try{
-                System.out.print("Please input the amount of class hours per week this class consumes: ");
-                classHours = scan.nextInt();
-                System.out.print("Please input the amount of lab hours per week this class consumes: ");
-                labHours = scan.nextInt();
-                System.out.print("Please input the amount of homework hours per week this class consumes: ");
-                homeworkHours = scan.nextInt();
-                correctInput = true;
-            }
-            catch(InputMismatchException e){
-                System.out.println("Please input a valid number");
-                scan.next();
-            }
-        }
+        int classHours = getInt("Please input the amount of class hours per week this class consumes: ");
+        int labHours = getInt("Please input the amount of lab hours per week this class consumes: ");
+        int homeworkHours = getInt("Please input the amount of homework hours per week this class consumes: ");
         int TermSeason = getInt("Input the term of the course: ");
         String educationType = System.console().readLine("Input the course education type: ");
         String domain = System.console().readLine("Input the course's domain: ");
@@ -545,13 +530,7 @@ public class Menu {
             String elementNumber = System.console().readLine("Please input your new element number: ");
             String elementName = System.console().readLine("Please input your new element name: ");
             String elementDescription = System.console().readLine("Please input your new element description: ");
-    
-            try{
-                System.out.println(dbDriver.addElement(competency+elementNumber, elementNumber, elementName, elementDescription, competency));
-            }
-            catch(SQLException e){
-
-            }
+                System.out.println(dbDriver.updateElement(competency+elementNumber, elementNumber, elementName, elementDescription, competency));
         }
     
         private void UpdateCompetency() {
@@ -559,12 +538,7 @@ public class Menu {
             String name = System.console().readLine("Input the name of the Competentcy: ");
             char specification = (System.console().readLine("If the competency is Mandatory input '1' \n if competency is optional input '0': ")).charAt(0);
             String description =System.console().readLine("Input the competency description: ");
-            try{
-                System.out.println(dbDriver.addCompetency(code, name, specification, description));
-            }
-            catch(SQLException e){
-
-            }
+                dbDriver.updateCompetency(code, name, specification, description);
         }
     
         private void UpdateCourse(){
@@ -572,47 +546,22 @@ public class Menu {
             String courseNumber = System.console().readLine("Please input the course number of the course you would like to update: ");
             String courseName = System.console().readLine("Please input your updated course name: ");
             String courseDescription = System.console().readLine("Please input your updated course description: ");
-            int classHours = 0;
-            int labHours = 0;
-            int homeworkHours = 0;
-            boolean correctInput = false;
-            while(!correctInput){
-                try{
-                    System.out.print("Please input the updated amount of class hours per week this class consumes: ");
-                    classHours = scan.nextInt();
-                    System.out.print("Please input the updated amount of lab hours per week this class consumes: ");
-                    labHours = scan.nextInt();
-                    System.out.print("Please input the updated amount of homework hours per week this class consumes: ");
-                    homeworkHours = scan.nextInt();
-                    correctInput = true;
-                }
-                catch(InputMismatchException e){
-                    System.out.println("Please input a valid number");
-                    scan.next();
-                }
-            }
+            int classHours = getInt("Please input the updated amount of class hours per week this class consumes: ");
+            int labHours = getInt("Please input the updated amount of lab hours per week this class consumes: ");
+            int homeworkHours = getInt("Please input the updated amount of homework hours per week this class consumes: ");
             int TermSeason = getInt("Input the updated term of the course: ");
             String educationType = System.console().readLine("Input the updated course education type: ");
             String domain = System.console().readLine("Input the course's updated domain: ");
-            try{
-                System.out.println(dbDriver.addCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType, domain));
-            }
-            catch(SQLException e){
-        }
+                System.out.println(dbDriver.updateCourse(courseNumber, courseName, courseDescription, classHours, labHours, homeworkHours, TermSeason, educationType, domain));
     }
         private void UpdateElementCoursJoin(){
             String course = System.console().readLine("Input a course Number: ");
-            String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to join: ");
+            String competency = System.console().readLine("Input competency Code to which belongs the elements you wish to update: ");
             char continueConnection;
             do{
             String element = System.console().readLine("Input an element number: "  );
             double allocatedTime = getDouble("Input the new amount of time this element is covered in this course: ");
-            try{
-                System.out.println(dbDriver.addElementCourseBridge(course, competency+element, allocatedTime));
-            }
-            catch(SQLException e){
-
-            }
+                System.out.println(dbDriver.updateElementCourseBridge(course, competency+element, allocatedTime));
             continueConnection = getFirstChar(System.console().readLine("do you wish to continue updating time allocation if so input 'y' if not input 'n': "));
             }while(continueConnection == 'Y');
         }
