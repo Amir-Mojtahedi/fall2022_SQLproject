@@ -21,3 +21,4 @@ LEFT OUTER JOIN competencies USING(comp_id);
 
 CREATE OR REPLACE VIEW user_logs_view AS
 SELECT * FROM user_logs;
+

@@ -55,7 +55,7 @@ CREATE OR REPLACE PACKAGE BODY CC_BRIDGE_PACKAGE AS
                     FROM ELEMENT_COURSE
                     WHERE COURSE_NUMBER LIKE '420-510-DW';
                     if COURSE_HOURS!=COMPETENCY_HOURS then
-                      ERROR_TEXT := ERROR_TEXT||char(13)||char(10)||'c Hours conflicting for the course '||element.COURSE_NAME;
+                      ERROR_TEXT := ERROR_TEXT||chr(13)||chr(10)||'c Hours conflicting for the course '||element.COURSE_NAME;
                     end if;
             end loop;
             return ERROR_TEXT;
