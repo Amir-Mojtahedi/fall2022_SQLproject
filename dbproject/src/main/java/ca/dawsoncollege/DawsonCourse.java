@@ -25,6 +25,7 @@ public class DawsonCourse implements SQLData{
      * @param termID
      * @param domain
      */
+    //Constructor
     public DawsonCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours,
             int homeworkHours, Education education_type, TermSeason termID,String domain) {
         this.courseNumber = courseNumber;
@@ -172,6 +173,7 @@ public class DawsonCourse implements SQLData{
             }
         }
     }
+    //toString() method
     @Override
     public String toString() {
         return "DawsonCourse [courseNumber=" + courseNumber + ", courseName=" + courseName + ", courseDescription="

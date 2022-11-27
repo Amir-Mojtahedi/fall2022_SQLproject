@@ -46,7 +46,7 @@ public class Competency implements SQLData{
             stmt.setObject(1, this);
             stmt.execute();
             return "SUCCESSFUL";
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return "failure";
         }
     }
