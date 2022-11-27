@@ -2,12 +2,14 @@ package ca.dawsoncollege;
 
 import java.sql.*;
 public class ElementOfCompetency implements SQLData{
+    //Fields
     private String elementId;
     private String elementNumber;
     private String elementName;
     private String elementDescription;
     private String competencies;
     public static String TYPENAME="ELEMENT_TYP";
+    //Constructor
     public ElementOfCompetency(String elementId, String elementNumber, String elementName, String elementDescription, String competencies) {
         this.elementId = elementId;
         this.elementNumber = elementNumber;
@@ -15,6 +17,10 @@ public class ElementOfCompetency implements SQLData{
         this.elementDescription = elementDescription;
         this.competencies = competencies;
     }
+    public ElementOfCompetency(){
+
+    }
+    //Implemented methods which are used to setup the object properly for it to being sent to database.
     @Override
     public String getSQLTypeName() throws SQLException {
         return TYPENAME;

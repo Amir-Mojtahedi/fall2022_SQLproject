@@ -2,6 +2,7 @@ package ca.dawsoncollege;
 import java.sql.*;
 
 public class DawsonCourse implements SQLData{
+    //All the fields
     private String courseNumber;
     private String courseName;
     private String courseDescription;
@@ -13,6 +14,7 @@ public class DawsonCourse implements SQLData{
     private String domain;
     public static String TYPENAME="COURSE_TYP";
 
+    //Constructor
     public DawsonCourse(String courseNumber, String courseName, String courseDescription, int classHours, int labHours,
             int homeworkHours, Education education_type, TermSeason termID,String domain) {
         this.courseNumber = courseNumber;
@@ -28,6 +30,7 @@ public class DawsonCourse implements SQLData{
     public DawsonCourse(){
         
     }
+    //Getters
     public String getCourseNumber() {
         return courseNumber;
     }
@@ -55,6 +58,9 @@ public class DawsonCourse implements SQLData{
     private String getDomain() {
         return this.domain;
     }
+    //------------------------------------------------------------------
+
+    //Setters
     public void setCourseNumber(String courseNumber) {
         this.courseNumber = courseNumber;
     }
@@ -82,6 +88,8 @@ public class DawsonCourse implements SQLData{
     public void setDomain(String domain) {
         this.domain = domain;
     }
+
+    //The following method add the current object to the database using a procedure.
     public String addToDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call COURSES_PACKAGE.add_course(?)}")) {
             stmt.setObject(1, this);
@@ -92,6 +100,8 @@ public class DawsonCourse implements SQLData{
             //TODO handle exception
         }
     }
+
+    //The following function updates an existing row(s) in the database using the following procedure
     public String updateFromDatabase(Connection conn){
         try(CallableStatement stmt = conn.prepareCall("{ call COURSES_PACKAGE.update_course(?)}")) {
             stmt.setObject(1, this);
@@ -102,6 +112,8 @@ public class DawsonCourse implements SQLData{
             //TODO handle exception
         }
     }
+
+    //This function creates a courseView object using an existing view in the database.
     public void displayCourses(Connection conn) throws SQLException{
         try(PreparedStatement stmt = conn.prepareStatement("select * from course_list_view ORDER BY \"Semester\" ASC")){
             ResultSet results = stmt.executeQuery();
@@ -126,12 +138,15 @@ public class DawsonCourse implements SQLData{
             }
         }
     }
+
+    //toString() method
     @Override
     public String toString() {
         return "DawsonCourse [courseNumber=" + courseNumber + ", courseName=" + courseName + ", courseDescription="
                 + courseDescription + ", classHours=" + classHours + ", labHours=" + labHours + ", homeworkHours="
                 + homeworkHours + ", education_type=" + education_type + ", termID=" + termID + ", DomainID=" + domain+ "]";
     }
+    //Implemented methods which are used to setup the object properly for it to being sent to database.
     @Override
     public String getSQLTypeName() throws SQLException {
         return TYPENAME;

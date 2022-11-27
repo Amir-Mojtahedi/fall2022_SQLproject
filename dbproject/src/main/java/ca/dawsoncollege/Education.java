@@ -2,9 +2,11 @@ package ca.dawsoncollege;
 import java.sql.*;
 
 public class Education implements SQLData{
+    //Fields
     private String education_type_id;
     private String educationType;
     public static String TYPENAME="EDUCATION_TYP";
+    // Constructor
     public Education(String education_type_id, String educationType) {
         this.education_type_id = education_type_id;
         this.educationType = educationType;
@@ -12,6 +14,7 @@ public class Education implements SQLData{
     public Education(){
 
     }
+    //Getters
     public String getEducation_type_id() {
         return education_type_id;
     }
@@ -19,17 +22,19 @@ public class Education implements SQLData{
     public String getEducationType() {
         return educationType;
     }
+    //Setters
     public void setEducation_type_id(String education_type_id) {
         this.education_type_id = education_type_id;
     }
     public void setEducationType(String educationType) {
         this.educationType = educationType;
     }
-
+    //toString() method
     @Override
     public String toString() {
         return "Education [education_type_id=" + education_type_id + ", educationType=" + educationType + "]";
     }
+    //Implemented methods which are used to setup the object properly for it to being sent to database.
     @Override
     public String getSQLTypeName() throws SQLException {
         
